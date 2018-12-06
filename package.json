@@ -1,6 +1,6 @@
 {
 	"name": "typo-geom",
-	"version": "0.3.3",
+	"version": "0.4.0",
 	"description": "Basic Geometric library for Type Design",
 	"engineStrict": true,
 	"engines": {
