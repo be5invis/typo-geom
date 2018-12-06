@@ -117,7 +117,7 @@ export class Polymorphizer {
 	}
 	protected getDeltaSolvers(mask: string, accept: (m: PolyMaster) => boolean) {
 		const existing = this.solverCache.get(mask);
-		if (mask !== undefined) {
+		if (existing !== undefined) {
 			return existing;
 		}
 		const solver = this.getDeltaSolversImpl(mask, accept);
@@ -195,11 +195,8 @@ export class Polymorphizer {
 		instance: PolyInstance
 	): Dict<number> {
 		const mask = this.getMask(accept);
-
 		const solver = this.getDeltaSolvers(mask, accept);
-		if (!solver) {
-			return {};
-		}
+		if (!solver) return {};
 
 		const { endAffinities: aff, zoneWeights } = this.computeAffinityDict(instance);
 		let totalFinalEffect = 0;
