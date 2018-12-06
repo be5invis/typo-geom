@@ -1,5 +1,5 @@
 import math from "../support/math";
-import { Instance, Master, PolyVal } from "./interface";
+import { PolyInstance, PolyMaster, PolyVal, PolyInstanceTuple } from "./interface";
 
 type Dict<T> = {
 	readonly [index: string]: T;
@@ -27,15 +27,15 @@ class SupportZone {
 	}
 }
 
-class MasterZone {
+export class PeakMaster {
 	private readonly supports: { readonly [axis: string]: SupportZone };
-	constructor(public readonly location: Master) {
+	constructor(public readonly peak: PolyInstanceTuple) {
 		const supports: { [axis: string]: SupportZone } = {};
-		if (location) {
-			for (const d in location) {
-				const peak = location[d];
-				if (!peak) continue;
-				supports[d] = new SupportZone(peak);
+		if (peak) {
+			for (const d in peak) {
+				const p = peak[d];
+				if (!p) continue;
+				supports[d] = new SupportZone(p);
 			}
 		}
 		this.supports = supports;
@@ -46,7 +46,7 @@ class MasterZone {
 		}
 		return true;
 	}
-	eval(t: Instance) {
+	eval(t: PolyInstance) {
 		let w = 1;
 		for (const d in this.supports) {
 			w *= this.supports[d].eval(t ? t[d] || 0 : 0);
@@ -56,14 +56,13 @@ class MasterZone {
 }
 
 export class Polymorphizer {
-	private masters: Map<string, Master> = new Map();
-	private zones: Map<string, MasterZone> = new Map();
+	private masters: Map<string, PolyMaster> = new Map();
 	private solverCache: Map<string, WritableDict<WritableDict<number>> | null> = new Map();
 
 	getMaster(id: string) {
 		return this.masters.get(id);
 	}
-	setMaster(id: string, m: Master) {
+	setMaster(id: string, m: PolyMaster) {
 		this.masters.set(id, m);
 		this.reify();
 	}
@@ -76,15 +75,7 @@ export class Polymorphizer {
 		this.reify();
 	}
 
-	protected getZones() {
-		const zs = new Map();
-		for (const [id, m] of this.masters) {
-			zs.set(id, new MasterZone(m));
-		}
-		return zs;
-	}
-
-	protected getMask(accept: (m: Master) => boolean) {
+	protected getMask(accept: (m: PolyMaster) => boolean) {
 		let mask = "";
 		for (const [id, master] of this.masters) {
 			if (accept(master)) {
@@ -96,7 +87,7 @@ export class Polymorphizer {
 		return mask;
 	}
 
-	protected getDeltaSolversImpl(mask: string, accept: (m: Master) => boolean) {
+	protected getDeltaSolversImpl(mask: string, accept: (m: PolyMaster) => boolean) {
 		const solver: WritableDict<WritableDict<number>> = {};
 
 		let ids: string[] = [];
@@ -109,7 +100,7 @@ export class Polymorphizer {
 		for (let j = 0; j < ids.length; j++) {
 			mat[j] = [];
 			for (let k = 0; k < ids.length; k++) {
-				mat[j][k] = this.zones.get(ids[k])!.eval(this.masters.get(ids[j])!);
+				mat[j][k] = this.masters.get(ids[k])!.eval(this.masters.get(ids[j])!.peak);
 			}
 		}
 		try {
@@ -124,7 +115,7 @@ export class Polymorphizer {
 		} catch {}
 		return null;
 	}
-	protected getDeltaSolvers(mask: string, accept: (m: Master) => boolean) {
+	protected getDeltaSolvers(mask: string, accept: (m: PolyMaster) => boolean) {
 		const existing = this.solverCache.get(mask);
 		if (mask !== undefined) {
 			return existing;
@@ -135,31 +126,30 @@ export class Polymorphizer {
 	}
 
 	private reify() {
-		this.zones = this.getZones();
 		this.solverCache = new Map();
 	}
 
-	eval(v: PolyVal, instance: Instance) {
+	eval(v: PolyVal, instance: PolyInstance) {
 		let x = v.neutral;
-		for (const [id, master] of this.zones) x += master.eval(instance) * v.getDelta(id);
+		for (const [id, master] of this.masters) x += master.eval(instance) * v.getDelta(id);
 		return x;
 	}
 
 	private computeAffinityDict(
-		accept: (m: Master) => boolean,
-		instance: Instance
+		instance: PolyInstance
 	): { endAffinities: Dict<number>; zoneWeights: Dict<number> } {
 		if (!instance) return { endAffinities: {}, zoneWeights: {} };
 
-		const sz = new MasterZone(instance);
+		// Use a peak master to compute cross weight
+		const sz = new PeakMaster(instance);
 
 		let affinities: WritableDict<number> = {},
 			zoneWeights: WritableDict<number> = {},
 			coincident: WritableDict<number> = {},
 			everCoincident = false;
-		for (const [id, zone] of this.zones) {
+		for (const [id, zone] of this.masters) {
 			const zoneWeight = zone.eval(instance);
-			const crossWeight = sz.eval(this.masters.get(id)!);
+			const crossWeight = sz.eval(this.masters.get(id)!.peak);
 			zoneWeights[id] = zoneWeight;
 
 			// We use the affinity to measure how close the instance is to the master
@@ -187,8 +177,8 @@ export class Polymorphizer {
 		return { endAffinities, zoneWeights };
 	}
 
-	computeInfluences(accept: (m: Master) => boolean, instance: Instance): Dict<number> {
-		const aff: WritableDict<number> = this.computeAffinityDict(accept, instance).endAffinities;
+	computeInfluences(accept: (m: PolyMaster) => boolean, instance: PolyInstance): Dict<number> {
+		const aff: WritableDict<number> = this.computeAffinityDict(instance).endAffinities;
 		let totalAffinities = 0;
 		for (const id in aff) {
 			totalAffinities += aff[id];
@@ -201,8 +191,8 @@ export class Polymorphizer {
 	}
 
 	private computeInfluenceDictImpl(
-		accept: (m: Master) => boolean,
-		instance: Instance
+		accept: (m: PolyMaster) => boolean,
+		instance: PolyInstance
 	): Dict<number> {
 		const mask = this.getMask(accept);
 
@@ -211,7 +201,7 @@ export class Polymorphizer {
 			return {};
 		}
 
-		const { endAffinities: aff, zoneWeights } = this.computeAffinityDict(accept, instance);
+		const { endAffinities: aff, zoneWeights } = this.computeAffinityDict(instance);
 		let totalFinalEffect = 0;
 		let finalEffects: WritableDict<number> = {};
 		let relativeFinalEffects: WritableDict<number> = {};
@@ -235,22 +225,22 @@ export class Polymorphizer {
 		return finalEffects;
 	}
 
-	private computeInfluenceDict2(accept: (m: Master) => boolean, instance: Instance) {
+	private computeInfluenceDict2(accept: (m: PolyMaster) => boolean, instance: PolyInstance) {
 		if (!instance) return {};
 		return this.computeInfluenceDictImpl(accept, instance);
 	}
 
-	setAt(v: PolyVal, _instance: Instance, x: number) {
+	setAt(v: PolyVal, _instance: PolyInstance, x: number) {
 		if (!_instance) {
 			let neut = this.eval(v, {});
 			v.neutral += x - neut;
 		} else {
-			const instance = v.transformMaster(_instance);
+			const instance = v.transformInstance(_instance);
 			const current = this.eval(v, instance);
 			const delta = x - current;
 			const influence = this.computeInfluenceDict2(v.acceptMasterInfluence.bind(v), instance);
 			for (const id in influence) {
-				if (this.zones.get(id)!.isNeutral()) {
+				if (this.masters.get(id)!.isNeutral()) {
 					v.neutral += delta * influence[id];
 				} else {
 					v.addDelta(id, delta * influence[id]);
@@ -270,7 +260,7 @@ export class Polymorphizer {
 		const v1: T = v.fresh();
 		this.setAt(v1, null, polyBefore.eval(v, null));
 		for (const m of this.masters.values()) {
-			this.setAt(v1, m, polyBefore.eval(v, m));
+			this.setAt(v1, m.peak, polyBefore.eval(v, m.peak));
 		}
 		return v1;
 	}
