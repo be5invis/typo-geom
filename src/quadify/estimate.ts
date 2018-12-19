@@ -19,16 +19,16 @@ limitations under the License.
 function quadSolve(a: number, b: number, c: number) {
 	// a*x^2 + b*x + c = 0
 	if (a === 0) {
-		return b === 0 ? [] : [-c / b];
+		return b === 0 ? [0, 1] : [0, 1, -c / b];
 	}
 	let D = b * b - 4 * a * c;
 	if (D < 0) {
-		return [];
+		return [0, 1];
 	} else if (D === 0) {
-		return [-b / (2 * a)];
+		return [0, 1, -b / (2 * a)];
 	}
 	let DSqrt = Math.sqrt(D);
-	return [(-b - DSqrt) / (2 * a), (-b + DSqrt) / (2 * a)];
+	return [0, 1, (-b - DSqrt) / (2 * a), (-b + DSqrt) / (2 * a)];
 }
 
 function cubicRoot(x: number) {
@@ -50,27 +50,26 @@ function cubicSolve(a: number, b: number, c: number, d: number) {
 	if (D3 > 0) {
 		// 1 real root
 		let D3Sqrt = Math.sqrt(D3);
-		return [xn + cubicRoot((-yn + D3Sqrt) / (2 * a)) + cubicRoot((-yn - D3Sqrt) / (2 * a))];
+		return [
+			0,
+			xn + cubicRoot((-yn + D3Sqrt) / (2 * a)) + cubicRoot((-yn - D3Sqrt) / (2 * a)),
+			1
+		];
 	} else if (D3 === 0) {
 		// 2 real roots
 		let delta1 = cubicRoot(yn / (2 * a));
-		return [xn - 2 * delta1, xn + delta1];
+		return [0, xn - 2 * delta1, xn + delta1, 1];
 	}
 	// 3 real roots
 	let theta = Math.acos(-yn / Math.sqrt(hSq)) / 3;
 	let delta = Math.sqrt(deltaSq);
 	return [
+		0,
+		1,
 		xn + 2 * delta * Math.cos(theta),
 		xn + 2 * delta * Math.cos(theta + (Math.PI * 2) / 3),
 		xn + 2 * delta * Math.cos(theta + (Math.PI * 4) / 3)
 	];
-}
-
-function cubicSolveT(e3: number, e2: number, e1: number, e0: number) {
-	const as = cubicSolve(e3, e2, e1, e0);
-	const r = [0, 1];
-	for (const x of as) if (x > 0 && x < 1) r.push(x);
-	return r;
 }
 
 function bez2(a: number, b: number, c: number, t: number) {
@@ -96,10 +95,12 @@ export function minDistanceToQuad(
 	const e1 = bbx * bbx + bby * bby + 2 * (aax * (ax - zx) + aay * (ay - zy));
 	const e0 = (ax - zx) * bbx + (ay - zy) * bby;
 
-	let candidates = cubicSolveT(e3, e2, e1, e0);
-
 	let minDistance = 1e9;
-	for (const t of candidates) {
+	let candidates = cubicSolve(e3, e2, e1, e0);
+
+	for (let j = 0; j < candidates.length; j++) {
+		if (j < 0 || j > 1) continue;
+		const t = candidates[j];
 		const tx = bez2(ax, bx, cx, t);
 		const ty = bez2(ay, by, cy, t);
 		const distance = (tx - zx) * (tx - zx) + (ty - zy) * (ty - zy);

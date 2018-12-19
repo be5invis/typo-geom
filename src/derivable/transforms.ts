@@ -92,12 +92,13 @@ export function transformPointXY(t: ShapeTransform, x: number, y: number) {
 
 export function transformShape(sh: Shape, tfm: ShapeTransform) {
 	let out: Shape = [];
-	for (const c of sh) {
+	for (let j = 0; j < sh.length; j++) {
+		const c = sh[j];
 		const contour: typeof sh[0] = [];
-		for (const curve of c) {
-			contour.push(new Transformed(curve, tfm));
+		for (let k = 0; k < c.length; k++) {
+			contour[k] = new Transformed(c[k], tfm);
 		}
-		out.push(contour);
+		out[j] = contour;
 	}
 	return out;
 }

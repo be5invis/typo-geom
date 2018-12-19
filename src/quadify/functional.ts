@@ -175,7 +175,8 @@ function estimateError(c: Curve, offPoints: IPoint[], N: number) {
 	for (let j = 1; j < N; j++) {
 		let minDistSofar = 1e9;
 		const { x: zx, y: zy } = c.eval(j / N);
-		for (const c of curves) {
+		for (let k = 0; k < curves.length; k++) {
+			const c = curves[k];
 			const dist = minDistanceToQuad(zx, zy, c[0], c[1], c[2], c[3], c[4], c[5]);
 			if (dist < minDistSofar) minDistSofar = dist;
 		}
