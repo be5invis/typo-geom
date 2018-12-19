@@ -99,8 +99,8 @@ export function minDistanceToQuad(
 	let candidates = cubicSolve(e3, e2, e1, e0);
 
 	for (let j = 0; j < candidates.length; j++) {
-		if (j < 0 || j > 1) continue;
 		const t = candidates[j];
+		if (t < 0 || t > 1) continue;
 		const tx = bez2(ax, bx, cx, t);
 		const ty = bez2(ay, by, cy, t);
 		const distance = (tx - zx) * (tx - zx) + (ty - zy) * (ty - zy);
