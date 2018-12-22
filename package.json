@@ -1,6 +1,6 @@
 {
 	"name": "typo-geom",
-	"version": "0.4.4",
+	"version": "0.5.0",
 	"description": "Basic Geometric library for Type Design",
 	"engineStrict": true,
 	"engines": {
@@ -25,7 +25,7 @@
 		"prepack": "npm run clean && tsc -p tsconfig.release.json"
 	},
 	"author": "Renzhi Li aka Belleve Invis<belleve@typeof.net>",
-	"license": "APLv2",
+	"license": "MIT",
 	"dependencies": {
 		"mathjs": "^5.0.3",
 		"tslib": "~1.9.0"
