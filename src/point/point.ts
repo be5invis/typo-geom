@@ -1,8 +1,8 @@
 import { IPoint } from "./interface";
 
 export class Point implements IPoint {
-	x: number = 0;
-	y: number = 0;
+	x: number;
+	y: number;
 
 	constructor(x: number = 0, y: number = 0) {
 		this.x = x;
@@ -131,20 +131,6 @@ export class Point implements IPoint {
 	}
 	static from(p: IPoint) {
 		return new Point(p.x, p.y);
-	}
-}
-
-export class GlyphPoint extends Point {
-	on: boolean = false;
-	key: boolean = false;
-
-	constructor(x: number = 0, y: number = 0, on: boolean = false, key: boolean = false) {
-		super(x, y);
-		this.on = on;
-		this.key = key;
-	}
-	clone() {
-		return new GlyphPoint(this.x, this.y, this.on, this.key);
 	}
 }
 

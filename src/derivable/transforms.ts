@@ -39,6 +39,18 @@ export class LinearTransform implements ShapeTransform {
 		return this.yy;
 	}
 
+	inverse() {
+		const denom = this.xx * this.yy - this.yx * this.xy;
+		return new LinearTransform(
+			this.yy / denom,
+			-this.xy / denom,
+			-this.yx / denom,
+			this.xx / denom,
+			-(this.tx * this.yy - this.ty * this.xy) / denom,
+			-(-this.tx * this.yx + this.ty * this.xx) / denom
+		);
+	}
+
 	static neutral: LinearTransform = new LinearTransform(1, 0, 0, 1, 0, 0);
 }
 
