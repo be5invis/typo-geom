@@ -5,7 +5,7 @@ export interface Derivable<T> {
 	derivative(t: number): T;
 }
 
-export type Curve = Derivable<IPoint>;
+export type Arc = Derivable<IPoint>;
 export type DerivableFunction = Derivable<number>;
 
 export interface ShapeTransform {
@@ -17,7 +17,8 @@ export interface ShapeTransform {
 	dyy(x: number, y: number): number; // ∂Y/∂y
 }
 
-export type Shape = Curve[][];
+export type Contour = Arc[];
+export type Shape = Arc[][];
 export interface BoundingBox {
 	xMin: number;
 	xMax: number;

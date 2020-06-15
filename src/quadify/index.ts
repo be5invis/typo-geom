@@ -1,9 +1,9 @@
 import { autoQuadifyCurve as ac, quadifyCurve } from "./functional";
-import { Curve } from "../derivable/interface";
+import { Arc } from "../derivable/interface";
 
 export namespace Quadify {
 	export function auto(
-		c: Curve,
+		c: Arc,
 		allowError: number = 0.1,
 		maxSegments: number = 32,
 		maxDistanceTestPoints = 128

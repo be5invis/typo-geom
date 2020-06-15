@@ -1,42 +1,42 @@
 {
 	"name": "typo-geom",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"description": "Basic Geometric library for Type Design",
-	"engineStrict": true,
-	"engines": {
-		"node": ">= 8.9.0"
-	},
+	"license": "MIT",
+	"author": "Renzhi Li aka Belleve Invis<belleve@typeof.net>",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
-	"devDependencies": {
-		"@types/mathjs": "^4.4.0",
-		"@types/node": "~8.5.10",
-		"ava": "^0.25.0",
-		"rimraf": "~2.6.2",
-		"tslint": "^5.10.0",
-		"tsutils": "~2.21.0",
-		"typedoc": "^0.13.0",
-		"typedoc-plugin-markdown": "^1.1.20",
-		"typescript": "^3.0.0"
-	},
 	"scripts": {
-		"clean": "rimraf coverage lib tmp",
 		"build": "tsc -p tsconfig.json",
-		"watch": "tsc -w -p tsconfig.json",
-		"test": "ava --verbose",
+		"clean": "rimraf coverage lib tmp",
+		"doc": "typedoc --out ./doc --theme markdown src",
 		"prepack": "npm run clean && tsc -p tsconfig.release.json",
-		"doc": "typedoc --out ./doc --theme markdown src"
-	},
-	"author": "Renzhi Li aka Belleve Invis<belleve@typeof.net>",
-	"license": "MIT",
-	"dependencies": {
-		"mathjs": "^5.0.3",
-		"tslib": "~1.9.0"
+		"test": "ava --verbose",
+		"watch": "tsc -w -p tsconfig.json"
 	},
 	"ava": {
 		"files": [
 			"lib/**/tests/*.js",
 			"lib/**/test.js"
 		]
-	}
+	},
+	"dependencies": {
+		"@josh-brown/vector": "^3.4.0",
+		"tslib": "^1.11.0"
+	},
+	"devDependencies": {
+		"@types/mathjs": "^6.0.5",
+		"@types/node": "~14.0.13",
+		"ava": "^3.9.0",
+		"rimraf": "~3.0.2",
+		"tslint": "^6.1.2",
+		"tsutils": "~3.17.1",
+		"typedoc": "^0.17.7",
+		"typedoc-plugin-markdown": "^2.3.1",
+		"typescript": "^3.9.5"
+	},
+	"engines": {
+		"node": ">= 8.9.0"
+	},
+	"engineStrict": true
 }

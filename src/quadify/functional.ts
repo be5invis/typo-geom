@@ -1,8 +1,8 @@
-import math from "../support/math";
+import { mat, inverse } from "@josh-brown/vector";
 import { minDistanceToQuad } from "./estimate";
 import mix from "../fn/mix";
 import { IPoint } from "../point/interface";
-import { Curve } from "../derivable/interface";
+import { Arc } from "../derivable/interface";
 
 function X(n: number) {
 	return n * 2;
@@ -25,7 +25,7 @@ function findIntersection(p1: IPoint, d1: IPoint, d2: IPoint, p2: IPoint): IPoin
 		) {
 			return {
 				x: (p1.x + p2.x) / 2,
-				y: (p1.y + p2.y) / 2
+				y: (p1.y + p2.y) / 2,
 			};
 		} else {
 			return null;
@@ -36,7 +36,7 @@ function findIntersection(p1: IPoint, d1: IPoint, d2: IPoint, p2: IPoint): IPoin
 	if (u <= 0 || v >= 0) return null;
 	return {
 		x: p1.x + d1.x * u,
-		y: p1.y + d1.y * u
+		y: p1.y + d1.y * u,
 	};
 }
 
@@ -77,12 +77,12 @@ function getInvMatrix(n: number) {
 	const existing = invMatrixCache.get(n);
 	if (existing) return existing;
 
-	const computed = math.inv(getMatrix(n)) as number[][];
+	const computed = inverse(mat(getMatrix(n)))!.toArray();
 	invMatrixCache.set(n, computed);
 	return computed;
 }
 
-function getResults(c: Curve, n: number) {
+function getResults(c: Arc, n: number) {
 	const nArguments = 2 * n;
 	const results: number[] = [];
 	const start = c.eval(0);
@@ -108,7 +108,7 @@ function getResults(c: Curve, n: number) {
 	return results;
 }
 
-export function quadifyCurve(c: Curve, n: number = 1): IPoint[] | null {
+export function quadifyCurve(c: Arc, n: number = 1): IPoint[] | null {
 	if (n <= 0) return [];
 
 	if (n === 1) {
@@ -135,7 +135,7 @@ export function quadifyCurve(c: Curve, n: number = 1): IPoint[] | null {
 	return points;
 }
 
-function estimateError(c: Curve, offPoints: IPoint[], N: number) {
+function estimateError(c: Arc, offPoints: IPoint[], N: number) {
 	let curves: number[][] = [];
 	for (let j = 0; j < offPoints.length; j++) {
 		const z = offPoints[j];
@@ -143,14 +143,14 @@ function estimateError(c: Curve, offPoints: IPoint[], N: number) {
 			j > 0
 				? {
 						x: mix(z.x, offPoints[j - 1].x, 1 / 2),
-						y: mix(z.y, offPoints[j - 1].y, 1 / 2)
+						y: mix(z.y, offPoints[j - 1].y, 1 / 2),
 				  }
 				: c.eval(0);
 		const pointAfter: IPoint =
 			j < offPoints.length - 1
 				? {
 						x: mix(z.x, offPoints[j + 1].x, 1 / 2),
-						y: mix(z.y, offPoints[j + 1].y, 1 / 2)
+						y: mix(z.y, offPoints[j + 1].y, 1 / 2),
 				  }
 				: c.eval(1);
 		curves.push([pointBefore.x, pointBefore.y, z.x, z.y, pointAfter.x, pointAfter.y]);
@@ -170,7 +170,7 @@ function estimateError(c: Curve, offPoints: IPoint[], N: number) {
 }
 
 export function autoQuadifyCurve(
-	c: Curve,
+	c: Arc,
 	allowError: number,
 	maxSegments: number,
 	samples: number

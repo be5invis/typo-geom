@@ -2,7 +2,7 @@ import { ShapeTransform, Shape, BoundingBox } from "./interface";
 import { IPoint } from "../point/interface";
 import { Point } from "../point/point";
 import { BB } from "./bounding-box";
-import { Transformed } from "./curves";
+import { Transformed } from "./arcs";
 
 export class LinearTransform implements ShapeTransform {
 	xx: number;

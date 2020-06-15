@@ -1,9 +1,9 @@
 import mix from "../fn/mix";
-import { Curve, DerivableFunction, ShapeTransform } from "./interface";
+import { Arc, DerivableFunction, ShapeTransform } from "./interface";
 import { IPoint } from "../point/interface";
 import { Point } from "../point/point";
 
-export class FromXY implements Curve {
+export class FromXY implements Arc {
 	constructor(private readonly x: DerivableFunction, private readonly y: DerivableFunction) {}
 	eval(t: number) {
 		return new Point(this.x.eval(t), this.y.eval(t));
@@ -33,7 +33,7 @@ function bezT3(P0: number, P1: number, P2: number, P3: number, t: number) {
 	);
 }
 
-export class Bez3 implements Curve {
+export class Bez3 implements Arc {
 	constructor(
 		public readonly a: IPoint,
 		public readonly b: IPoint,
@@ -56,10 +56,10 @@ export class Bez3 implements Curve {
 	}
 }
 
-export class Reparametrized implements Curve {
-	curve: Curve;
+export class Reparametrized implements Arc {
+	curve: Arc;
 	fn: DerivableFunction;
-	constructor(c: Curve, fn: DerivableFunction) {
+	constructor(c: Arc, fn: DerivableFunction) {
 		this.curve = c;
 		this.fn = fn;
 	}
@@ -73,7 +73,7 @@ export class Reparametrized implements Curve {
 	}
 }
 
-export class Circle implements Curve {
+export class Circle implements Arc {
 	centerX: number;
 	centerY: number;
 	radius: number;
@@ -93,7 +93,7 @@ export class Circle implements Curve {
 	}
 }
 
-export class StraightSegment implements Curve {
+export class StraightSegment implements Arc {
 	constructor(private a: IPoint, private b: IPoint) {}
 	eval(t: number) {
 		return new Point(mix(this.a.x, this.b.x, t), mix(this.a.y, this.b.y, t));
@@ -103,11 +103,11 @@ export class StraightSegment implements Curve {
 	}
 }
 
-export class Mixed implements Curve {
-	a: Curve;
-	b: Curve;
+export class Mixed implements Arc {
+	a: Arc;
+	b: Arc;
 	mix: DerivableFunction;
-	constructor(a: Curve, b: Curve, mix: DerivableFunction) {
+	constructor(a: Arc, b: Arc, mix: DerivableFunction) {
 		this.a = a;
 		this.b = b;
 		this.mix = mix;
@@ -132,14 +132,14 @@ export class Mixed implements Curve {
 	}
 }
 
-export class Mixed3 implements Curve {
-	n: Curve;
-	a: Curve;
-	b: Curve;
+export class Mixed3 implements Arc {
+	n: Arc;
+	a: Arc;
+	b: Arc;
 	f: DerivableFunction;
 	g: DerivableFunction;
 
-	constructor(n: Curve, f: DerivableFunction, a: Curve, g: DerivableFunction, b: Curve) {
+	constructor(n: Arc, f: DerivableFunction, a: Arc, g: DerivableFunction, b: Arc) {
 		this.n = n;
 		this.a = a;
 		this.b = b;
@@ -175,10 +175,10 @@ export class Mixed3 implements Curve {
 	}
 }
 
-export class Transformed implements Curve {
-	c: Curve;
+export class Transformed implements Arc {
+	c: Arc;
 	tfm: ShapeTransform;
-	constructor(c: Curve, t: ShapeTransform) {
+	constructor(c: Arc, t: ShapeTransform) {
 		this.c = c;
 		this.tfm = t;
 	}
