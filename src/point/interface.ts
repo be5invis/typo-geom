@@ -1,6 +1,9 @@
 export interface XY<T> {
-	x: T;
-	y: T;
+	readonly x: T;
+	readonly y: T;
 }
 
 export type IPoint = XY<number>;
+export interface IOnOffGlyphPoint extends IPoint {
+	readonly on: boolean;
+}

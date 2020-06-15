@@ -5,3 +5,5 @@ export * from "./quadify/index";
 export * from "./derivable";
 export { default as mix } from "./fn/mix";
 export * from "./quadify/index";
+export * as Boolean from "./boolean";
+export * from "./shape-conv";

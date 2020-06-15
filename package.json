@@ -1,6 +1,6 @@
 {
 	"name": "typo-geom",
-	"version": "0.6.0",
+	"version": "0.7.0",
 	"description": "Basic Geometric library for Type Design",
 	"license": "MIT",
 	"author": "Renzhi Li aka Belleve Invis<belleve@typeof.net>",
@@ -22,6 +22,7 @@
 	},
 	"dependencies": {
 		"@josh-brown/vector": "^3.4.0",
+		"clipper-lib": "^6.4.2",
 		"tslib": "^1.11.0"
 	},
 	"devDependencies": {

@@ -12,19 +12,24 @@ export namespace BB {
 	}
 
 	export function coverPoint(b: BoundingBox, z: IPoint) {
+		coverX(b, z.x), coverY(b, z.y);
+	}
+	export function coverX(b: BoundingBox, x: number) {
 		if (!isValid(b)) {
-			b.xMin = b.xMax = z.x;
-		} else if (z.x < b.xMin) {
-			b.xMin = z.x;
-		} else if (z.x > b.xMax) {
-			b.xMax = z.x;
+			b.xMin = b.xMax = x;
+		} else if (x < b.xMin) {
+			b.xMin = x;
+		} else if (x > b.xMax) {
+			b.xMax = x;
 		}
+	}
+	export function coverY(b: BoundingBox, y: number) {
 		if (!isValid(b)) {
-			b.yMin = b.yMax = z.y;
-		} else if (z.y < b.yMin) {
-			b.yMin = z.y;
-		} else if (z.y > b.yMax) {
-			b.yMax = z.y;
+			b.yMin = b.yMax = y;
+		} else if (y < b.yMin) {
+			b.yMin = y;
+		} else if (y > b.yMax) {
+			b.yMax = y;
 		}
 	}
 
@@ -35,5 +40,10 @@ export namespace BB {
 			coverPoint(b, { x: t.xMin, y: t.yMax });
 			coverPoint(b, { x: t.xMax, y: t.yMin });
 		}
+	}
+
+	export function intersects(a: BoundingBox, b: BoundingBox) {
+		if (!isValid(a) || !isValid(b)) return false;
+		return !(b.xMin > a.xMax || b.xMax < a.xMin || b.yMax > a.yMin || b.yMin < a.yMax);
 	}
 }

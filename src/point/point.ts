@@ -20,6 +20,9 @@ export class Point implements IPoint {
 	add(b: IPoint) {
 		return new Point(this.x + b.x, this.y + b.y);
 	}
+	addScale(s: number, b: IPoint) {
+		return new Point(this.x + s * b.x, this.y + s * b.y);
+	}
 	minus(b: IPoint) {
 		return new Point(this.x - b.x, this.y - b.y);
 	}
@@ -36,14 +39,10 @@ export class Point implements IPoint {
 		return new Point(this.x * tx, this.y * ty);
 	}
 	scaleAround(z: Point, t: number) {
-		return this.minus(z)
-			.scale(t)
-			.add(z);
+		return this.minus(z).scale(t).add(z);
 	}
 	scaleAroundXY(z: Point, tx: number, ty: number) {
-		return this.minus(z)
-			.scaleXY(tx, ty)
-			.add(z);
+		return this.minus(z).scaleXY(tx, ty).add(z);
 	}
 	toLength(d: number) {
 		const h = Math.hypot(this.x, this.y);
@@ -86,27 +85,17 @@ export class Point implements IPoint {
 		if (u <= 0 || v <= 0) return null;
 		return new Point(p1.x + d1.x * u, p1.y + d1.y * u);
 	}
+
 	static project(a: IPoint, b: IPoint, p: IPoint) {
+		const scalar = Point.scalarProject(a, b, p);
+		return Point.from(a).mix(b, scalar);
+	}
+	static scalarProject(a: IPoint, b: IPoint, p: IPoint) {
 		const apx = p.x - a.x,
 			apy = p.y - a.y;
 		const abx = b.x - a.x,
 			aby = b.y - a.y;
-		const mag = (apx * abx + apy * aby) / (abx * abx + aby * aby);
-		return new Point(a.x + abx * mag, a.y + aby * mag);
-	}
-	static projectSignedDist(a: IPoint, b: IPoint, p: IPoint) {
-		return Point.project(a, b, p)
-			.minus(a)
-			.dot(
-				Point.from(b)
-					.minus(a)
-					.toLength(1)
-			);
-	}
-	static projectSignedProp(a: IPoint, b: IPoint, p: IPoint) {
-		const vProj = Point.from(p).minus(a);
-		const vba = Point.from(b).minus(a);
-		return vProj.dot(vba) / (vba.mag() * vba.mag());
+		return (apx * abx + apy * aby) / (abx * abx + aby * aby);
 	}
 	static cosAngle(a: IPoint, b: IPoint, p: IPoint) {
 		const vp = Point.from(p).minus(a);
@@ -115,9 +104,7 @@ export class Point implements IPoint {
 	}
 	static dist(a: IPoint, b: IPoint, p: IPoint) {
 		const c = Point.cross(new Point(0, 0).add(a).minus(b), new Point(0, 0).add(p).minus(b));
-		const d = Point.project(a, b, p)
-			.minus(p)
-			.mag();
+		const d = Point.project(a, b, p).minus(p).mag();
 		return c > 0 ? d : -d;
 	}
 	static dot(a: IPoint, b: IPoint) {

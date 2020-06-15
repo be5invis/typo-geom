@@ -1,7 +1,7 @@
 import mix from "../fn/mix";
-import { Arc, DerivableFunction, ShapeTransform } from "./interface";
 import { IPoint } from "../point/interface";
 import { Point } from "../point/point";
+import { Arc, DerivableFunction, ShapeTransform } from "./interface";
 
 export class FromXY implements Arc {
 	constructor(private readonly x: DerivableFunction, private readonly y: DerivableFunction) {}
@@ -54,6 +54,31 @@ export class Bez3 implements Arc {
 			bezT3(this.a.y, this.b.y, this.c.y, this.d.y, t)
 		);
 	}
+
+	isLinear(toleranceX: number = 1) {
+		const tolerance = (toleranceX * Point.from(this.a).minus(this.d).mag()) / 16384;
+		const pb = Point.scalarProject(this.a, this.d, this.b);
+		const pc = Point.scalarProject(this.a, this.d, this.c);
+		const db = Point.dist(this.a, this.d, this.b);
+		const dc = Point.dist(this.a, this.d, this.c);
+		return (
+			pb > 0 &&
+			pb < 1 &&
+			pc > 0 &&
+			pc < 1 &&
+			Math.abs(db) < tolerance &&
+			Math.abs(dc) < tolerance
+		);
+	}
+
+	static fromStraightSegment(ss: StraightSegment) {
+		return new Bez3(
+			ss.a,
+			Point.from(ss.a).mix(ss.b, 1 / 3),
+			Point.from(ss.a).mix(ss.b, 2 / 3),
+			ss.b
+		);
+	}
 }
 
 export class Reparametrized implements Arc {
@@ -94,7 +119,7 @@ export class Circle implements Arc {
 }
 
 export class StraightSegment implements Arc {
-	constructor(private a: IPoint, private b: IPoint) {}
+	constructor(public readonly a: IPoint, public readonly b: IPoint) {}
 	eval(t: number) {
 		return new Point(mix(this.a.x, this.b.x, t), mix(this.a.y, this.b.y, t));
 	}
