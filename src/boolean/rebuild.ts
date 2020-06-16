@@ -9,11 +9,11 @@ export function rebuildShape(
 	polys: IIntPoint[][],
 	segHash: Map<string, SegEntry>,
 	termHash: Set<string>,
-	RESOLUTION: number
+	resolution: number
 ) {
 	let ans = [];
 	for (let c = 0; c < polys.length; c++) {
-		let cx = rebuildContour(polys[c], segHash, termHash, RESOLUTION);
+		let cx = rebuildContour(polys[c], segHash, termHash, resolution);
 		if (cx.length) ans.push(cx);
 	}
 	return ans;
@@ -23,7 +23,7 @@ function rebuildContour(
 	_poly: IIntPoint[],
 	segHash: Map<string, SegEntry>,
 	termHash: Set<string>,
-	RESOLUTION: number
+	resolution: number
 ) {
 	let j0 = 0;
 	for (; j0 < _poly.length && !termHash.has(keyOfZ(_poly[j0])); j0++);
@@ -34,8 +34,8 @@ function rebuildContour(
 		if (segHash.has(segKey)) {
 			primSegments.push(segHash.get(segKey) as any);
 		} else {
-			const a = descale(poly[j], RESOLUTION);
-			const d = descale(poly[j + 1], RESOLUTION);
+			const a = descale(poly[j], resolution);
+			const d = descale(poly[j + 1], resolution);
 			const b = Point.from(a).mix(d, 1 / 3);
 			const c = Point.from(a).mix(d, 2 / 3);
 			primSegments.push([new Bez3Slice(a, b, c, d, 0, 1), 0, 1]);
@@ -60,8 +60,8 @@ function rebuildContour(
 	}
 	return ans.map(([s, t1, t2]) => split(s, t1, t2));
 }
-function descale(Z: IIntPoint, RESOLUTION: number) {
-	return new Point(Z.X / RESOLUTION, Z.Y / RESOLUTION);
+function descale(Z: IIntPoint, resolution: number) {
+	return new Point(Z.X / resolution, Z.Y / resolution);
 }
 function split(s: Bez3Slice, t1: number, t2: number) {
 	if (t1 > t2) {

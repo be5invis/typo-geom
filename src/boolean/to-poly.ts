@@ -1,27 +1,12 @@
+import { IIntPoint, IntPoint } from "clipper-lib";
+import { mix, clamp } from "../fn";
+import { IPoint } from "../point/interface";
 import { FIntersection } from "./intersections";
 import { Bez3Slice } from "./slice-arc";
-import { Point } from "../point/point";
-import { IntPoint, IIntPoint } from "clipper-lib";
 
 export type IntKnot = IIntPoint & { t: number };
 export function keyOfZ(z: IIntPoint) {
 	return "X" + z.X + "Y" + z.Y;
-}
-function by_t(a: IntKnot, b: IntKnot) {
-	return a.t - b.t;
-}
-function filterKnots(knots: IntKnot[]) {
-	knots = knots.sort(by_t);
-	let ans = [knots[0]];
-	for (let z of knots) {
-		const last = ans[ans.length - 1];
-		if (z.X !== last.X || z.Y !== last.Y) {
-			ans.push(z);
-		} else {
-			last.t = z.t < 1 / 2 ? Math.min(z.t, last.t) : Math.max(z.t, last.t);
-		}
-	}
-	return ans;
 }
 
 export type SegEntry = [Bez3Slice, number, number, number, number, number];
@@ -41,20 +26,6 @@ function setSegHash(segHash: Map<string, SegEntry>, key: string, entry: SegEntry
 	}
 }
 
-function computeStaticBreaks(arc: Bez3Slice) {
-	return arc.isLinear()
-		? 1
-		: Math.max(
-				5,
-				Math.ceil(
-					(Point.from(arc.a).minus(arc.b).mag() +
-						Point.from(arc.b).minus(arc.c).mag() +
-						Point.from(arc.c).minus(arc.d).mag()) /
-						8
-				)
-		  );
-}
-
 export function toPoly(
 	shape: Bez3Slice[][],
 	sindex: number,
@@ -68,36 +39,38 @@ export function toPoly(
 		let points: IntPoint[] = [];
 		const contour = shape[j];
 		const splat = splats[j];
+
 		for (let k = 0; k < contour.length; k++) {
+			const arc = contour[k];
 			let knots = [];
-			const nStaticBreaks = computeStaticBreaks(contour[k]);
-			for (let j = 0; j <= nStaticBreaks; j++) {
-				const z = contour[k].eval(j / nStaticBreaks);
-				const knot = {
+
+			// Add terminals
+			for (let j = 0; j <= 1; j++) {
+				const z = arc.eval(j);
+				knots.push({
+					t: j,
 					X: Math.round(z.x * resolution),
-					Y: Math.round(z.y * resolution),
-					t: j / nStaticBreaks
-				};
-				knots.push(knot);
-				if (j === 0 || (j === nStaticBreaks && k === contour.length - 1)) {
-					termHash.add(keyOfZ(knot));
-				}
+					Y: Math.round(z.y * resolution)
+				});
 			}
 
+			// Add intersections
 			for (let s of splat) {
-				if (s.t <= k || s.t >= k + 1) continue;
-				const knot = {
-					X: Math.round(s.x * resolution),
-					Y: Math.round(s.y * resolution),
-					t: s.t - k
-				};
-				knots.push(knot);
-				termHash.add(keyOfZ(knot));
+				if (s <= k || s >= k + 1) continue;
+				const z = arc.eval(s - k);
+				knots.push({
+					t: s - k,
+					X: Math.round(z.x * resolution),
+					Y: Math.round(z.y * resolution)
+				});
 			}
-			knots = filterKnots(knots);
+
+			knots = diceKnots(arc, resolution, knots);
 			for (let j = 0; j < knots.length - 1; j++) {
+				termHash.add(keyOfZ(knots[j]));
+				termHash.add(keyOfZ(knots[j + 1]));
 				setSegHash(segHash, keyOfZ(knots[j]) + "-" + keyOfZ(knots[j + 1]), [
-					contour[k],
+					arc,
 					knots[j].t,
 					knots[j + 1].t,
 					sindex,
@@ -105,7 +78,7 @@ export function toPoly(
 					k
 				]);
 				setSegHash(segHash, keyOfZ(knots[j + 1]) + "-" + keyOfZ(knots[j]), [
-					contour[k],
+					arc,
 					knots[j + 1].t,
 					knots[j].t,
 					sindex,
@@ -118,6 +91,49 @@ export function toPoly(
 			}
 		}
 		ans.push(points);
+	}
+	return ans;
+}
+
+function by_t(a: IntKnot, b: IntKnot) {
+	return a.t - b.t;
+}
+function MakeKnot(t: number, s: IPoint, resolution: number) {
+	return {
+		X: Math.round(s.x * resolution),
+		Y: Math.round(s.y * resolution),
+		t: t
+	};
+}
+function intKnotNotSame(knot: IntKnot, last: IntKnot) {
+	return knot.X !== last.X || knot.Y !== last.Y;
+}
+
+const DICING_STOPS = 4;
+function diceKnots(arc: Bez3Slice, resolution: number, knots: IntKnot[]) {
+	let enableDicing = DICING_STOPS && !arc.isStraight();
+	knots = knots.sort(by_t);
+	let ans = [knots[0]],
+		last = knots[0];
+	for (let k = 1; k < knots.length; k++) {
+		const knot = knots[k];
+		if (intKnotNotSame(knot, last)) {
+			if (enableDicing) {
+				let lastStop = last;
+				for (let p = 1; p < DICING_STOPS; p++) {
+					const t = mix(last.t, knot.t, p / DICING_STOPS);
+					const k = MakeKnot(t, arc.eval(t), resolution);
+					if (intKnotNotSame(lastStop, k) && intKnotNotSame(knot, k)) {
+						ans.push(k);
+						lastStop = k;
+					}
+				}
+			}
+			ans.push(knot);
+			last = knot;
+		} else {
+			last.t = knot.t < 1 / 2 ? Math.min(knot.t, last.t) : Math.max(knot.t, last.t);
+		}
 	}
 	return ans;
 }

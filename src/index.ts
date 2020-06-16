@@ -3,7 +3,7 @@ export * from "./point/point";
 export * from "./point/on-off-glyph-point";
 export * from "./quadify/index";
 export * from "./derivable";
-export { default as mix } from "./fn/mix";
+export * from "./fn";
 export * from "./quadify/index";
 export * as Boolean from "./boolean";
 export * from "./shape-conv";

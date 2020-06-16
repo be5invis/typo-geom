@@ -1,6 +1,6 @@
 import { mat, inverse } from "@josh-brown/vector";
 import { minDistanceToQuad } from "./estimate";
-import mix from "../fn/mix";
+import { mix } from "../fn";
 import { IPoint } from "../point/interface";
 import { Arc } from "../derivable/interface";
 
@@ -25,7 +25,7 @@ function findIntersection(p1: IPoint, d1: IPoint, d2: IPoint, p2: IPoint): IPoin
 		) {
 			return {
 				x: (p1.x + p2.x) / 2,
-				y: (p1.y + p2.y) / 2,
+				y: (p1.y + p2.y) / 2
 			};
 		} else {
 			return null;
@@ -36,7 +36,7 @@ function findIntersection(p1: IPoint, d1: IPoint, d2: IPoint, p2: IPoint): IPoin
 	if (u <= 0 || v >= 0) return null;
 	return {
 		x: p1.x + d1.x * u,
-		y: p1.y + d1.y * u,
+		y: p1.y + d1.y * u
 	};
 }
 
@@ -143,14 +143,14 @@ function estimateError(c: Arc, offPoints: IPoint[], N: number) {
 			j > 0
 				? {
 						x: mix(z.x, offPoints[j - 1].x, 1 / 2),
-						y: mix(z.y, offPoints[j - 1].y, 1 / 2),
+						y: mix(z.y, offPoints[j - 1].y, 1 / 2)
 				  }
 				: c.eval(0);
 		const pointAfter: IPoint =
 			j < offPoints.length - 1
 				? {
 						x: mix(z.x, offPoints[j + 1].x, 1 / 2),
-						y: mix(z.y, offPoints[j + 1].y, 1 / 2),
+						y: mix(z.y, offPoints[j + 1].y, 1 / 2)
 				  }
 				: c.eval(1);
 		curves.push([pointBefore.x, pointBefore.y, z.x, z.y, pointAfter.x, pointAfter.y]);

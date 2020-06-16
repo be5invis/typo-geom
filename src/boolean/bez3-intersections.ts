@@ -1,39 +1,309 @@
-////// Ported from https://github.com/Morhaus/curve-intersection
-
-import { Arcs } from "../derivable";
+import { bezierSolveCubic, CURVE_TIME_EPSILON, EPSILON, numberClose, signedDistance } from "../fn";
+import { IPoint } from "../point/interface";
 import { Point } from "../point/point";
+import { getOverlaps } from "./bez3-overlap";
 import { Bez3Slice } from "./slice-arc";
 
 /**
  * Bezier curve intersection algorithm and utilities
  *
- * Directly extracted from PaperJS's implementation bezier curve fat-line clipping
+ * Directly extracted from PaperJS' implementation bezier curve fat-line clipping
  * The original source code is available under the MIT licence at
  * https://github.com/paperjs/paper.js/
  */
 
-export type PointArrayRep = [number, number];
-
-const TOLERANCE = 1e-5;
-const EPSILON = 1e-10;
-
-function isZero(val: number) {
-	return Math.abs(val) <= EPSILON;
+export interface SelfIntersectionSink {
+	add(t: number): void;
+}
+export interface CrossIntersectionSink {
+	add(t1: number, t2: number): void;
 }
 
-/**
- * Computes the signed distance of (x, y) between (px, py) and (vx, vy)
- */
-function signedDistance(px: number, py: number, vx: number, vy: number, x: number, y: number) {
-	vx -= px;
-	vy -= py;
-	if (isZero(vx)) {
-		return vy >= 0 ? px - x : x - px;
-	} else if (isZero(vy)) {
-		return vx >= 0 ? y - py : py - y;
+function possibleIntersect(v1: Bez3Slice, v2: Bez3Slice) {
+	return (
+		Math.max(v1.a.x, v1.b.x, v1.c.x, v1.d.x) + EPSILON >
+			Math.min(v2.a.x, v2.b.x, v2.c.x, v2.d.x) &&
+		Math.min(v1.a.x, v1.b.x, v1.c.x, v1.d.x) - EPSILON <
+			Math.max(v2.a.x, v2.b.x, v2.c.x, v2.d.x) &&
+		Math.max(v1.a.y, v1.b.y, v1.c.y, v1.d.y) + EPSILON >
+			Math.min(v2.a.y, v2.b.y, v2.c.y, v2.d.y) &&
+		Math.min(v1.a.y, v1.b.y, v1.c.y, v1.d.y) - EPSILON <
+			Math.max(v2.a.y, v2.b.y, v2.c.y, v2.d.y)
+	);
+}
+
+export function bez3Intersections(v1: Bez3Slice, v2: Bez3Slice, sink: CrossIntersectionSink): void {
+	if (!possibleIntersect(v1, v2)) return;
+	const overlaps = getOverlaps(v1, v2);
+	if (overlaps) {
+		for (const [ta, tb] of overlaps) {
+			sink.add(ta, tb);
+		}
 	} else {
-		return (vx * (y - py) - vy * (x - px)) / Math.sqrt(vx * vx + vy * vy);
+		var straight1 = v1.isStraight(),
+			straight2 = v2.isStraight();
+
+		if (straight1 && straight2) {
+			lineIntersectionImpl(v1, v2, sink);
+		} else if (straight1) {
+			lineCurveIntersectionImpl(v2, v1, sink, true);
+		} else if (straight2) {
+			lineCurveIntersectionImpl(v1, v2, sink, false);
+		} else {
+			curveIntersectionImpl(v1, v2, sink, false, 0, 0, 0, 1, 0, 1);
+		}
 	}
+}
+
+export function bez3SelfIntersections(a: Bez3Slice, sink: SelfIntersectionSink): void {
+	const info = a.classify();
+	if (info.type === "loop" && info.roots) {
+		sink.add(info.roots[0]);
+		sink.add(info.roots[1]);
+	}
+}
+
+export type PointArrayRep = [number, number];
+
+function lineIntersectionImpl(v1: Bez3Slice, v2: Bez3Slice, sink: CrossIntersectionSink) {
+	const pt = Point.intersect(v1.a, v1.d, v2.a, v2.d);
+	if (pt) {
+		const t1 = v1.getTOf(pt),
+			t2 = v2.getTOf(pt);
+		if (t1 != null && t2 != null) sink.add(t1, t2);
+	}
+}
+
+function lineCurveIntersectionImpl(
+	v1: Bez3Slice,
+	v2: Bez3Slice,
+	sink: CrossIntersectionSink,
+	flip: boolean
+) {
+	// addCurveLineIntersections() is called so that v1 is always the curve
+	// and v2 the line. flip indicates whether the curves need to be flipped
+	// in the call to addLocation().
+
+	const x1 = v2.a.x,
+		y1 = v2.a.y,
+		x2 = v2.d.x,
+		y2 = v2.d.y;
+	const roots = getCurveLineIntersections(v1, x1, y1, x2 - x1, y2 - y1);
+	// NOTE: count could be -1 for infinite solutions, but that should only
+	// happen with lines, in which case we should not be here.
+	for (let i = 0, l = roots.length; i < l; i++) {
+		// For each found solution on the rotated curve, get the point on
+		// the real curve and with that the location on the line.
+		var t1 = roots[i],
+			p1 = v1.eval(t1),
+			t2 = v2.getTOf(p1);
+		if (t2 != null) {
+			if (flip) {
+				sink.add(t2, t1);
+			} else {
+				sink.add(t1, t2);
+			}
+		}
+	}
+}
+function getCurveLineIntersections(v: Bez3Slice, px: number, py: number, vx: number, vy: number) {
+	if (numberClose(vx, 0) && numberClose(vy, 0)) {
+		// Handle special case of a line with no direction as a point,
+		// and check if it is on the curve.
+		const t = v.getTOf(new Point(px, py));
+		return t === null ? [] : [t];
+	}
+
+	// Calculate angle to the x-axis (1, 0).
+	const angle = Math.atan2(-vy, vx),
+		sin = Math.sin(angle),
+		cos = Math.cos(angle),
+		// (rlx1, rly1) = (0, 0)
+		// Calculate the curve values of the rotated curve.
+		rv: number[] = [],
+		zs = [v.a, v.b, v.c, v.d];
+	for (var i = 0; i < 4; i++) {
+		var x = zs[i].x - px,
+			y = zs[i].y - py;
+		rv.push(x * sin + y * cos);
+	}
+	let roots: number[] = [];
+	bezierSolveCubic(rv[0], rv[1], rv[2], rv[3], 0, roots, 0, 1);
+	return roots;
+}
+
+const FAT_LINE_EPSILON = 1e-9;
+const MAX_CALLS = 65535;
+const MAX_RECURSE = 40;
+function curveIntersectionImpl(
+	v1: Bez3Slice,
+	v2: Bez3Slice,
+	sink: CrossIntersectionSink,
+	flip: boolean,
+	recursion: number,
+	calls: number,
+	tMin: number,
+	tMax: number,
+	uMin: number,
+	uMax: number
+): number {
+	// Avoid deeper recursion, by counting the total amount of recursions,
+	// as well as the total amount of calls, to avoid massive call-trees as
+	// suggested by @iconexperience in #904#issuecomment-225283430.
+	// See also: #565 #899 #1074
+	if (++calls >= MAX_CALLS || ++recursion >= MAX_RECURSE) return calls;
+
+	// Let P be the first curve and Q be the second
+	let q0x = v2.a.x;
+	let q0y = v2.a.y;
+	let q3x = v2.d.x;
+	let q3y = v2.d.y;
+
+	// Calculate the fat-line L for Q is the baseline l and two
+	// offsets which completely encloses the curve P.
+	let d1 = signedDistance(q0x, q0y, q3x, q3y, v2.b.x, v2.b.y),
+		d2 = signedDistance(q0x, q0y, q3x, q3y, v2.c.x, v2.c.y),
+		factor = d1 * d2 > 0 ? 3 / 4 : 4 / 9,
+		dMin = factor * Math.min(0, d1, d2),
+		dMax = factor * Math.max(0, d1, d2);
+
+	// Calculate non-parametric bezier curve D(ti, di(t)) - di(t) is the
+	// distance of P from the baseline l of the fat-line, ti is equally
+	// spaced in [0, 1]
+	let dp0 = signedDistance(q0x, q0y, q3x, q3y, v1.a.x, v1.a.y);
+	let dp1 = signedDistance(q0x, q0y, q3x, q3y, v1.b.x, v1.b.y);
+	let dp2 = signedDistance(q0x, q0y, q3x, q3y, v1.c.x, v1.c.y);
+	let dp3 = signedDistance(q0x, q0y, q3x, q3y, v1.d.x, v1.d.y);
+	let hull = getConvexHull(dp0, dp1, dp2, dp3),
+		top = hull[0],
+		bottom = hull[1];
+
+	let tMinClip: null | number = null,
+		tMaxClip: null | number = null;
+
+	// Stop iteration if all points and control points are collinear.
+	if (
+		(d1 === 0 && d2 === 0 && dp0 === 0 && dp1 === 0 && dp2 === 0 && dp3 === 0) ||
+		// Clip convex-hull with dMin and dMax, taking into account that
+		// there will be no intersections if one of the results is null.
+		(tMinClip = clipConvexHull(top, bottom, dMin, dMax)) == null ||
+		(tMaxClip = clipConvexHull(top.reverse(), bottom.reverse(), dMin, dMax)) == null
+	)
+		return calls;
+
+	// tMin and tMax are within the range (0, 1). Project it back to the
+	// original parameter range for v2.
+	let tMinNew = tMin + (tMax - tMin) * tMinClip,
+		tMaxNew = tMin + (tMax - tMin) * tMaxClip;
+
+	if (Math.max(uMax - uMin, tMaxNew - tMinNew) < FAT_LINE_EPSILON) {
+		// We have isolated the intersection with sufficient precision
+		var t = (tMinNew + tMaxNew) / 2,
+			u = (uMin + uMax) / 2;
+		if (flip) {
+			sink.add(u, t);
+		} else {
+			sink.add(t, u);
+		}
+	} else {
+		// Apply the result of the clipping to curve 1:
+		v1 = v1.sliceRatio(tMinClip, tMaxClip);
+		let uDiff = uMax - uMin;
+
+		if (tMaxClip - tMinClip > 0.8) {
+			// Subdivide the curve which has converged the least.
+			if (tMaxNew - tMinNew > uDiff) {
+				let parts = v1.splitRatio(0.5),
+					t = (tMinNew + tMaxNew) / 2;
+				calls = curveIntersectionImpl(
+					v2,
+					parts[0],
+					sink,
+					!flip,
+					recursion,
+					calls,
+					uMin,
+					uMax,
+					tMinNew,
+					t
+				);
+				calls = curveIntersectionImpl(
+					v2,
+					parts[1],
+					sink,
+					!flip,
+					recursion,
+					calls,
+					uMin,
+					uMax,
+					t,
+					tMaxNew
+				);
+			} else {
+				var parts = v2.splitRatio(0.5),
+					u = (uMin + uMax) / 2;
+				calls = curveIntersectionImpl(
+					parts[0],
+					v1,
+					sink,
+					!flip,
+					recursion,
+					calls,
+					uMin,
+					u,
+					tMinNew,
+					tMaxNew
+				);
+				calls = curveIntersectionImpl(
+					parts[1],
+					v1,
+					sink,
+					!flip,
+					recursion,
+					calls,
+					u,
+					uMax,
+					tMinNew,
+					tMaxNew
+				);
+			}
+		} else {
+			// Iterate
+			// For some unclear reason we need to check against uDiff === 0
+			// here, to prevent a regression from happening, see #1638.
+			// Maybe @iconexperience could shed some light on this.
+			if (uDiff === 0 || uDiff >= FAT_LINE_EPSILON) {
+				calls = curveIntersectionImpl(
+					v2,
+					v1,
+					sink,
+					!flip,
+					recursion,
+					calls,
+					uMin,
+					uMax,
+					tMinNew,
+					tMaxNew
+				);
+			} else {
+				// The interval on the other curve is already tight enough,
+				// therefore we keep iterating on the same curve.
+				calls = curveIntersectionImpl(
+					v1,
+					v2,
+					sink,
+					flip,
+					recursion,
+					calls,
+					tMinNew,
+					tMaxNew,
+					uMin,
+					uMax
+				);
+			}
+		}
+	}
+	return calls;
 }
 
 /**
@@ -44,77 +314,54 @@ function signedDistance(px: number, py: number, vx: number, vy: number, x: numbe
  * Calculating convex-hull is much easier than a set of arbitrary points.
  *
  * The convex-hull is returned as two parts [TOP, BOTTOM]:
- *   (both are in a coordinate space where y increases upwards with origin at
- *   bottom-left)
- *   * TOP: The part that lies above the 'median' (line connecting end points of
- *     the curve)
- *   * BOTTOM: The part that lies below the median.
+ * (both are in a coordinate space where y increases upwards with origin at
+ * bottom-left)
+ * TOP: The part that lies above the 'median' (line connecting end points of
+ * the curve)
+ * BOTTOM: The part that lies below the median.
  */
-function convexHull(dq0: number, dq1: number, dq2: number, dq3: number) {
-	let p0: PointArrayRep = [0, dq0];
-	let p1: PointArrayRep = [1.0 / 3, dq1];
-	let p2: PointArrayRep = [2.0 / 3, dq2];
-	let p3: PointArrayRep = [1, dq3];
-
-	// Find signed distance of p1 and p2 from line [ p0, p3 ]
-	let dist1 = signedDistance(0, dq0, 1, dq3, 1.0 / 3, dq1);
-	let dist2 = signedDistance(0, dq0, 1, dq3, 2.0 / 3, dq2);
-
-	let flip = false;
-	let hull: PointArrayRep[][];
-
-	// Check if p1 and p2 are on the same side of the line [ p0, p3 ]
+function getConvexHull(dq0: number, dq1: number, dq2: number, dq3: number): PointArrayRep[][] {
+	var p0: PointArrayRep = [0, dq0],
+		p1: PointArrayRep = [1 / 3, dq1],
+		p2: PointArrayRep = [2 / 3, dq2],
+		p3: PointArrayRep = [1, dq3],
+		// Find vertical signed distance of p1 and p2 from line [p0, p3]
+		dist1 = dq1 - (2 * dq0 + dq3) / 3,
+		dist2 = dq2 - (dq0 + 2 * dq3) / 3,
+		hull: PointArrayRep[][];
+	// Check if p1 and p2 are on the opposite side of the line [p0, p3]
 	if (dist1 * dist2 < 0) {
-		// p1 and p2 lie on different sides of [ p0, p3 ]. The hull is a
-		// quadrilateral and line [ p0, p3 ] is NOT part of the hull so we
-		// are pretty much done here.
-		// The top part includes p1,
-		// we will reverse it later if that is not the case
+		// p1 and p2 lie on different sides of [p0, p3]. The hull is a
+		// quadrilateral and line [p0, p3] is NOT part of the hull so we are
+		// pretty much done here. The top part includes p1, we will reverse
+		// it later if that is not the case.
 		hull = [
 			[p0, p1, p3],
 			[p0, p2, p3]
 		];
-		flip = dist1 < 0;
 	} else {
-		// p1 and p2 lie on the same sides of [ p0, p3 ]. The hull can be
-		// a triangle or a quadrilateral and line [ p0, p3 ] is part of the
-		// hull. Check if the hull is a triangle or a quadrilateral.
-		// Also, if at least one of the distances for p1 or p2, from line
-		// [p0, p3] is zero then hull must at most have 3 vertices.
-		let pMax: PointArrayRep;
-		let cross = 0;
-		let distZero = dist1 == 0 || dist2 == 0;
-		if (Math.abs(dist1) > Math.abs(dist2)) {
-			pMax = p1;
-			// apex is dq3 and the other apex point is dq0 vector dqapex ->
-			// dqapex2 or base vector which is already part of the hull.
-			cross = ((dq3 - dq2 - (dq3 - dq0) / 3.0) * (2 * (dq3 - dq2) - dq3 + dq1)) / 3.0;
-		} else {
-			pMax = p2;
-			// apex is dq0 in this case, and the other apex point is dq3
-			// vector dqapex -> dqapex2 or base vector which is already part
-			// of the hull.
-			cross = ((dq1 - dq0 + (dq0 - dq3) / 3.0) * (-2 * (dq0 - dq1) + dq0 - dq2)) / 3.0;
-		}
-
-		// Compare cross products of these vectors to determine if the point
-		// is in the triangle [ p3, pmax, p0 ], or if it is a quadrilateral.
-		hull =
-			cross < 0 || distZero
-				? [
-						[p0, pMax, p3],
-						[p0, p3]
-				  ]
-				: [
-						[p0, p1, p2, p3],
-						[p0, p3]
-				  ];
-		flip = dist1 ? dist1 < 0 : dist2 < 0;
+		// p1 and p2 lie on the same sides of [p0, p3]. The hull can be a
+		// triangle or a quadrilateral and line [p0, p3] is part of the
+		// hull. Check if the hull is a triangle or a quadrilateral. We have
+		// a triangle if the vertical distance of one of the middle points
+		// (p1, p2) is equal or less than half the vertical distance of the
+		// other middle point.
+		var distRatio = dist1 / dist2;
+		hull = [
+			// p2 is inside, the hull is a triangle.
+			distRatio >= 2
+				? [p0, p1, p3]
+				: // p1 is inside, the hull is a triangle.
+				distRatio <= 0.5
+				? [p0, p2, p3]
+				: // Hull is a quadrilateral, we need all lines in correct order.
+				  [p0, p1, p2, p3],
+			// Line [p0, p3] is part of the hull.
+			[p0, p3]
+		];
 	}
-	if (flip) {
-		hull.reverse();
-	}
-	return hull;
+	// Flip hull if dist1 is negative or if it is zero and dist2 is negative
+	return (dist1 || dist2) < 0 ? hull.reverse() : hull;
 }
 
 /**
@@ -173,185 +420,4 @@ function getFatline(v: Bez3Slice) {
 	let dMax = factor * Math.max(0, d1, d2);
 	// The width of the 'fatline' is |dMin| + |dMax|
 	return [dMin, dMax];
-}
-
-export type IntersectionResult = [number, Point, number, Point];
-/**
- * Computes the intersections of two bezier curves
- */
-function bez3IntersectionsImpl(
-	v1: Bez3Slice,
-	v2: Bez3Slice,
-	tMin = 0.0,
-	tMax = 1.0,
-	uMin = 0.0,
-	uMax = 1.0,
-	oldTDiff = 1.0,
-	reverse = false,
-	recursion = 0,
-	recursionLimit = 16,
-	tLimit = 0.8
-): IntersectionResult[] {
-	// Avoid deeper recursion.
-	// NOTE: @iconexperience determined that more than 20 recursions are
-	// needed sometimes, depending on the tDiff threshold values further
-	// below when determining which curve converges the least. He also
-	// recommended a threshold of 0.5 instead of the initial 0.8
-	// See: https:#github.com/paperjs/paper.js/issues/565
-	if (recursion > recursionLimit) {
-		return [];
-	}
-
-	// Let P be the first curve and Q be the second
-	let q0x = v2.a.x;
-	let q0y = v2.a.y;
-	let q3x = v2.d.x;
-	let q3y = v2.d.y;
-
-	// Calculate the fat-line L for Q is the baseline l and two
-	// offsets which completely encloses the curve P.
-	let [dMin, dMax] = getFatline(v2);
-
-	// Calculate non-parametric bezier curve D(ti, di(t)) - di(t) is the
-	// distance of P from the baseline l of the fat-line, ti is equally
-	// spaced in [0, 1]
-	let dp0 = signedDistance(q0x, q0y, q3x, q3y, v1.a.x, v1.a.y);
-	let dp1 = signedDistance(q0x, q0y, q3x, q3y, v1.b.x, v1.b.y);
-	let dp2 = signedDistance(q0x, q0y, q3x, q3y, v1.c.x, v1.c.y);
-	let dp3 = signedDistance(q0x, q0y, q3x, q3y, v1.d.x, v1.d.y);
-	let tMinNew = 0.0;
-	let tMaxNew = 0.0;
-	let tDiff = 0.0;
-
-	// NOTE: the recursion threshold of 4 is needed to prevent issue #571
-	// from occurring: https://github.com/paperjs/paper.js/issues/571
-	if (q0x == q3x && uMax - uMin <= EPSILON && recursion > 4) {
-		// The fatline of Q has converged to a point, the clipping is not
-		// reliable. Return the value we have even though we will miss the
-		// precision.
-		tMaxNew = tMinNew = (tMax + tMin) / 2.0;
-		tDiff = 0;
-	} else {
-		// Get the top and bottom parts of the convex-hull
-		let hull = convexHull(dp0, dp1, dp2, dp3);
-		let top = hull[0];
-		let bottom = hull[1];
-		let tMinClip;
-		let tMaxClip;
-		// Clip the convex-hull with dMin and dMax
-		tMinClip = clipConvexHull(top, bottom, dMin, dMax);
-		top.reverse();
-		bottom.reverse();
-		tMaxClip = clipConvexHull(top, bottom, dMin, dMax);
-		// No intersections if one of the tvalues are null or 'undefined'
-		if (tMinClip === null || tMaxClip === null) {
-			return [];
-		}
-		// Clip P with the fatline for Q
-		v1 = v1.sliceRatio(tMinClip, tMaxClip);
-		tDiff = tMaxClip - tMinClip;
-		// tMin and tMax are within the range (0, 1). We need to project it
-		// to the original parameter range for v2.
-		tMinNew = tMax * tMinClip + tMin * (1 - tMinClip);
-		tMaxNew = tMax * tMaxClip + tMin * (1 - tMaxClip);
-	}
-
-	let intersections: IntersectionResult[];
-
-	// Check if we need to subdivide the curves
-	if (oldTDiff > tLimit && tDiff > tLimit) {
-		// Subdivide the curve which has converged the least.
-		if (tMaxNew - tMinNew > uMax - uMin) {
-			let parts = v1.splitRatio(0.5);
-			let t = tMinNew + (tMaxNew - tMinNew) / 2.0;
-			intersections = [
-				...bez3IntersectionsImpl(
-					v2,
-					parts[0],
-					uMin,
-					uMax,
-					tMinNew,
-					t,
-					tDiff,
-					!reverse,
-					recursion + 1,
-					recursionLimit,
-					tLimit
-				),
-				...bez3IntersectionsImpl(
-					v2,
-					parts[1],
-					uMin,
-					uMax,
-					t,
-					tMaxNew,
-					tDiff,
-					!reverse,
-					recursion + 1,
-					recursionLimit,
-					tLimit
-				)
-			];
-		} else {
-			let parts = v2.splitRatio(0.5);
-			let t = uMin + (uMax - uMin) / 2.0;
-			intersections = [
-				...bez3IntersectionsImpl(
-					parts[0],
-					v1,
-					uMin,
-					t,
-					tMinNew,
-					tMaxNew,
-					tDiff,
-					!reverse,
-					recursion + 1,
-					recursionLimit,
-					tLimit
-				),
-				...bez3IntersectionsImpl(
-					parts[1],
-					v1,
-					t,
-					uMax,
-					tMinNew,
-					tMaxNew,
-					tDiff,
-					!reverse,
-					recursion + 1,
-					recursionLimit,
-					tLimit
-				)
-			];
-		}
-	} else if (Math.max(uMax - uMin, tMaxNew - tMinNew) < TOLERANCE) {
-		// We have isolated the intersection with sufficient precision
-		let t1 = tMinNew + (tMaxNew - tMinNew) / 2.0;
-		let t2 = uMin + (uMax - uMin) / 2.0;
-		if (reverse) {
-			intersections = [[t2, v2.eval(t2), t1, v1.eval(t1)]];
-		} else {
-			intersections = [[t1, v1.eval(t1), t2, v2.eval(t2)]];
-		}
-	} else {
-		intersections = bez3IntersectionsImpl(
-			v2,
-			v1,
-			uMin,
-			uMax,
-			tMinNew,
-			tMaxNew,
-			tDiff,
-			!reverse,
-			recursion + 1,
-			recursionLimit,
-			tLimit
-		);
-	}
-
-	return intersections;
-}
-
-export function bez3Intersections(a: Bez3Slice, b: Bez3Slice) {
-	return bez3IntersectionsImpl(a, b);
 }

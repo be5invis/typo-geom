@@ -1,7 +1,8 @@
-import mix from "../fn/mix";
+import { mix, numberClose } from "../fn";
 import { IPoint } from "../point/interface";
 import { Point } from "../point/point";
 import { Arc, DerivableFunction, ShapeTransform } from "./interface";
+import { number } from "mathjs";
 
 export class FromXY implements Arc {
 	constructor(private readonly x: DerivableFunction, private readonly y: DerivableFunction) {}
@@ -55,20 +56,26 @@ export class Bez3 implements Arc {
 		);
 	}
 
-	isLinear(toleranceX: number = 1) {
-		const tolerance = (toleranceX * Point.from(this.a).minus(this.d).mag()) / 16384;
-		const pb = Point.scalarProject(this.a, this.d, this.b);
-		const pc = Point.scalarProject(this.a, this.d, this.c);
-		const db = Point.dist(this.a, this.d, this.b);
-		const dc = Point.dist(this.a, this.d, this.c);
-		return (
-			pb > 0 &&
-			pb < 1 &&
-			pc > 0 &&
-			pc < 1 &&
-			Math.abs(db) < tolerance &&
-			Math.abs(dc) < tolerance
-		);
+	isStraight() {
+		const p1 = Point.from(this.a),
+			p2 = Point.from(this.d);
+		const h1 = Point.from(this.b).minus(this.a),
+			h2 = Point.from(this.c).minus(this.d);
+		if (numberClose(h1.mag(), 0) || numberClose(h2.mag(), 0)) return true;
+
+		const v = p2.minus(p1);
+		if (numberClose(v.mag(), 0)) return false;
+
+		if (
+			numberClose(0, Point.dist(this.a, this.d, this.b)) &&
+			numberClose(0, Point.dist(this.a, this.d, this.c))
+		) {
+			const div = v.dot(v),
+				s1 = v.dot(h1) / div,
+				s2 = v.dot(h2) / div;
+			return s1 >= 0 && s1 <= 1 && s2 <= 0 && s2 >= -1;
+		}
+		return false;
 	}
 
 	static fromStraightSegment(ss: StraightSegment) {

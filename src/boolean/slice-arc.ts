@@ -1,9 +1,11 @@
 import { Arcs } from "../derivable";
 import { BB } from "../derivable/bounding-box";
-import mix from "../fn/mix";
+import { bezierSolveCubic, EPSILON, GEOMETRIC_EPSILON, mix, numberClose } from "../fn";
 import { IPoint } from "../point/interface";
 import { Point } from "../point/point";
 
+export type CurveClass = "line" | "quadratic" | "serpentine" | "cusp" | "loop" | "arch";
+export type CurveClassifyResult = { type: CurveClass; roots: null | number[] };
 export class Bez3Slice extends Arcs.Bez3 {
 	constructor(
 		a: IPoint,
@@ -15,7 +17,12 @@ export class Bez3Slice extends Arcs.Bez3 {
 	) {
 		super(a, b, c, d);
 	}
-
+	toString() {
+		return (
+			`(${this.a.x}, ${this.a.y}) -- (${this.b.x}, ${this.b.y}) .. ` +
+			`(${this.c.x}, ${this.c.y}) -- (${this.d.x}, ${this.d.y})`
+		);
+	}
 	splitRatio(t = 0.5): [Bez3Slice, Bez3Slice] {
 		// Triangle computation, with loops unrolled.
 		let u = 1 - t;
@@ -68,59 +75,111 @@ export class Bez3Slice extends Arcs.Bez3 {
 		return v;
 	}
 
-	getBoundingBox() {
-		let tValues: number[] = [],
-			a: number,
-			b: number,
-			c: number,
-			t: number,
-			t1: number,
-			t2: number,
-			b2ac: number,
-			sqrtB2AC: number;
-		for (let i = 0; i < 2; ++i) {
-			if (i == 0) {
-				b = 6 * this.a.x - 12 * this.b.x + 6 * this.c.x;
-				a = -3 * this.a.x + 9 * this.b.x - 9 * this.c.x + 3 * this.d.x;
-				c = 3 * this.b.x - 3 * this.a.x;
-			} else {
-				b = 6 * this.a.y - 12 * this.b.y + 6 * this.c.y;
-				a = -3 * this.a.y + 9 * this.b.y - 9 * this.c.y + 3 * this.d.y;
-				c = 3 * this.b.y - 3 * this.a.y;
-			}
-			if (Math.abs(a) < 1e-12) {
-				if (Math.abs(b) < 1e-12) {
-					continue;
-				}
-				t = -c / b;
-				if (0 < t && t < 1) {
-					tValues.push(t);
-				}
-				continue;
-			}
-			b2ac = b * b - 4 * c * a;
-			if (b2ac < 0) {
-				continue;
-			}
-			sqrtB2AC = Math.sqrt(b2ac);
-			t1 = (-b + sqrtB2AC) / (2 * a);
-			if (0 < t1 && t1 < 1) {
-				tValues.push(t1);
-			}
-			t2 = (-b - sqrtB2AC) / (2 * a);
-			if (0 < t2 && t2 < 1) {
-				tValues.push(t2);
+	getTOf(point: IPoint): number | null {
+		let p0 = Point.from(this.a),
+			p3 = Point.from(this.d);
+		if (p0.isClose(point, EPSILON)) return 0;
+		if (p3.isClose(point, EPSILON)) return 1;
+
+		const coords = [point.x, point.y],
+			coeffs = [
+				this.a.x,
+				this.b.x,
+				this.c.x,
+				this.d.x,
+				this.a.y,
+				this.b.y,
+				this.c.y,
+				this.d.y
+			],
+			roots: number[] = [];
+
+		for (let c = 0; c < 2; c++) {
+			const rootCount = bezierSolveCubic(
+				coeffs[c * 4 + 0],
+				coeffs[c * 4 + 1],
+				coeffs[c * 4 + 2],
+				coeffs[c * 4 + 3],
+				coords[c],
+				roots,
+				0,
+				1
+			);
+			for (let i = 0; i < rootCount; i++) {
+				const u = roots[i];
+				if (this.eval(u).isClose(point, GEOMETRIC_EPSILON)) return u;
 			}
 		}
 
-		const box = BB.empty();
-		BB.coverX(box, this.a.x), BB.coverX(box, this.d.x);
-		BB.coverY(box, this.a.y), BB.coverY(box, this.d.y);
-		let j = tValues.length;
-		while (j--) {
-			t = tValues[j];
-			BB.coverPoint(box, this.eval(t));
+		if (p0.isClose(point, GEOMETRIC_EPSILON)) return 0;
+		if (p3.isClose(point, GEOMETRIC_EPSILON)) return 1;
+		return null;
+	}
+
+	classify() {
+		const x0 = this.a.x,
+			y0 = this.a.y,
+			x1 = this.b.x,
+			y1 = this.b.y,
+			x2 = this.c.x,
+			y2 = this.c.y,
+			x3 = this.d.x,
+			y3 = this.d.y;
+
+		// Calculate coefficients of I(s, t), of which the roots are
+		// inflection points.
+		let a1 = x0 * (y3 - y2) + y0 * (x2 - x3) + x3 * y2 - y3 * x2,
+			a2 = x1 * (y0 - y3) + y1 * (x3 - x0) + x0 * y3 - y0 * x3,
+			a3 = x2 * (y1 - y0) + y2 * (x0 - x1) + x1 * y0 - y1 * x0,
+			d3 = 3 * a3,
+			d2 = d3 - a2,
+			d1 = d2 - a2 + a1,
+			// Normalize the vector (d1, d2, d3) to keep error consistent.
+			l = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3),
+			s = l !== 0 ? 1 / l : 0,
+			serpentine: CurveClass = "serpentine"; // short-cut
+		d1 *= s;
+		d2 *= s;
+		d3 *= s;
+
+		function type(type: string, t1?: number, t2?: number) {
+			let hasRoots = t1 !== undefined,
+				t1Ok = hasRoots && t1 !== undefined && t1 > 0 && t1 < 1,
+				t2Ok = hasRoots && t2 !== undefined && t2 > 0 && t2 < 1;
+			// Degrade to arch for serpentine, cusp or loop if no solutions
+			// within 0..1 are found. loop requires 2 solutions to be valid.
+			if (hasRoots && (!(t1Ok || t2Ok) || (type === "loop" && !(t1Ok && t2Ok)))) {
+				type = "arch";
+				t1Ok = t2Ok = false;
+			}
+			return {
+				type: type,
+				roots:
+					t1Ok || t2Ok
+						? t1Ok && t2Ok
+							? t1! < t2!
+								? [t1!, t2!]
+								: [t2!, t1!] // 2 solutions
+							: [t1Ok ? t1! : t2!] // 1 solution
+						: null
+			};
 		}
-		return box;
+
+		if (numberClose(d1, 0)) {
+			return numberClose(d2, 0)
+				? type(numberClose(d3, 0) ? "line" : "quadratic") // 5. / 4.
+				: type(serpentine, d3 / (3 * d2)); // 3b.
+		}
+		var d = 3 * d2 * d2 - 4 * d1 * d3;
+		if (numberClose(d, 0)) {
+			return type("cusp", d2 / (2 * d1)); // 3a.
+		}
+		var f1 = d > 0 ? Math.sqrt(d / 3) : Math.sqrt(-d),
+			f2 = 2 * d1;
+		return type(
+			d > 0 ? serpentine : "loop", // 1. / 2.
+			(d2 + f1) / f2,
+			(d2 - f1) / f2
+		);
 	}
 }

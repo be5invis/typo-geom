@@ -1,14 +1,21 @@
 import * as ClipperLib from "clipper-lib";
 import { Arcs } from "../derivable";
-import {
-	findAllSelfIntersections,
-	findCrossIntersections,
-	reduceIntersections
-} from "./intersections";
+import { findSelfIntersections, findCrossIntersections } from "./intersections";
 import { rebuildShape } from "./rebuild";
 import { Bez3Slice } from "./slice-arc";
 import { SegEntry, toPoly } from "./to-poly";
 
+function tracePoly(resolution: number, p: ClipperLib.IntPoint[][]) {
+	console.log("[");
+	for (const c of p) {
+		console.log("  [");
+		for (const z of c) {
+			console.log("    ", z.X, z.Y, z.X / resolution, z.Y / resolution);
+		}
+		console.log("  ]");
+	}
+	console.log("]");
+}
 function combineImpl(
 	op: ClipperLib.ClipType,
 	s1: Bez3Slice[][],
@@ -20,25 +27,20 @@ function combineImpl(
 	if (!s1.length) return s2;
 	if (!s2.length) return s1;
 
-	const tolerance = 1 / resolution;
-
-	const i1 = findAllSelfIntersections(s1, tolerance);
-	const i2 = findAllSelfIntersections(s2, tolerance);
-	findCrossIntersections(s1, s1, i1, i1, true, tolerance);
-	findCrossIntersections(s2, s2, i2, i2, true, tolerance);
-	findCrossIntersections(s1, s2, i1, i2, true, tolerance);
-	for (let c = 0; c < i1.length; c++) {
-		i1[c] = reduceIntersections(i1[c]);
-	}
-	for (let c = 0; c < i2.length; c++) {
-		i2[c] = reduceIntersections(i2[c]);
-	}
+	const i1 = findSelfIntersections(s1);
+	const i2 = findSelfIntersections(s2);
+	findCrossIntersections(s1, s1, i1, i1, true);
+	findCrossIntersections(s2, s2, i2, i2, true);
+	findCrossIntersections(s1, s2, i1, i2, false);
 
 	const segHash = new Map<string, SegEntry>();
 	const termHash = new Set<string>();
 
 	const p1 = toPoly(s1, 1, i1, segHash, termHash, resolution);
 	const p2 = toPoly(s2, 2, i2, segHash, termHash, resolution);
+
+	// tracePoly(resolution, p1);
+	// tracePoly(resolution, p2);
 
 	const cpr = new ClipperLib.Clipper(
 		ClipperLib.Clipper.ioReverseSolution | ClipperLib.Clipper.ioStrictlySimple
@@ -53,19 +55,14 @@ function combineImpl(
 function removeOverlapImpl(s1: Bez3Slice[][], rule: ClipperLib.PolyFillType, resolution = 256) {
 	if (!s1.length) return s1;
 
-	const ERROR = 1 / resolution;
-
-	const i1 = findAllSelfIntersections(s1, ERROR);
-	findCrossIntersections(s1, s1, i1, i1, true, ERROR);
-	findCrossIntersections(s1, s1, i1, i1, false, ERROR);
-	for (let c = 0; c < i1.length; c++) {
-		i1[c] = reduceIntersections(i1[c]);
-	}
+	const i1 = findSelfIntersections(s1);
+	findCrossIntersections(s1, s1, i1, i1, true);
 
 	const segHash = new Map<string, SegEntry>();
 	const termHash = new Set<string>();
 
 	const p1 = toPoly(s1, 1, i1, segHash, termHash, resolution);
+	//return rebuildShape(p1, segHash, termHash, resolution);
 	const solution_paths = ClipperLib.Clipper.SimplifyPolygons(p1, rule);
 	return rebuildShape(solution_paths, segHash, termHash, resolution);
 }

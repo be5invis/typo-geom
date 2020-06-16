@@ -1,4 +1,4 @@
-import mix from "../fn/mix";
+import { mix } from "../fn";
 
 function quadSolve(a: number, b: number, c: number) {
 	// a*x^2 + b*x + c = 0

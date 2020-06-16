@@ -24,7 +24,7 @@ export function transferBezArcShape(
 			const a = Point.from(arc.eval(0)),
 				d = Point.from(arc.eval(1));
 			if (z0.minus(a).mag() > tolerance) sink.lineTo(a.x, a.y);
-			if (arc.isLinear()) {
+			if (arc.isStraight()) {
 				sink.lineTo(d.x, d.y);
 			} else {
 				const d0 = arc.derivative(0),

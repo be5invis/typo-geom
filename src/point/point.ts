@@ -1,4 +1,5 @@
 import { IPoint } from "./interface";
+import { numberClose, MACHINE_EPSILON, EPSILON, signedDistance, getDistance } from "../fn";
 
 export class Point implements IPoint {
 	x: number;
@@ -51,15 +52,36 @@ export class Point implements IPoint {
 	rotate90() {
 		return new Point(this.y, -this.x);
 	}
-	static intersection(a: IPoint, b: IPoint, c: IPoint, d: IPoint) {
-		const a1 = b.y - a.y;
-		const b1 = a.x - b.x;
-		const c1 = -1 * a1 * a.x - b1 * a.y;
-		const a2 = d.y - c.y;
-		const b2 = c.x - d.x;
-		const c2 = -1 * a2 * c.x - b2 * c.y;
-		const temp = b1 * a2 - b2 * a1;
-		return new Point((c1 * b2 - c2 * b1) / temp, (a1 * c2 - a2 * c1) / temp);
+	isClose(b: IPoint, tolerance: number) {
+		return this.minus(b).mag() <= tolerance;
+	}
+	static intersect(a: IPoint, b: IPoint, c: IPoint, d: IPoint, fInfinite = false) {
+		const p1x = a.x,
+			p1y = a.y,
+			v1x = b.x - a.x,
+			v1y = b.y - a.y,
+			p2x = c.x,
+			p2y = c.y,
+			v2x = d.x - c.x,
+			v2y = d.y - c.y;
+
+		const cross = v1x * v2y - v1y * v2x;
+		if (!numberClose(cross, 0, MACHINE_EPSILON)) {
+			let dx = p1x - p2x,
+				dy = p1y - p2y,
+				u1 = (v2x * dy - v2y * dx) / cross,
+				u2 = (v1x * dy - v1y * dx) / cross,
+				// Check the ranges of the u parameters if the line is not
+				// allowed to extend beyond the definition points, but
+				// compare with EPSILON tolerance over the [0, 1] bounds.
+				uMin = -EPSILON,
+				uMax = 1 + EPSILON;
+			if (fInfinite || (uMin < u1 && u1 < uMax && uMin < u2 && u2 < uMax)) {
+				if (!fInfinite) u1 = u1 <= 0 ? 0 : u1 >= 1 ? 1 : u1;
+				return new Point(p1x + u1 * v1x, p1y + u1 * v1y);
+			}
+		}
+		return null;
 	}
 	static rayIntersection(p1: IPoint, _d1: IPoint, _d2: IPoint, p2: IPoint): Point | null {
 		const d1 = Point.from(_d1).minus(p1);
@@ -102,10 +124,11 @@ export class Point implements IPoint {
 		const vb = Point.from(b).minus(a);
 		return Math.min(1, Math.max(-1, vp.dot(vb) / (vp.mag() * vb.mag())));
 	}
+	static signedDist(a: IPoint, b: IPoint, p: IPoint) {
+		return signedDistance(a.x, a.y, b.x, b.y, p.x, p.y);
+	}
 	static dist(a: IPoint, b: IPoint, p: IPoint) {
-		const c = Point.cross(new Point(0, 0).add(a).minus(b), new Point(0, 0).add(p).minus(b));
-		const d = Point.project(a, b, p).minus(p).mag();
-		return c > 0 ? d : -d;
+		return getDistance(a.x, a.y, b.x, b.y, p.x, p.y);
 	}
 	static dot(a: IPoint, b: IPoint) {
 		return a.x * b.x + a.y * b.y;
