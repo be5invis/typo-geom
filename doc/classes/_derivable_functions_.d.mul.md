@@ -1,10 +1,10 @@
-[typo-geom](../README.md) > ["derivable/functions"](../modules/_derivable_functions_.md) > [D](../modules/_derivable_functions_.d.md) > [Mul](../classes/_derivable_functions_.d.mul.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/functions"](../modules/_derivable_functions_.md) › [D](../modules/_derivable_functions_.d.md) › [Mul](_derivable_functions_.d.mul.md)
 
 # Class: Mul
 
 ## Hierarchy
 
-**Mul**
+* **Mul**
 
 ## Implements
 
@@ -18,96 +18,79 @@
 
 ### Properties
 
-* [a](_derivable_functions_.d.mul.md#a)
-* [b](_derivable_functions_.d.mul.md#b)
+* [a](_derivable_functions_.d.mul.md#private-readonly-a)
+* [b](_derivable_functions_.d.mul.md#private-readonly-b)
 
 ### Methods
 
 * [derivative](_derivable_functions_.d.mul.md#derivative)
 * [eval](_derivable_functions_.d.mul.md#eval)
 
----
-
 ## Constructors
-
-<a id="constructor"></a>
 
 ###  constructor
 
-⊕ **new Mul**(a: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*, b: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*): [Mul](_derivable_functions_.d.mul.md)
+\+ **new Mul**(`a`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction), `b`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)): *[Mul](_derivable_functions_.d.mul.md)*
 
-*Defined in [derivable/functions.ts:39](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L39)*
+*Defined in [derivable/functions.ts:39](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L39)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| a | [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction) |
-| b | [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction) |
+Name | Type |
+------ | ------ |
+`a` | [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction) |
+`b` | [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction) |
 
-**Returns:** [Mul](_derivable_functions_.d.mul.md)
-
-___
+**Returns:** *[Mul](_derivable_functions_.d.mul.md)*
 
 ## Properties
 
-<a id="a"></a>
+### `Private` `Readonly` a
 
-### `<Private>` a
+• **a**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-**● a**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
-
-*Defined in [derivable/functions.ts:40](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L40)*
+*Defined in [derivable/functions.ts:40](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L40)*
 
 ___
-<a id="b"></a>
 
-### `<Private>` b
+### `Private` `Readonly` b
 
-**● b**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
+• **b**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/functions.ts:40](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L40)*
-
-___
+*Defined in [derivable/functions.ts:40](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L40)*
 
 ## Methods
 
-<a id="derivative"></a>
-
 ###  derivative
 
-▸ **derivative**(t: *`number`*): `number`
+▸ **derivative**(`t`: number): *number*
 
-*Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md).[derivative](../interfaces/_derivable_interface_.derivable.md#derivative)*
+*Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:44](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L44)*
+*Defined in [derivable/functions.ts:44](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L44)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| t | `number` |
+Name | Type |
+------ | ------ |
+`t` | number |
 
-**Returns:** `number`
+**Returns:** *number*
 
 ___
-<a id="eval"></a>
 
 ###  eval
 
-▸ **eval**(t: *`number`*): `number`
+▸ **eval**(`t`: number): *number*
 
-*Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md).[eval](../interfaces/_derivable_interface_.derivable.md#eval)*
+*Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:41](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L41)*
+*Defined in [derivable/functions.ts:41](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L41)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| t | `number` |
+Name | Type |
+------ | ------ |
+`t` | number |
 
-**Returns:** `number`
-
-___
-
+**Returns:** *number*

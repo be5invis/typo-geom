@@ -1,25 +1,120 @@
-[typo-geom](../README.md) > ["derivable/index"](../modules/_derivable_index_.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/index"](_derivable_index_.md)
 
-# External module: "derivable/index"
+# Module: "derivable/index"
 
 ## Index
 
-### Type aliases
+### References
 
-* [Curve](_derivable_index_.md#curve)
+* [Arc](_derivable_index_.md#arc)
+* [Arcs](_derivable_index_.md#arcs)
+* [BB](_derivable_index_.md#bb)
+* [BoundingBox](_derivable_index_.md#boundingbox)
+* [CompositeTransform](_derivable_index_.md#compositetransform)
+* [Contour](_derivable_index_.md#contour)
+* [D](_derivable_index_.md#d)
+* [Derivable](_derivable_index_.md#derivable)
+* [DerivableFunction](_derivable_index_.md#derivablefunction)
+* [LinearTransform](_derivable_index_.md#lineartransform)
+* [Shape](_derivable_index_.md#shape)
+* [ShapeTransform](_derivable_index_.md#shapetransform)
+* [transformBoundingBox](_derivable_index_.md#transformboundingbox)
+* [transformPoint](_derivable_index_.md#transformpoint)
+* [transformPointXY](_derivable_index_.md#transformpointxy)
+* [transformShape](_derivable_index_.md#transformshape)
 
----
+## References
 
-## Type aliases
+###  Arc
 
-<a id="curve"></a>
-
-### `<Const>` Curve
-
-**Ƭ Curve**: *`_CurveT`* =  _Curve
-
-*Defined in [derivable/index.ts:8](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/index.ts#L8)*
-*Defined in [derivable/index.ts:9](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/index.ts#L9)*
+• **Arc**:
 
 ___
 
+###  Arcs
+
+• **Arcs**:
+
+___
+
+###  BB
+
+• **BB**:
+
+___
+
+###  BoundingBox
+
+• **BoundingBox**:
+
+___
+
+###  CompositeTransform
+
+• **CompositeTransform**:
+
+___
+
+###  Contour
+
+• **Contour**:
+
+___
+
+###  D
+
+• **D**:
+
+___
+
+###  Derivable
+
+• **Derivable**:
+
+___
+
+###  DerivableFunction
+
+• **DerivableFunction**:
+
+___
+
+###  LinearTransform
+
+• **LinearTransform**:
+
+___
+
+###  Shape
+
+• **Shape**:
+
+___
+
+###  ShapeTransform
+
+• **ShapeTransform**:
+
+___
+
+###  transformBoundingBox
+
+• **transformBoundingBox**:
+
+___
+
+###  transformPoint
+
+• **transformPoint**:
+
+___
+
+###  transformPointXY
+
+• **transformPointXY**:
+
+___
+
+###  transformShape
+
+• **transformShape**:

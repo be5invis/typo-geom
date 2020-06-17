@@ -1,6 +1,6 @@
-[typo-geom](../README.md) > ["derivable/functions"](../modules/_derivable_functions_.md) > [D](../modules/_derivable_functions_.d.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/functions"](_derivable_functions_.md) › [D](_derivable_functions_.d.md)
 
-# Module: D
+# Namespace: D
 
 ## Index
 
@@ -22,48 +22,34 @@
 
 ### Object literals
 
-* [Param](_derivable_functions_.d.md#param)
-
----
+* [Param](_derivable_functions_.d.md#const-param)
 
 ## Object literals
 
-<a id="param"></a>
+### `Const` Param
 
-### `<Const>` Param
+### ▪ **Param**: *object*
 
-**Param**: *`object`*
+*Defined in [derivable/functions.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L13)*
 
-*Defined in [derivable/functions.ts:13](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L13)*
+###  derivative
 
-<a id="param.derivative"></a>
+▸ **derivative**(): *number*
 
-####  derivative
+*Defined in [derivable/functions.ts:17](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L17)*
 
-▸ **derivative**(): `number`
+**Returns:** *number*
 
-*Defined in [derivable/functions.ts:17](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L17)*
+###  eval
 
-**Returns:** `number`
+▸ **eval**(`t`: number): *number*
 
-___
-<a id="param.eval"></a>
-
-####  eval
-
-▸ **eval**(t: *`number`*): `number`
-
-*Defined in [derivable/functions.ts:14](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L14)*
+*Defined in [derivable/functions.ts:14](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L14)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| t | `number` |
+Name | Type |
+------ | ------ |
+`t` | number |
 
-**Returns:** `number`
-
-___
-
-___
-
+**Returns:** *number*

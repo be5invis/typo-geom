@@ -1,12 +1,9 @@
-[typo-geom](../README.md) > ["quadify/index"](../modules/_quadify_index_.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["quadify/index"](_quadify_index_.md)
 
-# External module: "quadify/index"
+# Module: "quadify/index"
 
 ## Index
 
-### Modules
+### Namespaces
 
 * [Quadify](_quadify_index_.quadify.md)
-
----
-

@@ -1,6 +1,6 @@
-[typo-geom](../README.md) > ["point/point"](../modules/_point_point_.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["point/point"](_point_point_.md)
 
-# External module: "point/point"
+# Module: "point/point"
 
 ## Index
 
@@ -12,26 +12,19 @@
 
 * [z](_point_point_.md#z)
 
----
-
 ## Functions
-
-<a id="z"></a>
 
 ###  z
 
-▸ **z**(x: *`number`*, y: *`number`*): [Point](../classes/_point_point_.point.md)
+▸ **z**(`x`: number, `y`: number): *[Point](../classes/_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:137](https://github.com/be5invis/typo-geom/blob/d307ff5/src/point/point.ts#L137)*
+*Defined in [point/point.ts:147](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L147)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| x | `number` |
-| y | `number` |
+Name | Type |
+------ | ------ |
+`x` | number |
+`y` | number |
 
-**Returns:** [Point](../classes/_point_point_.point.md)
-
-___
-
+**Returns:** *[Point](../classes/_point_point_.point.md)‹›*

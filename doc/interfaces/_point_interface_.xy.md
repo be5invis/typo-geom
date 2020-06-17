@@ -1,45 +1,40 @@
-[typo-geom](../README.md) > ["point/interface"](../modules/_point_interface_.md) > [XY](../interfaces/_point_interface_.xy.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["point/interface"](../modules/_point_interface_.md) › [XY](_point_interface_.xy.md)
 
-# Interface: XY
+# Interface: XY ‹**T**›
 
 ## Type parameters
-#### T 
+
+▪ **T**
+
 ## Hierarchy
 
-**XY**
+* **XY**
+
+  ↳ [IOnOffGlyphPoint](_point_interface_.ionoffglyphpoint.md)
 
 ## Implemented by
 
-* [OnOffGlyphPoint](../classes/_point_on_off_glyph_point_.onoffglyphpoint.md)
 * [Point](../classes/_point_point_.point.md)
 
 ## Index
 
 ### Properties
 
-* [x](_point_interface_.xy.md#x)
-* [y](_point_interface_.xy.md#y)
-
----
+* [x](_point_interface_.xy.md#readonly-x)
+* [y](_point_interface_.xy.md#readonly-y)
 
 ## Properties
 
-<a id="x"></a>
+### `Readonly` x
 
-###  x
+• **x**: *T*
 
-**● x**: *`T`*
-
-*Defined in [point/interface.ts:2](https://github.com/be5invis/typo-geom/blob/d307ff5/src/point/interface.ts#L2)*
-
-___
-<a id="y"></a>
-
-###  y
-
-**● y**: *`T`*
-
-*Defined in [point/interface.ts:3](https://github.com/be5invis/typo-geom/blob/d307ff5/src/point/interface.ts#L3)*
+*Defined in [point/interface.ts:2](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/interface.ts#L2)*
 
 ___
 
+### `Readonly` y
+
+• **y**: *T*
+
+*Defined in [point/interface.ts:3](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/interface.ts#L3)*

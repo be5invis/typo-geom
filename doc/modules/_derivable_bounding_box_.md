@@ -1,12 +1,9 @@
-[typo-geom](../README.md) > ["derivable/bounding-box"](../modules/_derivable_bounding_box_.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/bounding-box"](_derivable_bounding_box_.md)
 
-# External module: "derivable/bounding-box"
+# Module: "derivable/bounding-box"
 
 ## Index
 
-### Modules
+### Namespaces
 
 * [BB](_derivable_bounding_box_.bb.md)
-
----
-

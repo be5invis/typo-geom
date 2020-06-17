@@ -1,6 +1,6 @@
-[typo-geom](../README.md) > ["derivable/interface"](../modules/_derivable_interface_.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/interface"](_derivable_interface_.md)
 
-# External module: "derivable/interface"
+# Module: "derivable/interface"
 
 ## Index
 
@@ -12,39 +12,39 @@
 
 ### Type aliases
 
-* [Curve](_derivable_interface_.md#curve)
+* [Arc](_derivable_interface_.md#arc)
+* [Contour](_derivable_interface_.md#contour)
 * [DerivableFunction](_derivable_interface_.md#derivablefunction)
 * [Shape](_derivable_interface_.md#shape)
 
----
-
 ## Type aliases
 
-<a id="curve"></a>
+###  Arc
 
-###  Curve
+Ƭ **Arc**: *[Derivable](../interfaces/_derivable_interface_.derivable.md)‹[IPoint](_point_interface_.md#ipoint)›*
 
-**Ƭ Curve**: *[Derivable](../interfaces/_derivable_interface_.derivable.md)<[IPoint](_point_interface_.md#ipoint)>*
-
-*Defined in [derivable/interface.ts:8](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/interface.ts#L8)*
+*Defined in [derivable/interface.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L8)*
 
 ___
-<a id="derivablefunction"></a>
+
+###  Contour
+
+Ƭ **Contour**: *[Arc](_derivable_interface_.md#arc)[]*
+
+*Defined in [derivable/interface.ts:20](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L20)*
+
+___
 
 ###  DerivableFunction
 
-**Ƭ DerivableFunction**: *[Derivable](../interfaces/_derivable_interface_.derivable.md)<`number`>*
+Ƭ **DerivableFunction**: *[Derivable](../interfaces/_derivable_interface_.derivable.md)‹number›*
 
-*Defined in [derivable/interface.ts:9](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/interface.ts#L9)*
+*Defined in [derivable/interface.ts:9](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L9)*
 
 ___
-<a id="shape"></a>
 
 ###  Shape
 
-**Ƭ Shape**: *[Curve](_derivable_interface_.md#curve)[][]*
+Ƭ **Shape**: *[Arc](_derivable_interface_.md#arc)[][]*
 
-*Defined in [derivable/interface.ts:20](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/interface.ts#L20)*
-
-___
-
+*Defined in [derivable/interface.ts:21](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L21)*

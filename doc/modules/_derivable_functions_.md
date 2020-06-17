@@ -1,12 +1,9 @@
-[typo-geom](../README.md) > ["derivable/functions"](../modules/_derivable_functions_.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/functions"](_derivable_functions_.md)
 
-# External module: "derivable/functions"
+# Module: "derivable/functions"
 
 ## Index
 
-### Modules
+### Namespaces
 
 * [D](_derivable_functions_.d.md)
-
----
-

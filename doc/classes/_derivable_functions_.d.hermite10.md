@@ -1,10 +1,10 @@
-[typo-geom](../README.md) > ["derivable/functions"](../modules/_derivable_functions_.md) > [D](../modules/_derivable_functions_.d.md) > [Hermite10](../classes/_derivable_functions_.d.hermite10.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/functions"](../modules/_derivable_functions_.md) › [D](../modules/_derivable_functions_.d.md) › [Hermite10](_derivable_functions_.d.hermite10.md)
 
 # Class: Hermite10
 
 ## Hierarchy
 
-**Hermite10**
+* **Hermite10**
 
 ## Implements
 
@@ -17,46 +17,38 @@
 * [derivative](_derivable_functions_.d.hermite10.md#derivative)
 * [eval](_derivable_functions_.d.hermite10.md#eval)
 
----
-
 ## Methods
-
-<a id="derivative"></a>
 
 ###  derivative
 
-▸ **derivative**(t: *`number`*): `number`
+▸ **derivative**(`t`: number): *number*
 
-*Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md).[derivative](../interfaces/_derivable_interface_.derivable.md#derivative)*
+*Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:110](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L110)*
+*Defined in [derivable/functions.ts:110](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L110)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| t | `number` |
+Name | Type |
+------ | ------ |
+`t` | number |
 
-**Returns:** `number`
+**Returns:** *number*
 
 ___
-<a id="eval"></a>
 
 ###  eval
 
-▸ **eval**(t: *`number`*): `number`
+▸ **eval**(`t`: number): *number*
 
-*Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md).[eval](../interfaces/_derivable_interface_.derivable.md#eval)*
+*Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:107](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/functions.ts#L107)*
+*Defined in [derivable/functions.ts:107](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L107)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| t | `number` |
+Name | Type |
+------ | ------ |
+`t` | number |
 
-**Returns:** `number`
-
-___
-
+**Returns:** *number*

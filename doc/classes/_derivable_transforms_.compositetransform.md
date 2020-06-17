@@ -1,10 +1,10 @@
-[typo-geom](../README.md) > ["derivable/transforms"](../modules/_derivable_transforms_.md) > [CompositeTransform](../classes/_derivable_transforms_.compositetransform.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/transforms"](../modules/_derivable_transforms_.md) › [CompositeTransform](_derivable_transforms_.compositetransform.md)
 
 # Class: CompositeTransform
 
 ## Hierarchy
 
-**CompositeTransform**
+* **CompositeTransform**
 
 ## Implements
 
@@ -14,12 +14,12 @@
 
 ### Constructors
 
-* [constructor](_derivable_transforms_.compositetransform.md#constructor)
+* [constructor](_derivable_transforms_.compositetransform.md#private-constructor)
 
 ### Properties
 
-* [a](_derivable_transforms_.compositetransform.md#a)
-* [b](_derivable_transforms_.compositetransform.md#b)
+* [a](_derivable_transforms_.compositetransform.md#private-a)
+* [b](_derivable_transforms_.compositetransform.md#private-b)
 
 ### Methods
 
@@ -29,190 +29,168 @@
 * [dyy](_derivable_transforms_.compositetransform.md#dyy)
 * [x](_derivable_transforms_.compositetransform.md#x)
 * [y](_derivable_transforms_.compositetransform.md#y)
-* [from](_derivable_transforms_.compositetransform.md#from)
-
----
+* [from](_derivable_transforms_.compositetransform.md#static-from)
 
 ## Constructors
 
-<a id="constructor"></a>
+### `Private` constructor
 
-### `<Private>` constructor
+\+ **new CompositeTransform**(`a`: [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md), `b`: [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)): *[CompositeTransform](_derivable_transforms_.compositetransform.md)*
 
-⊕ **new CompositeTransform**(a: *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*, b: *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*): [CompositeTransform](_derivable_transforms_.compositetransform.md)
-
-*Defined in [derivable/transforms.ts:57](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L57)*
+*Defined in [derivable/transforms.ts:57](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L57)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| a | [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md) |
-| b | [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md) |
+Name | Type |
+------ | ------ |
+`a` | [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md) |
+`b` | [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md) |
 
-**Returns:** [CompositeTransform](_derivable_transforms_.compositetransform.md)
-
-___
+**Returns:** *[CompositeTransform](_derivable_transforms_.compositetransform.md)*
 
 ## Properties
 
-<a id="a"></a>
+### `Private` a
 
-### `<Private>` a
+• **a**: *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-**● a**: *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
-
-*Defined in [derivable/transforms.ts:58](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L58)*
+*Defined in [derivable/transforms.ts:58](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L58)*
 
 ___
-<a id="b"></a>
 
-### `<Private>` b
+### `Private` b
 
-**● b**: *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
+• **b**: *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:58](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L58)*
-
-___
+*Defined in [derivable/transforms.ts:58](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L58)*
 
 ## Methods
 
-<a id="dxx"></a>
-
 ###  dxx
 
-▸ **dxx**(x: *`number`*, y: *`number`*): `number`
+▸ **dxx**(`x`: number, `y`: number): *number*
 
-*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md).[dxx](../interfaces/_derivable_interface_.shapetransform.md#dxx)*
+*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:69](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L69)*
+*Defined in [derivable/transforms.ts:69](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L69)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| x | `number` |
-| y | `number` |
+Name | Type |
+------ | ------ |
+`x` | number |
+`y` | number |
 
-**Returns:** `number`
+**Returns:** *number*
 
 ___
-<a id="dxy"></a>
 
 ###  dxy
 
-▸ **dxy**(x: *`number`*, y: *`number`*): `number`
+▸ **dxy**(`x`: number, `y`: number): *number*
 
-*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md).[dxy](../interfaces/_derivable_interface_.shapetransform.md#dxy)*
+*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:74](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L74)*
+*Defined in [derivable/transforms.ts:74](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L74)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| x | `number` |
-| y | `number` |
+Name | Type |
+------ | ------ |
+`x` | number |
+`y` | number |
 
-**Returns:** `number`
+**Returns:** *number*
 
 ___
-<a id="dyx"></a>
 
 ###  dyx
 
-▸ **dyx**(x: *`number`*, y: *`number`*): `number`
+▸ **dyx**(`x`: number, `y`: number): *number*
 
-*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md).[dyx](../interfaces/_derivable_interface_.shapetransform.md#dyx)*
+*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:79](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L79)*
+*Defined in [derivable/transforms.ts:79](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L79)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| x | `number` |
-| y | `number` |
+Name | Type |
+------ | ------ |
+`x` | number |
+`y` | number |
 
-**Returns:** `number`
+**Returns:** *number*
 
 ___
-<a id="dyy"></a>
 
 ###  dyy
 
-▸ **dyy**(x: *`number`*, y: *`number`*): `number`
+▸ **dyy**(`x`: number, `y`: number): *number*
 
-*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md).[dyy](../interfaces/_derivable_interface_.shapetransform.md#dyy)*
+*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:84](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L84)*
+*Defined in [derivable/transforms.ts:84](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L84)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| x | `number` |
-| y | `number` |
+Name | Type |
+------ | ------ |
+`x` | number |
+`y` | number |
 
-**Returns:** `number`
+**Returns:** *number*
 
 ___
-<a id="x"></a>
 
 ###  x
 
-▸ **x**(x: *`number`*, y: *`number`*): `number`
+▸ **x**(`x`: number, `y`: number): *number*
 
-*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md).[x](../interfaces/_derivable_interface_.shapetransform.md#x)*
+*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:59](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L59)*
+*Defined in [derivable/transforms.ts:59](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L59)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| x | `number` |
-| y | `number` |
+Name | Type |
+------ | ------ |
+`x` | number |
+`y` | number |
 
-**Returns:** `number`
+**Returns:** *number*
 
 ___
-<a id="y"></a>
 
 ###  y
 
-▸ **y**(x: *`number`*, y: *`number`*): `number`
+▸ **y**(`x`: number, `y`: number): *number*
 
-*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md).[y](../interfaces/_derivable_interface_.shapetransform.md#y)*
+*Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:64](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L64)*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| x | `number` |
-| y | `number` |
-
-**Returns:** `number`
-
-___
-<a id="from"></a>
-
-### `<Static>` from
-
-▸ **from**(a: *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*, b: *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*): [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)
-
-*Defined in [derivable/transforms.ts:90](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/transforms.ts#L90)*
+*Defined in [derivable/transforms.ts:64](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L64)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| a | [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md) |
-| b | [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md) |
+Name | Type |
+------ | ------ |
+`x` | number |
+`y` | number |
 
-**Returns:** [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)
+**Returns:** *number*
 
 ___
 
+### `Static` from
+
+▸ **from**(`a`: [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md), `b`: [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)): *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
+
+*Defined in [derivable/transforms.ts:90](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L90)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`a` | [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md) |
+`b` | [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md) |
+
+**Returns:** *[ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*

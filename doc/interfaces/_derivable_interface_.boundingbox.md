@@ -1,10 +1,10 @@
-[typo-geom](../README.md) > ["derivable/interface"](../modules/_derivable_interface_.md) > [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md)
+[typo-geom](../README.md) › [Globals](../globals.md) › ["derivable/interface"](../modules/_derivable_interface_.md) › [BoundingBox](_derivable_interface_.boundingbox.md)
 
 # Interface: BoundingBox
 
 ## Hierarchy
 
-**BoundingBox**
+* **BoundingBox**
 
 ## Index
 
@@ -15,44 +15,34 @@
 * [yMax](_derivable_interface_.boundingbox.md#ymax)
 * [yMin](_derivable_interface_.boundingbox.md#ymin)
 
----
-
 ## Properties
-
-<a id="xmax"></a>
 
 ###  xMax
 
-**● xMax**: *`number`*
+• **xMax**: *number*
 
-*Defined in [derivable/interface.ts:23](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/interface.ts#L23)*
+*Defined in [derivable/interface.ts:24](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L24)*
 
 ___
-<a id="xmin"></a>
 
 ###  xMin
 
-**● xMin**: *`number`*
+• **xMin**: *number*
 
-*Defined in [derivable/interface.ts:22](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/interface.ts#L22)*
+*Defined in [derivable/interface.ts:23](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L23)*
 
 ___
-<a id="ymax"></a>
 
 ###  yMax
 
-**● yMax**: *`number`*
+• **yMax**: *number*
 
-*Defined in [derivable/interface.ts:25](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/interface.ts#L25)*
+*Defined in [derivable/interface.ts:26](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L26)*
 
 ___
-<a id="ymin"></a>
 
 ###  yMin
 
-**● yMin**: *`number`*
+• **yMin**: *number*
 
-*Defined in [derivable/interface.ts:24](https://github.com/be5invis/typo-geom/blob/d307ff5/src/derivable/interface.ts#L24)*
-
-___
-
+*Defined in [derivable/interface.ts:25](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L25)*
