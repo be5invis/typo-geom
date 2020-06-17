@@ -2,3 +2,9 @@ src
 payloads
 .vscode
 **/*.js.map
+doc
+.editorconfig
+.prettierrc.yaml
+tsconfig.json
+tsconfig.release.json
+tslint.json
