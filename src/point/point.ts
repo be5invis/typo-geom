@@ -1,5 +1,5 @@
 import { IPoint } from "./interface";
-import { numberClose, MACHINE_EPSILON, EPSILON, signedDistance, getDistance } from "../fn";
+import { numberClose, signedDistance, getDistance, MACHINE_EPSILON, EPSILON } from "../fn";
 
 export class Point implements IPoint {
 	x: number;

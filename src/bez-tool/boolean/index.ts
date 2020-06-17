@@ -1,8 +1,8 @@
 import * as ClipperLib from "clipper-lib";
-import { Arcs } from "../derivable";
+import { Arcs } from "../../derivable";
 import { findSelfIntersections, findCrossIntersections } from "./intersections";
 import { rebuildShape } from "./rebuild";
-import { Bez3Slice } from "./slice-arc";
+import { Bez3Slice } from "../shared/slice-arc";
 import { SegEntry, toPoly } from "./to-poly";
 
 function tracePoly(resolution: number, p: ClipperLib.IntPoint[][]) {

@@ -1,6 +1,6 @@
 import { IIntPoint } from "clipper-lib";
-import { Point } from "../point/point";
-import { Bez3Slice } from "./slice-arc";
+import { Point } from "../../point/point";
+import { Bez3Slice } from "../shared/slice-arc";
 import { keyOfZ, SegEntry } from "./to-poly";
 
 type PrimSegment = [Bez3Slice, number, number];

@@ -1,8 +1,7 @@
-import { bezierSolveCubic, CURVE_TIME_EPSILON, EPSILON, numberClose, signedDistance } from "../fn";
-import { IPoint } from "../point/interface";
-import { Point } from "../point/point";
+import { bezierSolveCubic, ClampedRootSink, EPSILON, numberClose, signedDistance } from "../../fn";
+import { Point } from "../../point/point";
 import { getOverlaps } from "./bez3-overlap";
-import { Bez3Slice } from "./slice-arc";
+import { Bez3Slice } from "../shared/slice-arc";
 
 /**
  * Bezier curve intersection algorithm and utilities
@@ -127,9 +126,9 @@ function getCurveLineIntersections(v: Bez3Slice, px: number, py: number, vx: num
 			y = zs[i].y - py;
 		rv.push(x * sin + y * cos);
 	}
-	let roots: number[] = [];
-	bezierSolveCubic(rv[0], rv[1], rv[2], rv[3], 0, roots, 0, 1);
-	return roots;
+	const rs = new ClampedRootSink(0, 1, true);
+	bezierSolveCubic(rv[0], rv[1], rv[2], rv[3], 0, rs);
+	return rs.roots;
 }
 
 const FAT_LINE_EPSILON = 1e-9;

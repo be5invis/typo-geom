@@ -1,6 +1,6 @@
-import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON, getDistance } from "../fn";
-import { Point } from "../point/point";
-import { Bez3Slice } from "./slice-arc";
+import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON, getDistance } from "../../fn";
+import { Point } from "../../point/point";
+import { Bez3Slice } from "../shared/slice-arc";
 
 /**
  * Bezier curve intersection algorithm and utilities

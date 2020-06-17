@@ -4,7 +4,7 @@ import {
 	CrossIntersectionSink,
 	SelfIntersectionSink
 } from "./bez3-intersections";
-import { Bez3Slice } from "./slice-arc";
+import { Bez3Slice } from "../shared/slice-arc";
 
 export type FIntersection = number;
 

@@ -1,11 +1,25 @@
-import { Arcs } from "../derivable";
-import { BB } from "../derivable/bounding-box";
-import { bezierSolveCubic, EPSILON, GEOMETRIC_EPSILON, mix, numberClose } from "../fn";
-import { IPoint } from "../point/interface";
-import { Point } from "../point/point";
+import { Arcs } from "../../derivable";
+import {
+	bezierSolveCubic,
+	ClampedRootSink,
+	EPSILON,
+	GEOMETRIC_EPSILON,
+	mix,
+	numberClose
+} from "../../fn";
+import { IPoint } from "../../point/interface";
+import { Point } from "../../point/point";
+
+export enum CornerType {
+	Smooth = 0,
+	Corner = 1,
+	Extrema = 2,
+	Hetero = 3
+}
 
 export type CurveClass = "line" | "quadratic" | "serpentine" | "cusp" | "loop" | "arch";
 export type CurveClassifyResult = { type: CurveClass; roots: null | number[] };
+
 export class Bez3Slice extends Arcs.Bez3 {
 	constructor(
 		a: IPoint,
@@ -17,6 +31,31 @@ export class Bez3Slice extends Arcs.Bez3 {
 	) {
 		super(a, b, c, d);
 	}
+	public cornerTypeBefore = CornerType.Corner;
+	public cornerTypeAfter = CornerType.Corner;
+	private isStraightCache?: boolean;
+
+	forceStraight() {
+		const arc = new Bez3Slice(
+			this.a,
+			Point.from(this.a).mix(this.d, 1 / 3),
+			Point.from(this.a).mix(this.d, 2 / 3),
+			this.d,
+			this.t1,
+			this.t2
+		);
+		arc.cornerTypeBefore = this.cornerTypeBefore;
+		arc.cornerTypeAfter = this.cornerTypeAfter;
+		return arc;
+	}
+
+	isStraight() {
+		if (this.isStraightCache != null) return this.isStraightCache;
+		const isStraight = super.isStraight();
+		this.isStraightCache = isStraight;
+		return isStraight;
+	}
+
 	toString() {
 		return (
 			`(${this.a.x}, ${this.a.y}) -- (${this.b.x}, ${this.b.y}) .. ` +
@@ -91,22 +130,20 @@ export class Bez3Slice extends Arcs.Bez3 {
 				this.b.y,
 				this.c.y,
 				this.d.y
-			],
-			roots: number[] = [];
+			];
 
 		for (let c = 0; c < 2; c++) {
-			const rootCount = bezierSolveCubic(
+			const rs = new ClampedRootSink(0, 1, true);
+			bezierSolveCubic(
 				coeffs[c * 4 + 0],
 				coeffs[c * 4 + 1],
 				coeffs[c * 4 + 2],
 				coeffs[c * 4 + 3],
 				coords[c],
-				roots,
-				0,
-				1
+				rs
 			);
-			for (let i = 0; i < rootCount; i++) {
-				const u = roots[i];
+			for (let i = 0; i < rs.rootCount; i++) {
+				const u = rs.roots[i];
 				if (this.eval(u).isClose(point, GEOMETRIC_EPSILON)) return u;
 			}
 		}

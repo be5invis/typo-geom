@@ -2,7 +2,6 @@ import { mix, numberClose } from "../fn";
 import { IPoint } from "../point/interface";
 import { Point } from "../point/point";
 import { Arc, DerivableFunction, ShapeTransform } from "./interface";
-import { number } from "mathjs";
 
 export class FromXY implements Arc {
 	constructor(private readonly x: DerivableFunction, private readonly y: DerivableFunction) {}

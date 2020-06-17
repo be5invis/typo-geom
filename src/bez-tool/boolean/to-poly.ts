@@ -1,8 +1,8 @@
 import { IIntPoint, IntPoint } from "clipper-lib";
-import { mix, clamp } from "../fn";
-import { IPoint } from "../point/interface";
+import { mix, clamp } from "../../fn";
+import { IPoint } from "../../point/interface";
 import { FIntersection } from "./intersections";
-import { Bez3Slice } from "./slice-arc";
+import { Bez3Slice } from "../shared/slice-arc";
 
 export type IntKnot = IIntPoint & { t: number };
 export function keyOfZ(z: IIntPoint) {
