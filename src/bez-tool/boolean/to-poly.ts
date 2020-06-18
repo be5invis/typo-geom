@@ -1,34 +1,60 @@
 import { IIntPoint, IntPoint } from "clipper-lib";
-import { mix, clamp } from "../../fn";
+import { mix } from "../../fn";
 import { IPoint } from "../../point/interface";
-import { FIntersection } from "./intersections";
 import { Bez3Slice } from "../shared/slice-arc";
+import { FIntersection } from "./intersections";
 
 export type IntKnot = IIntPoint & { t: number };
 export function keyOfZ(z: IIntPoint) {
 	return "X" + z.X + "Y" + z.Y;
 }
 
-export type SegEntry = [Bez3Slice, number, number, number, number, number];
-function setSegHash(segHash: Map<string, SegEntry>, key: string, entry: SegEntry) {
-	if (segHash.has(key)) {
-		const [seg, t1, t2, sindex, j, k] = entry;
-		const [seg1, t11, t21, sindex1, j1, k1] = segHash.get(key)!;
-		if (
-			sindex < sindex1 ||
-			(sindex === sindex1 && j < j1) ||
-			(sindex === sindex1 && j === j1 && k < k1)
-		) {
-			segHash.set(key, entry);
+export class SegEntry {
+	constructor(
+		readonly arc: Bez3Slice,
+		public start: number,
+		public end: number,
+		public readonly sid: number = 0,
+		public readonly jid = 0,
+		public readonly kid = 0
+	) {}
+	compare(b: SegEntry) {
+		return this.sid - b.sid || this.jid - b.jid || this.kid - b.kid;
+	}
+	tryAnnex(b: SegEntry) {
+		if (this.arc === b.arc) {
+			if (this.start < b.end) {
+				this.start = Math.min(this.start, b.start);
+				this.end = Math.max(this.end, b.end);
+			} else {
+				this.start = Math.max(this.start, b.start);
+				this.end = Math.min(this.end, b.end);
+			}
+			return true;
+		} else {
+			return false;
 		}
-	} else {
+	}
+	toArc() {
+		if (this.start <= this.end) {
+			return this.arc.sliceRatio(this.start, this.end);
+		} else {
+			let rev = this.arc.sliceRatio(this.end, this.start);
+			return new Bez3Slice(rev.d, rev.c, rev.b, rev.a, rev.t2, rev.t1);
+		}
+	}
+}
+
+function setSegHash(segHash: Map<string, SegEntry>, key: string, entry: SegEntry) {
+	const existing = segHash.get(key);
+	if (!existing || entry.compare(existing) < 0) {
 		segHash.set(key, entry);
 	}
 }
 
 export function toPoly(
 	shape: Bez3Slice[][],
-	sindex: number,
+	sid: number,
 	splats: FIntersection[][],
 	segHash: Map<string, SegEntry>,
 	termHash: Set<string>,
@@ -69,22 +95,16 @@ export function toPoly(
 			for (let j = 0; j < knots.length - 1; j++) {
 				termHash.add(keyOfZ(knots[j]));
 				termHash.add(keyOfZ(knots[j + 1]));
-				setSegHash(segHash, keyOfZ(knots[j]) + "-" + keyOfZ(knots[j + 1]), [
-					arc,
-					knots[j].t,
-					knots[j + 1].t,
-					sindex,
-					j,
-					k
-				]);
-				setSegHash(segHash, keyOfZ(knots[j + 1]) + "-" + keyOfZ(knots[j]), [
-					arc,
-					knots[j + 1].t,
-					knots[j].t,
-					sindex,
-					j,
-					k
-				]);
+				setSegHash(
+					segHash,
+					keyOfZ(knots[j]) + "-" + keyOfZ(knots[j + 1]),
+					new SegEntry(arc, knots[j].t, knots[j + 1].t, sid, j, k)
+				);
+				setSegHash(
+					segHash,
+					keyOfZ(knots[j + 1]) + "-" + keyOfZ(knots[j]),
+					new SegEntry(arc, knots[j + 1].t, knots[j].t, sid, j, k)
+				);
 			}
 			for (let m = k > 0 ? 1 : 0; m < knots.length; m++) {
 				points.push(new IntPoint(knots[m].X, knots[m].Y));
@@ -109,7 +129,7 @@ function intKnotNotSame(knot: IntKnot, last: IntKnot) {
 	return knot.X !== last.X || knot.Y !== last.Y;
 }
 
-const DICING_STOPS = 4;
+const DICING_STOPS = 0;
 function diceKnots(arc: Bez3Slice, resolution: number, knots: IntKnot[]) {
 	let enableDicing = DICING_STOPS && !arc.isStraight();
 	knots = knots.sort(by_t);

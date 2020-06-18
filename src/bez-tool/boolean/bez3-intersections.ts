@@ -1,15 +1,13 @@
+/**
+ * Bezier curve intersection algorithm and utilities
+ *
+ * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
+ */
+
 import { bezierSolveCubic, ClampedRootSink, EPSILON, numberClose, signedDistance } from "../../fn";
 import { Point } from "../../point/point";
 import { getOverlaps } from "./bez3-overlap";
 import { Bez3Slice } from "../shared/slice-arc";
-
-/**
- * Bezier curve intersection algorithm and utilities
- *
- * Directly extracted from PaperJS' implementation bezier curve fat-line clipping
- * The original source code is available under the MIT licence at
- * https://github.com/paperjs/paper.js/
- */
 
 export interface SelfIntersectionSink {
 	add(t: number): void;
@@ -54,12 +52,17 @@ export function bez3Intersections(v1: Bez3Slice, v2: Bez3Slice, sink: CrossInter
 	}
 }
 
-export function bez3SelfIntersections(a: Bez3Slice, sink: SelfIntersectionSink): void {
-	const info = a.classify();
-	if (info.type === "loop" && info.roots) {
+export function bez3SelfIntersections(arc: Bez3Slice, sink: SelfIntersectionSink): void {
+	const info = arc.classify();
+	if (info.roots) {
 		sink.add(info.roots[0]);
 		sink.add(info.roots[1]);
 	}
+
+	const rs = new ClampedRootSink(0, 1, false);
+	arc.getXExtrema(rs);
+	arc.getYExtrema(rs);
+	for (const root of rs.roots) sink.add(root);
 }
 
 export type PointArrayRep = [number, number];

@@ -53,7 +53,7 @@ export class Point implements IPoint {
 		return new Point(this.y, -this.x);
 	}
 	isClose(b: IPoint, tolerance: number) {
-		return this.minus(b).mag() <= tolerance;
+		return Point.squareDist(this, b) <= tolerance * tolerance;
 	}
 	static intersect(a: IPoint, b: IPoint, c: IPoint, d: IPoint, fInfinite = false) {
 		const p1x = a.x,
@@ -124,10 +124,16 @@ export class Point implements IPoint {
 		const vb = Point.from(b).minus(a);
 		return Math.min(1, Math.max(-1, vp.dot(vb) / (vp.mag() * vb.mag())));
 	}
-	static signedDist(a: IPoint, b: IPoint, p: IPoint) {
+	static squareDist(a: IPoint, b: IPoint) {
+		return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+	}
+	static dist(a: IPoint, b: IPoint) {
+		return Math.hypot(a.x - b.x, a.y - b.y);
+	}
+	static signedPointLineDist(a: IPoint, b: IPoint, p: IPoint) {
 		return signedDistance(a.x, a.y, b.x, b.y, p.x, p.y);
 	}
-	static dist(a: IPoint, b: IPoint, p: IPoint) {
+	static pointLineDist(a: IPoint, b: IPoint, p: IPoint) {
 		return getDistance(a.x, a.y, b.x, b.y, p.x, p.y);
 	}
 	static dot(a: IPoint, b: IPoint) {

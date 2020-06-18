@@ -5,17 +5,6 @@ import { rebuildShape } from "./rebuild";
 import { Bez3Slice } from "../shared/slice-arc";
 import { SegEntry, toPoly } from "./to-poly";
 
-function tracePoly(resolution: number, p: ClipperLib.IntPoint[][]) {
-	console.log("[");
-	for (const c of p) {
-		console.log("  [");
-		for (const z of c) {
-			console.log("    ", z.X, z.Y, z.X / resolution, z.Y / resolution);
-		}
-		console.log("  ]");
-	}
-	console.log("]");
-}
 function combineImpl(
 	op: ClipperLib.ClipType,
 	s1: Bez3Slice[][],
@@ -38,9 +27,6 @@ function combineImpl(
 
 	const p1 = toPoly(s1, 1, i1, segHash, termHash, resolution);
 	const p2 = toPoly(s2, 2, i2, segHash, termHash, resolution);
-
-	// tracePoly(resolution, p1);
-	// tracePoly(resolution, p2);
 
 	const cpr = new ClipperLib.Clipper(
 		ClipperLib.Clipper.ioReverseSolution | ClipperLib.Clipper.ioStrictlySimple

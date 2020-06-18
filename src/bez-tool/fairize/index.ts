@@ -1,11 +1,5 @@
 import { Arc, Arcs } from "../../derivable";
-import {
-	ClampedRootSink,
-	CURVE_TIME_EPSILON,
-	GEOMETRIC_EPSILON,
-	IRootSink,
-	solveQuadratic
-} from "../../fn";
+import { ClampedRootSink, CURVE_TIME_EPSILON, GEOMETRIC_EPSILON } from "../../fn";
 import { IPoint } from "../../point/interface";
 import { Point } from "../../point/point";
 import { inPlaceRotateArray } from "../../util/in-place-array";
@@ -63,7 +57,7 @@ function markCornersAndSplit(contour: Bez3Slice[], sink: Bez3Slice[]) {
 			cBefore.cornerTypeAfter = cAfter.cornerTypeBefore = CornerType.Corner;
 		} else {
 			const hetero = cBefore.isStraight() !== cAfter.isStraight();
-			const almostLinear = Point.dist(z0, z2, z1) < GEOMETRIC_EPSILON;
+			const almostLinear = Point.pointLineDist(z0, z2, z1) < GEOMETRIC_EPSILON;
 			const inBetween = Point.dot(Point.from(z0).minus(z1), Point.from(z2).minus(z1)) < 0;
 			if (hetero) {
 				cBefore.cornerTypeAfter = cAfter.cornerTypeBefore = CornerType.Hetero;
@@ -109,7 +103,12 @@ function inPlaceFilterDegenerates(contour: Bez3Slice[]) {
 }
 
 function splitAtExtrema(arc: Bez3Slice, sink: Bez3Slice[]) {
-	let ts = findAllExtrema(arc);
+	// Get extrema splits
+	const rs = new ClampedRootSink(0, 1, false);
+	arc.getXExtrema(rs);
+	arc.getYExtrema(rs);
+	rs.roots.sort(ascending);
+	const ts = rs.roots;
 
 	// Ensure enough gaps between Ts
 	if (ts.length > 1) {
@@ -142,20 +141,8 @@ function splitAtExtrema(arc: Bez3Slice, sink: Bez3Slice[]) {
 	}
 }
 
-function findExtrema(v0: number, v1: number, v2: number, v3: number, sink: IRootSink) {
-	const a = 3 * (-v0 + 3 * v1 - 3 * v2 + v3);
-	const b = 6 * (v0 - 2 * v1 + v2);
-	const c = 3 * (v1 - v0);
-	solveQuadratic(a, b, c, sink);
-}
 function ascending(a: number, b: number) {
 	return a - b;
-}
-function findAllExtrema(arc: Bez3Slice) {
-	const sink = new ClampedRootSink(0, 1, false);
-	findExtrema(arc.a.x, arc.b.x, arc.c.x, arc.d.x, sink);
-	findExtrema(arc.a.y, arc.b.y, arc.c.y, arc.d.y, sink);
-	return sink.roots.sort(ascending);
 }
 
 function isStopCt(ct: CornerType) {

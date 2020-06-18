@@ -1,9 +1,7 @@
 /**
  * Bezier curve intersection algorithm and utilities
  *
- * Directly extracted from PaperJS' implementation bezier curve fat-line clipping
- * The original source code is available under the MIT licence at
- * https://github.com/paperjs/paper.js/
+ * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
  */
 
 import { EPSILON, MACHINE_EPSILON } from "./constants";

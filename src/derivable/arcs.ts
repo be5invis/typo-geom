@@ -66,8 +66,8 @@ export class Bez3 implements Arc {
 		if (numberClose(v.mag(), 0)) return false;
 
 		if (
-			numberClose(0, Point.dist(this.a, this.d, this.b)) &&
-			numberClose(0, Point.dist(this.a, this.d, this.c))
+			numberClose(0, Point.pointLineDist(this.a, this.d, this.b)) &&
+			numberClose(0, Point.pointLineDist(this.a, this.d, this.c))
 		) {
 			const div = v.dot(v),
 				s1 = v.dot(h1) / div,

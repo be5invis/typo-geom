@@ -1,13 +1,13 @@
 import { Arc, Arcs } from "../../derivable";
+import { numberClose } from "../../fn";
 import { Point } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
-import { numberClose } from "../../fn";
 
 export class CombinedArc implements Arc {
 	private readonly lengths: number[] = [];
 	constructor(public readonly segments: Bez3Slice[]) {
 		for (let j = 0; j < segments.length; j++) {
-			this.lengths[j] = this.measureLength(segments[j]);
+			this.lengths[j] = segments[j].getLength();
 		}
 		let totalLength = 0;
 		for (let j = 0; j < this.lengths.length; j++) totalLength += this.lengths[j];
@@ -18,18 +18,7 @@ export class CombinedArc implements Arc {
 			lengthSofar += segLen;
 		}
 	}
-	measureLength(c: Arc) {
-		const N = 16;
-		let z0 = c.eval(0);
-		let d = 0;
-		for (let t = 1; t <= N; t++) {
-			const z = c.eval(t / N);
-			d += Math.hypot(z.x - z0.x, z.y - z0.y);
-			z0 = z;
-		}
-		return d;
-	}
-	getIndex(t: number) {
+	private getIndex(t: number) {
 		let j = this.lengths.length - 1;
 		while (j > 0 && this.lengths[j] > t) j--;
 		return j;
@@ -56,10 +45,10 @@ export class CombinedArc implements Arc {
 			z1 = this.segments[this.segments.length - 1].d;
 		for (const seg of this.segments) {
 			if (
-				!numberClose(0, Point.dist(z0, z1, seg.a)) ||
-				!numberClose(0, Point.dist(z0, z1, seg.b)) ||
-				!numberClose(0, Point.dist(z0, z1, seg.c)) ||
-				!numberClose(0, Point.dist(z0, z1, seg.d))
+				!numberClose(0, Point.pointLineDist(z0, z1, seg.a)) ||
+				!numberClose(0, Point.pointLineDist(z0, z1, seg.b)) ||
+				!numberClose(0, Point.pointLineDist(z0, z1, seg.c)) ||
+				!numberClose(0, Point.pointLineDist(z0, z1, seg.d))
 			) {
 				return this;
 			}

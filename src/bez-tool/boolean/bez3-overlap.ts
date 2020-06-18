@@ -1,14 +1,12 @@
-import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON, getDistance } from "../../fn";
-import { Point } from "../../point/point";
-import { Bez3Slice } from "../shared/slice-arc";
-
 /**
  * Bezier curve intersection algorithm and utilities
  *
- * Directly extracted from PaperJS' implementation bezier curve fat-line clipping
- * The original source code is available under the MIT licence at
- * https://github.com/paperjs/paper.js/
+ * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
  */
+
+import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON, getDistance } from "../../fn";
+import { Point } from "../../point/point";
+import { Bez3Slice } from "../shared/slice-arc";
 
 function getSquaredLineLength(v: Bez3Slice) {
 	var x = v.d.x - v.a.x,

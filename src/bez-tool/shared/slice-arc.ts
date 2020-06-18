@@ -1,3 +1,9 @@
+/**
+ * Bezier curve intersection algorithm and utilities
+ *
+ * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
+ */
+
 import { Arcs } from "../../derivable";
 import {
 	bezierSolveCubic,
@@ -5,7 +11,9 @@ import {
 	EPSILON,
 	GEOMETRIC_EPSILON,
 	mix,
-	numberClose
+	numberClose,
+	IRootSink,
+	solveQuadratic
 } from "../../fn";
 import { IPoint } from "../../point/interface";
 import { Point } from "../../point/point";
@@ -154,6 +162,20 @@ export class Bez3Slice extends Arcs.Bez3 {
 	}
 
 	classify() {
+		// See: Loop and Blinn, 2005, Resolution Independent Curve Rendering
+		// using Programmable Graphics Hardware, GPU Gems 3 chapter 25
+		//
+		// Possible types:
+		//   'line'       (d1 == d2 == d3 == 0)
+		//   'quadratic'  (d1 == d2 == 0)
+		//   'serpentine' (d > 0)
+		//   'cusp'       (d == 0)
+		//   'loop'       (d < 0)
+		//   'arch'       (serpentine, cusp or loop with roots outside 0..1)
+		//
+		// NOTE: Roots for serpentine, cusp and loop curves are only
+		// considered if they are within 0..1. If the roots are outside,
+		// then we degrade the type of curve down to an 'arch'.
 		const x0 = this.a.x,
 			y0 = this.a.y,
 			x1 = this.b.x,
@@ -173,50 +195,83 @@ export class Bez3Slice extends Arcs.Bez3 {
 			d1 = d2 - a2 + a1,
 			// Normalize the vector (d1, d2, d3) to keep error consistent.
 			l = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3),
-			s = l !== 0 ? 1 / l : 0,
-			serpentine: CurveClass = "serpentine"; // short-cut
+			s = l !== 0 ? 1 / l : 0;
 		d1 *= s;
 		d2 *= s;
 		d3 *= s;
 
-		function type(type: string, t1?: number, t2?: number) {
-			let hasRoots = t1 !== undefined,
-				t1Ok = hasRoots && t1 !== undefined && t1 > 0 && t1 < 1,
-				t2Ok = hasRoots && t2 !== undefined && t2 > 0 && t2 < 1;
-			// Degrade to arch for serpentine, cusp or loop if no solutions
-			// within 0..1 are found. loop requires 2 solutions to be valid.
-			if (hasRoots && (!(t1Ok || t2Ok) || (type === "loop" && !(t1Ok && t2Ok)))) {
-				type = "arch";
-				t1Ok = t2Ok = false;
-			}
-			return {
-				type: type,
-				roots:
-					t1Ok || t2Ok
-						? t1Ok && t2Ok
-							? t1! < t2!
-								? [t1!, t2!]
-								: [t2!, t1!] // 2 solutions
-							: [t1Ok ? t1! : t2!] // 1 solution
-						: null
-			};
-		}
-
 		if (numberClose(d1, 0)) {
 			return numberClose(d2, 0)
-				? type(numberClose(d3, 0) ? "line" : "quadratic") // 5. / 4.
-				: type(serpentine, d3 / (3 * d2)); // 3b.
+				? this.cleanupClassifyResults(numberClose(d3, 0) ? "line" : "quadratic") // 5. / 4.
+				: this.cleanupClassifyResults("serpentine", d3 / (3 * d2)); // 3b.
 		}
 		var d = 3 * d2 * d2 - 4 * d1 * d3;
 		if (numberClose(d, 0)) {
-			return type("cusp", d2 / (2 * d1)); // 3a.
+			return this.cleanupClassifyResults("cusp", d2 / (2 * d1)); // 3a.
 		}
 		var f1 = d > 0 ? Math.sqrt(d / 3) : Math.sqrt(-d),
 			f2 = 2 * d1;
-		return type(
-			d > 0 ? serpentine : "loop", // 1. / 2.
+		return this.cleanupClassifyResults(
+			d > 0 ? "serpentine" : "loop", // 1. / 2.
 			(d2 + f1) / f2,
 			(d2 - f1) / f2
 		);
+	}
+	private cleanupClassifyResults(type: CurveClass, t1?: number, t2?: number) {
+		let hasRoots = t1 !== undefined,
+			t1Ok = hasRoots && t1 !== undefined && t1 > 0 && t1 < 1,
+			t2Ok = hasRoots && t2 !== undefined && t2 > 0 && t2 < 1;
+		// Degrade to arch for serpentine, cusp or loop if no solutions
+		// within 0..1 are found. loop requires 2 solutions to be valid.
+		if (hasRoots && (!(t1Ok || t2Ok) || (type === "loop" && !(t1Ok && t2Ok)))) {
+			type = "arch";
+			t1Ok = t2Ok = false;
+		}
+		return {
+			type: type,
+			roots:
+				t1Ok || t2Ok
+					? t1Ok && t2Ok
+						? t1! < t2!
+							? [t1!, t2!]
+							: [t2!, t1!] // 2 solutions
+						: [t1Ok ? t1! : t2!] // 1 solution
+					: null
+		};
+	}
+
+	private getLengthImpl(level: number, levelMax: number, tolerance: number): number {
+		const p1 = this.eval(1 / 4),
+			p2 = this.eval(2 / 4),
+			p3 = this.eval(3 / 4);
+		if (
+			level >= levelMax ||
+			(Point.pointLineDist(this.a, this.d, p1) <= tolerance &&
+				Point.pointLineDist(this.a, this.d, p2) <= tolerance &&
+				Point.pointLineDist(this.a, this.d, p3) <= tolerance)
+		) {
+			return Point.dist(this.a, this.d);
+		} else {
+			const [l, r] = this.splitRatio(0.5);
+			return (
+				l.getLengthImpl(level + 1, levelMax, tolerance) +
+				r.getLengthImpl(level + 1, levelMax, tolerance)
+			);
+		}
+	}
+	getLength(tolerance: number = GEOMETRIC_EPSILON) {
+		return this.getLengthImpl(0, 16, tolerance);
+	}
+	private getExtremaImpl(v0: number, v1: number, v2: number, v3: number, sink: IRootSink) {
+		const a = 3 * (-v0 + 3 * v1 - 3 * v2 + v3);
+		const b = 6 * (v0 - 2 * v1 + v2);
+		const c = 3 * (v1 - v0);
+		solveQuadratic(a, b, c, sink);
+	}
+	getXExtrema(sink: IRootSink) {
+		return this.getExtremaImpl(this.a.x, this.b.x, this.c.x, this.d.x, sink);
+	}
+	getYExtrema(sink: IRootSink) {
+		return this.getExtremaImpl(this.a.y, this.b.y, this.c.y, this.d.y, sink);
 	}
 }
