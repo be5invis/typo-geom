@@ -40,7 +40,7 @@ export class SegEntry {
 			return this.arc.sliceRatio(this.start, this.end);
 		} else {
 			let rev = this.arc.sliceRatio(this.end, this.start);
-			return new Bez3Slice(rev.d, rev.c, rev.b, rev.a, rev.t2, rev.t1);
+			return new Bez3Slice(rev.d, rev.c, rev.b, rev.a);
 		}
 	}
 }

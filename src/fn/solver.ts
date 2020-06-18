@@ -201,28 +201,6 @@ export function bezierSolveCubic(
 	}
 }
 
-export function signedDistance(
-	px: number,
-	py: number,
-	vx: number,
-	vy: number,
-	x: number,
-	y: number
-) {
-	vx -= px;
-	vy -= py;
-	if (numberClose(vx, 0)) {
-		return vy >= 0 ? px - x : x - px;
-	} else if (numberClose(vy, 0)) {
-		return vx >= 0 ? y - py : py - y;
-	} else {
-		return (vx * (y - py) - vy * (x - px)) / Math.sqrt(vx * vx + vy * vy);
-	}
-}
-export function getDistance(px: number, py: number, vx: number, vy: number, x: number, y: number) {
-	return Math.abs(signedDistance(px, py, vx, vy, x, y));
-}
-
 export class ClampedRootSink implements IRootSink {
 	constructor(
 		private readonly min: number,

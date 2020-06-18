@@ -48,7 +48,6 @@ function removeOverlapImpl(s1: Bez3Slice[][], rule: ClipperLib.PolyFillType, res
 	const termHash = new Set<string>();
 
 	const p1 = toPoly(s1, 1, i1, segHash, termHash, resolution);
-	//return rebuildShape(p1, segHash, termHash, resolution);
 	const solution_paths = ClipperLib.Clipper.SimplifyPolygons(p1, rule);
 	return rebuildShape(solution_paths, segHash, termHash, resolution);
 }
@@ -59,7 +58,7 @@ function ToBez3Slices(shape: Arcs.Bez3[][]) {
 		const resultContour: Bez3Slice[] = [];
 		for (let j = 0; j < contour.length; j++) {
 			resultContour.push(
-				new Bez3Slice(contour[j].a, contour[j].b, contour[j].c, contour[j].d, j, j + 1)
+				new Bez3Slice(contour[j].a, contour[j].b, contour[j].c, contour[j].d)
 			);
 		}
 		result.push(resultContour);

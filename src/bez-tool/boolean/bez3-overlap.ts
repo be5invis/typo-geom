@@ -4,7 +4,7 @@
  * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
  */
 
-import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON, getDistance } from "../../fn";
+import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON } from "../../fn";
 import { Point } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
 
@@ -22,26 +22,22 @@ export function getOverlaps(v1: Bez3Slice, v2: Bez3Slice) {
 	const flip = getSquaredLineLength(v1) < getSquaredLineLength(v2);
 	const l1 = flip ? v2 : v1,
 		l2 = flip ? v1 : v2;
-	const px = l1.a.x,
-		py = l2.a.y,
-		vx = l1.d.x,
-		vy = l1.d.y;
 
 	// See if the starting and end point of curve two are very close to the
 	// picked line. Note that the curve for the picked line might not
 	// actually be a line, so we have to perform more checks after.
 	if (
-		getDistance(px, py, vx, vy, l2.a.x, l2.a.y) < GEOMETRIC_EPSILON &&
-		getDistance(px, py, vx, vy, l2.d.x, l2.d.y) < GEOMETRIC_EPSILON
+		Point.pointLineDist(l1.a, l1.d, l2.a) < GEOMETRIC_EPSILON &&
+		Point.pointLineDist(l1.a, l1.d, l2.d) < GEOMETRIC_EPSILON
 	) {
 		// If not both curves are straight, check against both of their
 		// handles, and treat them as straight if they are very close.
 		if (
 			!straightBoth &&
-			getDistance(px, py, vx, vy, l1.b.x, l1.b.y) < GEOMETRIC_EPSILON &&
-			getDistance(px, py, vx, vy, l1.c.x, l1.c.y) < GEOMETRIC_EPSILON &&
-			getDistance(px, py, vx, vy, l2.b.x, l2.b.y) < GEOMETRIC_EPSILON &&
-			getDistance(px, py, vx, vy, l2.c.x, l2.c.y) < GEOMETRIC_EPSILON
+			Point.pointLineDist(l1.a, l1.d, l1.b) < GEOMETRIC_EPSILON &&
+			Point.pointLineDist(l1.a, l1.d, l1.c) < GEOMETRIC_EPSILON &&
+			Point.pointLineDist(l1.a, l1.d, l2.b) < GEOMETRIC_EPSILON &&
+			Point.pointLineDist(l1.a, l1.d, l2.c) < GEOMETRIC_EPSILON
 		) {
 			straight1 = straight2 = straightBoth = true;
 		}

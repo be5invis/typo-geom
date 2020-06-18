@@ -1,5 +1,9 @@
 import { IPoint } from "./interface";
-import { numberClose, signedDistance, getDistance, MACHINE_EPSILON, EPSILON } from "../fn";
+import { numberClose, MACHINE_EPSILON, EPSILON } from "../fn";
+
+export function z(x: number, y: number) {
+	return new Point(x, y);
+}
 
 export class Point implements IPoint {
 	x: number;
@@ -150,6 +154,17 @@ export class Point implements IPoint {
 	}
 }
 
-export function z(x: number, y: number) {
-	return new Point(x, y);
+function signedDistance(px: number, py: number, vx: number, vy: number, x: number, y: number) {
+	vx -= px;
+	vy -= py;
+	if (numberClose(vx, 0)) {
+		return vy >= 0 ? px - x : x - px;
+	} else if (numberClose(vy, 0)) {
+		return vx >= 0 ? y - py : py - y;
+	} else {
+		return (vx * (y - py) - vy * (x - px)) / Math.sqrt(vx * vx + vy * vy);
+	}
+}
+function getDistance(px: number, py: number, vx: number, vy: number, x: number, y: number) {
+	return Math.abs(signedDistance(px, py, vx, vy, x, y));
 }

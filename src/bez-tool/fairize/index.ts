@@ -1,5 +1,5 @@
 import { Arc, Arcs } from "../../derivable";
-import { ClampedRootSink, CURVE_TIME_EPSILON, GEOMETRIC_EPSILON } from "../../fn";
+import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON, RootSolver } from "../../fn";
 import { IPoint } from "../../point/interface";
 import { Point } from "../../point/point";
 import { inPlaceRotateArray } from "../../util/in-place-array";
@@ -104,7 +104,7 @@ function inPlaceFilterDegenerates(contour: Bez3Slice[]) {
 
 function splitAtExtrema(arc: Bez3Slice, sink: Bez3Slice[]) {
 	// Get extrema splits
-	const rs = new ClampedRootSink(0, 1, false);
+	const rs = new RootSolver.ClampedRootSink(0, 1, false);
 	arc.getXExtrema(rs);
 	arc.getYExtrema(rs);
 	rs.roots.sort(ascending);

@@ -59,7 +59,7 @@ function collectPrimSegments(
 			const d = descale(poly[j + 1], resolution);
 			const b = Point.from(a).mix(d, 1 / 3);
 			const c = Point.from(a).mix(d, 2 / 3);
-			primSegments.push(new SegEntry(new Bez3Slice(a, b, c, d, 0, 1), 0, 1));
+			primSegments.push(new SegEntry(new Bez3Slice(a, b, c, d), 0, 1));
 		}
 	}
 	return primSegments;
@@ -80,16 +80,4 @@ function inPlaceAnnexPrimSegments(primSegments: SegEntry[]) {
 		}
 	}
 	primSegments.length = j;
-}
-
-function split(s: Bez3Slice, t1: number, t2: number) {
-	if (t1 > t2) {
-		const b = splitImpl(s, t2, t1);
-		return new Bez3Slice(b.d, b.c, b.b, b.a, b.t2, b.t1);
-	} else {
-		return splitImpl(s, t1, t2);
-	}
-}
-function splitImpl(s: Bez3Slice, t1: number, t2: number) {
-	return s.sliceRatio(t1, t2);
 }

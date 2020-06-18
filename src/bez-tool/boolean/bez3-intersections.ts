@@ -4,7 +4,7 @@
  * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
  */
 
-import { bezierSolveCubic, ClampedRootSink, EPSILON, numberClose, signedDistance } from "../../fn";
+import { EPSILON, numberClose, RootSolver } from "../../fn";
 import { Point } from "../../point/point";
 import { getOverlaps } from "./bez3-overlap";
 import { Bez3Slice } from "../shared/slice-arc";
@@ -53,13 +53,8 @@ export function bez3Intersections(v1: Bez3Slice, v2: Bez3Slice, sink: CrossInter
 }
 
 export function bez3SelfIntersections(arc: Bez3Slice, sink: SelfIntersectionSink): void {
-	const info = arc.classify();
-	if (info.roots) {
-		sink.add(info.roots[0]);
-		sink.add(info.roots[1]);
-	}
-
-	const rs = new ClampedRootSink(0, 1, false);
+	const rs = new RootSolver.ClampedRootSink(0, 1, false);
+	arc.classify(rs);
 	arc.getXExtrema(rs);
 	arc.getYExtrema(rs);
 	for (const root of rs.roots) sink.add(root);
@@ -129,8 +124,8 @@ function getCurveLineIntersections(v: Bez3Slice, px: number, py: number, vx: num
 			y = zs[i].y - py;
 		rv.push(x * sin + y * cos);
 	}
-	const rs = new ClampedRootSink(0, 1, true);
-	bezierSolveCubic(rv[0], rv[1], rv[2], rv[3], 0, rs);
+	const rs = new RootSolver.ClampedRootSink(0, 1, true);
+	RootSolver.bezierSolveCubic(rv[0], rv[1], rv[2], rv[3], 0, rs);
 	return rs.roots;
 }
 
@@ -155,16 +150,10 @@ function curveIntersectionImpl(
 	// See also: #565 #899 #1074
 	if (++calls >= MAX_CALLS || ++recursion >= MAX_RECURSE) return calls;
 
-	// Let P be the first curve and Q be the second
-	let q0x = v2.a.x;
-	let q0y = v2.a.y;
-	let q3x = v2.d.x;
-	let q3y = v2.d.y;
-
 	// Calculate the fat-line L for Q is the baseline l and two
 	// offsets which completely encloses the curve P.
-	let d1 = signedDistance(q0x, q0y, q3x, q3y, v2.b.x, v2.b.y),
-		d2 = signedDistance(q0x, q0y, q3x, q3y, v2.c.x, v2.c.y),
+	let d1 = Point.signedPointLineDist(v2.a, v2.d, v2.b),
+		d2 = Point.signedPointLineDist(v2.a, v2.d, v2.c),
 		factor = d1 * d2 > 0 ? 3 / 4 : 4 / 9,
 		dMin = factor * Math.min(0, d1, d2),
 		dMax = factor * Math.max(0, d1, d2);
@@ -172,10 +161,10 @@ function curveIntersectionImpl(
 	// Calculate non-parametric bezier curve D(ti, di(t)) - di(t) is the
 	// distance of P from the baseline l of the fat-line, ti is equally
 	// spaced in [0, 1]
-	let dp0 = signedDistance(q0x, q0y, q3x, q3y, v1.a.x, v1.a.y);
-	let dp1 = signedDistance(q0x, q0y, q3x, q3y, v1.b.x, v1.b.y);
-	let dp2 = signedDistance(q0x, q0y, q3x, q3y, v1.c.x, v1.c.y);
-	let dp3 = signedDistance(q0x, q0y, q3x, q3y, v1.d.x, v1.d.y);
+	let dp0 = Point.signedPointLineDist(v2.a, v2.d, v1.a);
+	let dp1 = Point.signedPointLineDist(v2.a, v2.d, v1.b);
+	let dp2 = Point.signedPointLineDist(v2.a, v2.d, v1.c);
+	let dp3 = Point.signedPointLineDist(v2.a, v2.d, v1.d);
 	let hull = getConvexHull(dp0, dp1, dp2, dp3),
 		top = hull[0],
 		bottom = hull[1];
@@ -407,16 +396,10 @@ function clipConvexHullPart(part: PointArrayRep[], top: boolean, threshold: numb
  * for the fatline of a curve
  */
 function getFatline(v: Bez3Slice) {
-	// Starting point of the curve
-	let q0x = v.a.x;
-	let q0y = v.a.y;
-	// End point of the curve
-	let q3x = v.d.x;
-	let q3y = v.d.y;
 	// Calculate the fat-line L, for Q is the baseline l and two
 	// offsets which completely encloses the curve P.
-	let d1 = signedDistance(q0x, q0y, q3x, q3y, v.b.x, v.b.y) || 0;
-	let d2 = signedDistance(q0x, q0y, q3x, q3y, v.c.x, v.c.y) || 0;
+	let d1 = Point.signedPointLineDist(v.a, v.d, v.b) || 0;
+	let d2 = Point.signedPointLineDist(v.a, v.d, v.c) || 0;
 	let factor = d1 * d2 > 0 ? 3.0 / 4.0 : 4.0 / 9.0; // Get a tighter fit
 	let dMin = factor * Math.min(0, d1, d2);
 	let dMax = factor * Math.max(0, d1, d2);

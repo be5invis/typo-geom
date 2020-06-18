@@ -5,18 +5,10 @@
  */
 
 import { Arcs } from "../../derivable";
-import {
-	bezierSolveCubic,
-	ClampedRootSink,
-	EPSILON,
-	GEOMETRIC_EPSILON,
-	mix,
-	numberClose,
-	IRootSink,
-	solveQuadratic
-} from "../../fn";
+import { EPSILON, GEOMETRIC_EPSILON, mix, numberClose, RootSolver, Integral } from "../../fn";
 import { IPoint } from "../../point/interface";
 import { Point } from "../../point/point";
+import { IRootSink } from "../../fn/solver";
 
 export enum CornerType {
 	Smooth = 0,
@@ -29,14 +21,7 @@ export type CurveClass = "line" | "quadratic" | "serpentine" | "cusp" | "loop" |
 export type CurveClassifyResult = { type: CurveClass; roots: null | number[] };
 
 export class Bez3Slice extends Arcs.Bez3 {
-	constructor(
-		a: IPoint,
-		b: IPoint,
-		c: IPoint,
-		d: IPoint,
-		public t1: number = 0,
-		public t2: number = 1
-	) {
+	constructor(a: IPoint, b: IPoint, c: IPoint, d: IPoint) {
 		super(a, b, c, d);
 	}
 	public cornerTypeBefore = CornerType.Corner;
@@ -48,9 +33,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 			this.a,
 			Point.from(this.a).mix(this.d, 1 / 3),
 			Point.from(this.a).mix(this.d, 2 / 3),
-			this.d,
-			this.t1,
-			this.t2
+			this.d
 		);
 		arc.cornerTypeBefore = this.cornerTypeBefore;
 		arc.cornerTypeAfter = this.cornerTypeAfter;
@@ -91,22 +74,8 @@ export class Bez3Slice extends Arcs.Bez3 {
 
 		// We now have all the values we need to build the sub-curves [left, right]:
 		return [
-			new Bez3Slice(
-				this.a,
-				new Point(p3x, p3y),
-				new Point(p6x, p6y),
-				new Point(p8x, p8y),
-				this.t1,
-				mix(this.t1, t, this.t2)
-			),
-			new Bez3Slice(
-				new Point(p8x, p8y),
-				new Point(p7x, p7y),
-				new Point(p5x, p5y),
-				this.d,
-				mix(this.t1, t, this.t2),
-				this.t2
-			)
+			new Bez3Slice(this.a, new Point(p3x, p3y), new Point(p6x, p6y), new Point(p8x, p8y)),
+			new Bez3Slice(new Point(p8x, p8y), new Point(p7x, p7y), new Point(p5x, p5y), this.d)
 		];
 	}
 
@@ -141,8 +110,8 @@ export class Bez3Slice extends Arcs.Bez3 {
 			];
 
 		for (let c = 0; c < 2; c++) {
-			const rs = new ClampedRootSink(0, 1, true);
-			bezierSolveCubic(
+			const rs = new RootSolver.ClampedRootSink(0, 1, true);
+			RootSolver.bezierSolveCubic(
 				coeffs[c * 4 + 0],
 				coeffs[c * 4 + 1],
 				coeffs[c * 4 + 2],
@@ -161,7 +130,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 		return null;
 	}
 
-	classify() {
+	classify(sink?: IRootSink) {
 		// See: Loop and Blinn, 2005, Resolution Independent Curve Rendering
 		// using Programmable Graphics Hardware, GPU Gems 3 chapter 25
 		//
@@ -202,22 +171,23 @@ export class Bez3Slice extends Arcs.Bez3 {
 
 		if (numberClose(d1, 0)) {
 			return numberClose(d2, 0)
-				? this.cleanupClassifyResults(numberClose(d3, 0) ? "line" : "quadratic") // 5. / 4.
-				: this.cleanupClassifyResults("serpentine", d3 / (3 * d2)); // 3b.
+				? this.cleanupClassifyResults(numberClose(d3, 0) ? "line" : "quadratic", sink) // 5. / 4.
+				: this.cleanupClassifyResults("serpentine", sink, d3 / (3 * d2)); // 3b.
 		}
 		var d = 3 * d2 * d2 - 4 * d1 * d3;
 		if (numberClose(d, 0)) {
-			return this.cleanupClassifyResults("cusp", d2 / (2 * d1)); // 3a.
+			return this.cleanupClassifyResults("cusp", sink, d2 / (2 * d1)); // 3a.
 		}
 		var f1 = d > 0 ? Math.sqrt(d / 3) : Math.sqrt(-d),
 			f2 = 2 * d1;
 		return this.cleanupClassifyResults(
 			d > 0 ? "serpentine" : "loop", // 1. / 2.
+			sink,
 			(d2 + f1) / f2,
 			(d2 - f1) / f2
 		);
 	}
-	private cleanupClassifyResults(type: CurveClass, t1?: number, t2?: number) {
+	private cleanupClassifyResults(type: CurveClass, sink?: IRootSink, t1?: number, t2?: number) {
 		let hasRoots = t1 !== undefined,
 			t1Ok = hasRoots && t1 !== undefined && t1 > 0 && t1 < 1,
 			t2Ok = hasRoots && t2 !== undefined && t2 > 0 && t2 < 1;
@@ -227,51 +197,62 @@ export class Bez3Slice extends Arcs.Bez3 {
 			type = "arch";
 			t1Ok = t2Ok = false;
 		}
-		return {
-			type: type,
-			roots:
-				t1Ok || t2Ok
-					? t1Ok && t2Ok
-						? t1! < t2!
-							? [t1!, t2!]
-							: [t2!, t1!] // 2 solutions
-						: [t1Ok ? t1! : t2!] // 1 solution
-					: null
-		};
+		if (sink && t1Ok) sink.addRoot(t1!);
+		if (sink && t2Ok) sink.addRoot(t2!);
 	}
 
-	private getLengthImpl(level: number, levelMax: number, tolerance: number): number {
-		const p1 = this.eval(1 / 4),
-			p2 = this.eval(2 / 4),
-			p3 = this.eval(3 / 4);
-		if (
-			level >= levelMax ||
-			(Point.pointLineDist(this.a, this.d, p1) <= tolerance &&
-				Point.pointLineDist(this.a, this.d, p2) <= tolerance &&
-				Point.pointLineDist(this.a, this.d, p3) <= tolerance)
-		) {
-			return Point.dist(this.a, this.d);
+	getLength(a: number = 0, b: number = 1) {
+		if (this.isStraight()) {
+			const slice = this.sliceRatio(a, b);
+			return Point.dist(slice.a, slice.d);
 		} else {
-			const [l, r] = this.splitRatio(0.5);
-			return (
-				l.getLengthImpl(level + 1, levelMax, tolerance) +
-				r.getLengthImpl(level + 1, levelMax, tolerance)
+			return Integral.gaussLegendre(
+				this.getLengthIntegrand(),
+				a,
+				b,
+				this.getLengthSteps(a, b)
 			);
 		}
 	}
-	getLength(tolerance: number = GEOMETRIC_EPSILON) {
-		return this.getLengthImpl(0, 16, tolerance);
+	private getLengthIntegrand() {
+		// Calculate the coefficients of a Bezier derivative.
+		const ax = 9 * (this.b.x - this.c.x) + 3 * (this.d.x - this.a.x),
+			bx = 6 * (this.a.x + this.c.x) - 12 * this.b.x,
+			cx = 3 * (this.b.x - this.a.x),
+			ay = 9 * (this.b.y - this.c.y) + 3 * (this.d.y - this.a.y),
+			by = 6 * (this.a.y + this.c.y) - 12 * this.b.y,
+			cy = 3 * (this.b.y - this.a.y);
+
+		return function (t: number) {
+			// Calculate quadratic equations of derivatives for x and y
+			var dx = (ax * t + bx) * t + cx,
+				dy = (ay * t + by) * t + cy;
+			return Math.sqrt(dx * dx + dy * dy);
+		};
 	}
-	private getExtremaImpl(v0: number, v1: number, v2: number, v3: number, sink: IRootSink) {
+	private getLengthSteps(a: number, b: number) {
+		// Guess required precision based and size of range...
+		// TODO: There should be much better educated guesses for
+		// this. Also, what does this depend on? Required precision?
+		return Math.max(2, Math.min(16, Math.ceil(Math.abs(b - a) * 32)));
+	}
+
+	getXExtrema(sink: RootSolver.IRootSink) {
+		return this.getExtremaImpl(this.a.x, this.b.x, this.c.x, this.d.x, sink);
+	}
+	getYExtrema(sink: RootSolver.IRootSink) {
+		return this.getExtremaImpl(this.a.y, this.b.y, this.c.y, this.d.y, sink);
+	}
+	private getExtremaImpl(
+		v0: number,
+		v1: number,
+		v2: number,
+		v3: number,
+		sink: RootSolver.IRootSink
+	) {
 		const a = 3 * (-v0 + 3 * v1 - 3 * v2 + v3);
 		const b = 6 * (v0 - 2 * v1 + v2);
 		const c = 3 * (v1 - v0);
-		solveQuadratic(a, b, c, sink);
-	}
-	getXExtrema(sink: IRootSink) {
-		return this.getExtremaImpl(this.a.x, this.b.x, this.c.x, this.d.x, sink);
-	}
-	getYExtrema(sink: IRootSink) {
-		return this.getExtremaImpl(this.a.y, this.b.y, this.c.y, this.d.y, sink);
+		RootSolver.solveQuadratic(a, b, c, sink);
 	}
 }
