@@ -22,7 +22,7 @@
 
 ▸ **add**(`t1`: number, `t2`: number): *void*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:18](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L18)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:16](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L16)*
 
 **Parameters:**
 

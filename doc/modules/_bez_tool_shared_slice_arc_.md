@@ -23,7 +23,7 @@
 
 Ƭ **CurveClass**: *"line" | "quadratic" | "serpentine" | "cusp" | "loop" | "arch"*
 
-*Defined in [bez-tool/shared/slice-arc.ts:20](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L20)*
+*Defined in [bez-tool/shared/slice-arc.ts:20](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L20)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 Ƭ **CurveClassifyResult**: *object*
 
-*Defined in [bez-tool/shared/slice-arc.ts:21](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L21)*
+*Defined in [bez-tool/shared/slice-arc.ts:21](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L21)*
 
 #### Type declaration:
 

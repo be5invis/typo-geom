@@ -24,7 +24,7 @@
 
 • **NE**: *1048576* = 1048576
 
-*Defined in [derivable/bounding-box.ts:5](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/bounding-box.ts#L5)*
+*Defined in [derivable/bounding-box.ts:5](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/bounding-box.ts#L5)*
 
 ## Functions
 
@@ -32,7 +32,7 @@
 
 ▸ **coverBox**(`b`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md), `t`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md)): *void*
 
-*Defined in [derivable/bounding-box.ts:36](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/bounding-box.ts#L36)*
+*Defined in [derivable/bounding-box.ts:36](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/bounding-box.ts#L36)*
 
 **Parameters:**
 
@@ -49,7 +49,7 @@ ___
 
 ▸ **coverPoint**(`b`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md), `z`: [IPoint](_point_interface_.md#ipoint)): *void*
 
-*Defined in [derivable/bounding-box.ts:14](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/bounding-box.ts#L14)*
+*Defined in [derivable/bounding-box.ts:14](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/bounding-box.ts#L14)*
 
 **Parameters:**
 
@@ -66,7 +66,7 @@ ___
 
 ▸ **coverX**(`b`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md), `x`: number): *void*
 
-*Defined in [derivable/bounding-box.ts:17](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/bounding-box.ts#L17)*
+*Defined in [derivable/bounding-box.ts:17](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/bounding-box.ts#L17)*
 
 **Parameters:**
 
@@ -83,7 +83,7 @@ ___
 
 ▸ **coverY**(`b`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md), `y`: number): *void*
 
-*Defined in [derivable/bounding-box.ts:26](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/bounding-box.ts#L26)*
+*Defined in [derivable/bounding-box.ts:26](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/bounding-box.ts#L26)*
 
 **Parameters:**
 
@@ -100,7 +100,7 @@ ___
 
 ▸ **empty**(): *object*
 
-*Defined in [derivable/bounding-box.ts:6](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/bounding-box.ts#L6)*
+*Defined in [derivable/bounding-box.ts:6](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/bounding-box.ts#L6)*
 
 **Returns:** *object*
 
@@ -118,7 +118,7 @@ ___
 
 ▸ **intersects**(`a`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md), `b`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md)): *boolean*
 
-*Defined in [derivable/bounding-box.ts:45](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/bounding-box.ts#L45)*
+*Defined in [derivable/bounding-box.ts:45](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/bounding-box.ts#L45)*
 
 **Parameters:**
 
@@ -135,7 +135,7 @@ ___
 
 ▸ **isValid**(`b`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md)): *boolean*
 
-*Defined in [derivable/bounding-box.ts:10](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/bounding-box.ts#L10)*
+*Defined in [derivable/bounding-box.ts:10](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/bounding-box.ts#L10)*
 
 **Parameters:**
 

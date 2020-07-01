@@ -7,31 +7,20 @@
 ### References
 
 * [CURVE_TIME_EPSILON](_fn_index_.md#curve_time_epsilon)
-* [ClampedRootSink](_fn_index_.md#clampedrootsink)
 * [EPSILON](_fn_index_.md#epsilon)
 * [GEOMETRIC_EPSILON](_fn_index_.md#geometric_epsilon)
-* [IRootSink](_fn_index_.md#irootsink)
+* [Integral](_fn_index_.md#integral)
 * [MACHINE_EPSILON](_fn_index_.md#machine_epsilon)
-* [bezierSolveCubic](_fn_index_.md#beziersolvecubic)
+* [RootSolver](_fn_index_.md#rootsolver)
 * [clamp](_fn_index_.md#clamp)
-* [getDistance](_fn_index_.md#getdistance)
 * [mix](_fn_index_.md#mix)
 * [numberClose](_fn_index_.md#numberclose)
-* [signedDistance](_fn_index_.md#signeddistance)
-* [solveCubic](_fn_index_.md#solvecubic)
-* [solveQuadratic](_fn_index_.md#solvequadratic)
 
 ## References
 
 ###  CURVE_TIME_EPSILON
 
 • **CURVE_TIME_EPSILON**:
-
-___
-
-###  ClampedRootSink
-
-• **ClampedRootSink**:
 
 ___
 
@@ -47,9 +36,9 @@ ___
 
 ___
 
-###  IRootSink
+###  Integral
 
-• **IRootSink**:
+• **Integral**:
 
 ___
 
@@ -59,21 +48,15 @@ ___
 
 ___
 
-###  bezierSolveCubic
+###  RootSolver
 
-• **bezierSolveCubic**:
+• **RootSolver**:
 
 ___
 
 ###  clamp
 
 • **clamp**:
-
-___
-
-###  getDistance
-
-• **getDistance**:
 
 ___
 
@@ -86,21 +69,3 @@ ___
 ###  numberClose
 
 • **numberClose**:
-
-___
-
-###  signedDistance
-
-• **signedDistance**:
-
-___
-
-###  solveCubic
-
-• **solveCubic**:
-
-___
-
-###  solveQuadratic
-
-• **solveQuadratic**:

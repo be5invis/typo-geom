@@ -22,7 +22,7 @@
 
 ▸ **arcTo**(`arc`: [Arc](../modules/_derivable_interface_.md#arc), `x`: number, `y`: number): *void*
 
-*Defined in [shape-conv/index.ts:17](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L17)*
+*Defined in [shape-conv/index.ts:18](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L18)*
 
 **Parameters:**
 
@@ -40,7 +40,7 @@ ___
 
 ▸ **beginShape**(): *void*
 
-*Defined in [shape-conv/index.ts:14](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L14)*
+*Defined in [shape-conv/index.ts:15](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L15)*
 
 **Returns:** *void*
 
@@ -50,7 +50,7 @@ ___
 
 ▸ **endShape**(): *void*
 
-*Defined in [shape-conv/index.ts:18](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L18)*
+*Defined in [shape-conv/index.ts:19](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L19)*
 
 **Returns:** *void*
 
@@ -60,7 +60,7 @@ ___
 
 ▸ **lineTo**(`x`: number, `y`: number): *void*
 
-*Defined in [shape-conv/index.ts:16](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L16)*
+*Defined in [shape-conv/index.ts:17](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L17)*
 
 **Parameters:**
 
@@ -77,7 +77,7 @@ ___
 
 ▸ **moveTo**(`x`: number, `y`: number): *void*
 
-*Defined in [shape-conv/index.ts:15](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L15)*
+*Defined in [shape-conv/index.ts:16](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L16)*
 
 **Parameters:**
 

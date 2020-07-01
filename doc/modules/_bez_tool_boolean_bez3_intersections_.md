@@ -39,7 +39,7 @@
 
 Ƭ **PointArrayRep**: *[number, number]*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:65](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L65)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:63](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L63)*
 
 ## Variables
 
@@ -47,7 +47,7 @@
 
 • **FAT_LINE_EPSILON**: *1e-9* = 1e-9
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:134](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L134)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:132](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L132)*
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 • **MAX_CALLS**: *65535* = 65535
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:135](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L135)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:133](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L133)*
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 • **MAX_RECURSE**: *40* = 40
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:136](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L136)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:134](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L134)*
 
 ## Functions
 
@@ -71,7 +71,7 @@ ___
 
 ▸ **bez3Intersections**(`v1`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `v2`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `sink`: [CrossIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.crossintersectionsink.md)): *void*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:34](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L34)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:32](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L32)*
 
 **Parameters:**
 
@@ -87,15 +87,15 @@ ___
 
 ###  bez3SelfIntersections
 
-▸ **bez3SelfIntersections**(`a`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `sink`: [SelfIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.selfintersectionsink.md)): *void*
+▸ **bez3SelfIntersections**(`arc`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `sink`: [SelfIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.selfintersectionsink.md)): *void*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:57](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L57)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:55](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L55)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`a` | [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md) |
+`arc` | [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md) |
 `sink` | [SelfIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.selfintersectionsink.md) |
 
 **Returns:** *void*
@@ -106,7 +106,7 @@ ___
 
 ▸ **clipConvexHull**(`hullTop`: [PointArrayRep](_bez_tool_boolean_bez3_intersections_.md#pointarrayrep)[], `hullBottom`: [PointArrayRep](_bez_tool_boolean_bez3_intersections_.md#pointarrayrep)[], `dMin`: number, `dMax`: number): *null | number*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:369](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L369)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:361](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L361)*
 
 Clips the convex-hull and returns [tMin, tMax] for the curve contained.
 
@@ -127,7 +127,7 @@ ___
 
 ▸ **clipConvexHullPart**(`part`: [PointArrayRep](_bez_tool_boolean_bez3_intersections_.md#pointarrayrep)[], `top`: boolean, `threshold`: number): *null | number*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:389](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L389)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:381](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L381)*
 
 **Parameters:**
 
@@ -145,7 +145,7 @@ ___
 
 ▸ **curveIntersectionImpl**(`v1`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `v2`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `sink`: [CrossIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.crossintersectionsink.md), `flip`: boolean, `recursion`: number, `calls`: number, `tMin`: number, `tMax`: number, `uMin`: number, `uMax`: number): *number*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:137](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L137)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:135](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L135)*
 
 **Parameters:**
 
@@ -170,7 +170,7 @@ ___
 
 ▸ **getConvexHull**(`dq0`: number, `dq1`: number, `dq2`: number, `dq3`: number): *[PointArrayRep](_bez_tool_boolean_bez3_intersections_.md#pointarrayrep)[][]*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:322](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L322)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:314](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L314)*
 
 Calculate the convex hull for the non-parametric bezier curve D(ti, di(t))
 The ti is equally spaced across [0..1] — [0, 1/3, 2/3, 1] for
@@ -202,7 +202,7 @@ ___
 
 ▸ **getCurveLineIntersections**(`v`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `px`: number, `py`: number, `vx`: number, `vy`: number): *number[]*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:108](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L108)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:106](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L106)*
 
 **Parameters:**
 
@@ -222,7 +222,7 @@ ___
 
 ▸ **getFatline**(`v`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md)): *number[]*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:406](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L406)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:398](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L398)*
 
 Calculates the fat line of a curve and returns the maximum and minimum offset widths
 for the fatline of a curve
@@ -241,7 +241,7 @@ ___
 
 ▸ **lineCurveIntersectionImpl**(`v1`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `v2`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `sink`: [CrossIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.crossintersectionsink.md), `flip`: boolean): *void*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:76](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L76)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:74](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L74)*
 
 **Parameters:**
 
@@ -260,7 +260,7 @@ ___
 
 ▸ **lineIntersectionImpl**(`v1`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `v2`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `sink`: [CrossIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.crossintersectionsink.md)): *void*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:67](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L67)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:65](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L65)*
 
 **Parameters:**
 
@@ -278,7 +278,7 @@ ___
 
 ▸ **possibleIntersect**(`v1`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `v2`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md)): *boolean*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:21](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L21)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:19](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L19)*
 
 **Parameters:**
 

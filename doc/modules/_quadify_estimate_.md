@@ -18,7 +18,7 @@
 
 ▸ **bez2**(`a`: number, `b`: number, `c`: number, `t`: number): *number*
 
-*Defined in [quadify/estimate.ts:59](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/estimate.ts#L59)*
+*Defined in [quadify/estimate.ts:59](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/estimate.ts#L59)*
 
 **Parameters:**
 
@@ -37,7 +37,7 @@ ___
 
 ▸ **cubicRoot**(`x`: number): *number*
 
-*Defined in [quadify/estimate.ts:18](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/estimate.ts#L18)*
+*Defined in [quadify/estimate.ts:18](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/estimate.ts#L18)*
 
 **Parameters:**
 
@@ -53,7 +53,7 @@ ___
 
 ▸ **cubicSolve**(`a`: number, `b`: number, `c`: number, `d`: number): *number[]*
 
-*Defined in [quadify/estimate.ts:22](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/estimate.ts#L22)*
+*Defined in [quadify/estimate.ts:22](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/estimate.ts#L22)*
 
 **Parameters:**
 
@@ -72,7 +72,7 @@ ___
 
 ▸ **minDistanceToQuad**(`zx`: number, `zy`: number, `ax`: number, `ay`: number, `bx`: number, `by`: number, `cx`: number, `cy`: number): *number*
 
-*Defined in [quadify/estimate.ts:63](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/estimate.ts#L63)*
+*Defined in [quadify/estimate.ts:63](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/estimate.ts#L63)*
 
 **Parameters:**
 
@@ -95,7 +95,7 @@ ___
 
 ▸ **quadSolve**(`a`: number, `b`: number, `c`: number): *number[]*
 
-*Defined in [quadify/estimate.ts:3](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/estimate.ts#L3)*
+*Defined in [quadify/estimate.ts:3](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/estimate.ts#L3)*
 
 **Parameters:**
 

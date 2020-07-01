@@ -16,7 +16,7 @@
 
 ▸ **clamp**(`value`: number, `min`: number, `max`: number): *number*
 
-*Defined in [fn/utility.ts:10](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/utility.ts#L10)*
+*Defined in [fn/utility.ts:10](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/utility.ts#L10)*
 
 **Parameters:**
 
@@ -34,7 +34,7 @@ ___
 
 ▸ **mix**(`a`: number, `b`: number, `t`: number): *number*
 
-*Defined in [fn/utility.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/utility.ts#L7)*
+*Defined in [fn/utility.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/utility.ts#L7)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 
 ▸ **numberClose**(`x`: number, `y`: number, `epsilon`: number): *boolean*
 
-*Defined in [fn/utility.ts:3](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/utility.ts#L3)*
+*Defined in [fn/utility.ts:3](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/utility.ts#L3)*
 
 **Parameters:**
 

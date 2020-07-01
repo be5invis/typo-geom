@@ -31,6 +31,7 @@
 * [Nest](../classes/_derivable_functions_.d.nest.md)
 * [Pow](../classes/_derivable_functions_.d.pow.md)
 * [Reparametrized](../classes/_derivable_arcs_.reparametrized.md)
+* [Reverted](../classes/_derivable_arcs_.reverted.md)
 * [Slice](../classes/_derivable_functions_.d.slice.md)
 * [StraightSegment](../classes/_derivable_arcs_.straightsegment.md)
 * [Sub](../classes/_derivable_functions_.d.sub.md)
@@ -49,7 +50,7 @@
 
 ▸ **derivative**(`t`: number): *T*
 
-*Defined in [derivable/interface.ts:5](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L5)*
+*Defined in [derivable/interface.ts:5](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L5)*
 
 **Parameters:**
 
@@ -65,7 +66,7 @@ ___
 
 ▸ **eval**(`t`: number): *T*
 
-*Defined in [derivable/interface.ts:4](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L4)*
+*Defined in [derivable/interface.ts:4](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L4)*
 
 **Parameters:**
 

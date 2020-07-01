@@ -15,7 +15,7 @@
 
 ▸ **inPlaceRotateArray**‹**T**›(`arr`: T[], `k`: number): *undefined | T[]*
 
-*Defined in [util/in-place-array.ts:12](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/util/in-place-array.ts#L12)*
+*Defined in [util/in-place-array.ts:12](https://github.com/be5invis/typo-geom/blob/5527277/src/util/in-place-array.ts#L12)*
 
 **Type parameters:**
 
@@ -36,7 +36,7 @@ ___
 
 ▸ **reverseArr**‹**T**›(`arr`: T[], `left`: number, `right`: number): *T[]*
 
-*Defined in [util/in-place-array.ts:1](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/util/in-place-array.ts#L1)*
+*Defined in [util/in-place-array.ts:1](https://github.com/be5invis/typo-geom/blob/5527277/src/util/in-place-array.ts#L1)*
 
 **Type parameters:**
 

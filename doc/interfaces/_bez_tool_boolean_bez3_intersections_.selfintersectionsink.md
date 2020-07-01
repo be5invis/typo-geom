@@ -2,12 +2,6 @@
 
 # Interface: SelfIntersectionSink
 
-Bezier curve intersection algorithm and utilities
-
-Directly extracted from PaperJS' implementation bezier curve fat-line clipping
-The original source code is available under the MIT licence at
-https://github.com/paperjs/paper.js/
-
 ## Hierarchy
 
 * **SelfIntersectionSink**
@@ -28,7 +22,7 @@ https://github.com/paperjs/paper.js/
 
 ▸ **add**(`t`: number): *void*
 
-*Defined in [bez-tool/boolean/bez3-intersections.ts:15](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/bez3-intersections.ts#L15)*
+*Defined in [bez-tool/boolean/bez3-intersections.ts:13](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/bez3-intersections.ts#L13)*
 
 **Parameters:**
 

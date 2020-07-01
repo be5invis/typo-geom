@@ -23,7 +23,7 @@
 
 Ƭ **Arc**: *[Derivable](../interfaces/_derivable_interface_.derivable.md)‹[IPoint](_point_interface_.md#ipoint)›*
 
-*Defined in [derivable/interface.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L8)*
+*Defined in [derivable/interface.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L8)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 Ƭ **Contour**: *[Arc](_derivable_interface_.md#arc)[]*
 
-*Defined in [derivable/interface.ts:20](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L20)*
+*Defined in [derivable/interface.ts:20](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L20)*
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 Ƭ **DerivableFunction**: *[Derivable](../interfaces/_derivable_interface_.derivable.md)‹number›*
 
-*Defined in [derivable/interface.ts:9](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L9)*
+*Defined in [derivable/interface.ts:9](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L9)*
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 Ƭ **Shape**: *[Arc](_derivable_interface_.md#arc)[][]*
 
-*Defined in [derivable/interface.ts:21](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L21)*
+*Defined in [derivable/interface.ts:21](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L21)*

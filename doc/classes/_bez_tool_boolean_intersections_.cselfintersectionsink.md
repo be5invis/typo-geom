@@ -31,7 +31,7 @@
 
 \+ **new CSelfIntersectionSink**(`iArc`: number, `results`: [FIntersection](../modules/_bez_tool_boolean_intersections_.md#fintersection)[]): *[CSelfIntersectionSink](_bez_tool_boolean_intersections_.cselfintersectionsink.md)*
 
-*Defined in [bez-tool/boolean/intersections.ts:11](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L11)*
+*Defined in [bez-tool/boolean/intersections.ts:11](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L11)*
 
 **Parameters:**
 
@@ -48,7 +48,7 @@ Name | Type |
 
 • **iArc**: *number*
 
-*Defined in [bez-tool/boolean/intersections.ts:12](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L12)*
+*Defined in [bez-tool/boolean/intersections.ts:12](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L12)*
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 • **results**: *[FIntersection](../modules/_bez_tool_boolean_intersections_.md#fintersection)[]*
 
-*Defined in [bez-tool/boolean/intersections.ts:12](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L12)*
+*Defined in [bez-tool/boolean/intersections.ts:12](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L12)*
 
 ## Methods
 
@@ -66,7 +66,7 @@ ___
 
 *Implementation of [SelfIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.selfintersectionsink.md)*
 
-*Defined in [bez-tool/boolean/intersections.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L13)*
+*Defined in [bez-tool/boolean/intersections.ts:13](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L13)*
 
 **Parameters:**
 

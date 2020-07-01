@@ -32,7 +32,7 @@
 
 \+ **new Add**(`a`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction), `b`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)): *[Add](_derivable_functions_.d.add.md)*
 
-*Defined in [derivable/functions.ts:21](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L21)*
+*Defined in [derivable/functions.ts:21](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L21)*
 
 **Parameters:**
 
@@ -49,7 +49,7 @@ Name | Type |
 
 • **a**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/functions.ts:22](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L22)*
+*Defined in [derivable/functions.ts:22](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L22)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 • **b**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/functions.ts:22](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L22)*
+*Defined in [derivable/functions.ts:22](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L22)*
 
 ## Methods
 
@@ -67,7 +67,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:26](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L26)*
+*Defined in [derivable/functions.ts:26](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L26)*
 
 **Parameters:**
 
@@ -85,7 +85,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:23](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L23)*
+*Defined in [derivable/functions.ts:23](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L23)*
 
 **Parameters:**
 

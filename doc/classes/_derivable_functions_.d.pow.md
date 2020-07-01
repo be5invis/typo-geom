@@ -31,7 +31,7 @@
 
 \+ **new Pow**(`p`: number): *[Pow](_derivable_functions_.d.pow.md)*
 
-*Defined in [derivable/functions.ts:78](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L78)*
+*Defined in [derivable/functions.ts:78](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L78)*
 
 **Parameters:**
 
@@ -47,7 +47,7 @@ Name | Type |
 
 • **p**: *number*
 
-*Defined in [derivable/functions.ts:78](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L78)*
+*Defined in [derivable/functions.ts:78](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L78)*
 
 ## Methods
 
@@ -57,7 +57,7 @@ Name | Type |
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:85](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L85)*
+*Defined in [derivable/functions.ts:85](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L85)*
 
 **Parameters:**
 
@@ -75,7 +75,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:82](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L82)*
+*Defined in [derivable/functions.ts:82](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L82)*
 
 **Parameters:**
 

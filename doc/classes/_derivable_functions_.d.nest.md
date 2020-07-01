@@ -32,7 +32,7 @@
 
 \+ **new Nest**(`a`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction), `b`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)): *[Nest](_derivable_functions_.d.nest.md)*
 
-*Defined in [derivable/functions.ts:67](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L67)*
+*Defined in [derivable/functions.ts:67](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L67)*
 
 **Parameters:**
 
@@ -49,7 +49,7 @@ Name | Type |
 
 • **a**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/functions.ts:68](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L68)*
+*Defined in [derivable/functions.ts:68](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L68)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 • **b**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/functions.ts:68](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L68)*
+*Defined in [derivable/functions.ts:68](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L68)*
 
 ## Methods
 
@@ -67,7 +67,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:72](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L72)*
+*Defined in [derivable/functions.ts:72](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L72)*
 
 **Parameters:**
 
@@ -85,7 +85,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:69](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L69)*
+*Defined in [derivable/functions.ts:69](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L69)*
 
 **Parameters:**
 

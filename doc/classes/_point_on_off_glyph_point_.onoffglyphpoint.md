@@ -34,7 +34,7 @@
 
 \+ **new OnOffGlyphPoint**(`x`: number, `y`: number, `on`: boolean): *[OnOffGlyphPoint](_point_on_off_glyph_point_.onoffglyphpoint.md)*
 
-*Defined in [point/on-off-glyph-point.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/on-off-glyph-point.ts#L7)*
+*Defined in [point/on-off-glyph-point.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/point/on-off-glyph-point.ts#L7)*
 
 **Parameters:**
 
@@ -54,7 +54,7 @@ Name | Type | Default |
 
 *Implementation of [IOnOffGlyphPoint](../interfaces/_point_interface_.ionoffglyphpoint.md).[on](../interfaces/_point_interface_.ionoffglyphpoint.md#readonly-on)*
 
-*Defined in [point/on-off-glyph-point.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/on-off-glyph-point.ts#L8)*
+*Defined in [point/on-off-glyph-point.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/point/on-off-glyph-point.ts#L8)*
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 *Implementation of [IOnOffGlyphPoint](../interfaces/_point_interface_.ionoffglyphpoint.md).[x](../interfaces/_point_interface_.ionoffglyphpoint.md#readonly-x)*
 
-*Defined in [point/on-off-glyph-point.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/on-off-glyph-point.ts#L8)*
+*Defined in [point/on-off-glyph-point.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/point/on-off-glyph-point.ts#L8)*
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 *Implementation of [IOnOffGlyphPoint](../interfaces/_point_interface_.ionoffglyphpoint.md).[y](../interfaces/_point_interface_.ionoffglyphpoint.md#readonly-y)*
 
-*Defined in [point/on-off-glyph-point.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/on-off-glyph-point.ts#L8)*
+*Defined in [point/on-off-glyph-point.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/point/on-off-glyph-point.ts#L8)*
 
 ## Methods
 
@@ -82,7 +82,7 @@ ___
 
 ▸ **clone**(): *[OnOffGlyphPoint](_point_on_off_glyph_point_.onoffglyphpoint.md)‹›*
 
-*Defined in [point/on-off-glyph-point.ts:9](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/on-off-glyph-point.ts#L9)*
+*Defined in [point/on-off-glyph-point.ts:9](https://github.com/be5invis/typo-geom/blob/5527277/src/point/on-off-glyph-point.ts#L9)*
 
 **Returns:** *[OnOffGlyphPoint](_point_on_off_glyph_point_.onoffglyphpoint.md)‹›*
 
@@ -92,7 +92,7 @@ ___
 
 ▸ **from**(`p`: [IOnOffGlyphPoint](../interfaces/_point_interface_.ionoffglyphpoint.md)): *[OnOffGlyphPoint](_point_on_off_glyph_point_.onoffglyphpoint.md)‹›*
 
-*Defined in [point/on-off-glyph-point.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/on-off-glyph-point.ts#L13)*
+*Defined in [point/on-off-glyph-point.ts:13](https://github.com/be5invis/typo-geom/blob/5527277/src/point/on-off-glyph-point.ts#L13)*
 
 **Parameters:**
 
@@ -108,7 +108,7 @@ ___
 
 ▸ **fromPoint**(`p`: [IPoint](../modules/_point_interface_.md#ipoint), `on`: boolean, `cubic`: boolean): *[OnOffGlyphPoint](_point_on_off_glyph_point_.onoffglyphpoint.md)‹›*
 
-*Defined in [point/on-off-glyph-point.ts:17](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/on-off-glyph-point.ts#L17)*
+*Defined in [point/on-off-glyph-point.ts:17](https://github.com/be5invis/typo-geom/blob/5527277/src/point/on-off-glyph-point.ts#L17)*
 
 **Parameters:**
 

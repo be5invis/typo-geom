@@ -32,7 +32,7 @@
 
 \+ **new StraightSegment**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint)): *[StraightSegment](_derivable_arcs_.straightsegment.md)*
 
-*Defined in [derivable/arcs.ts:127](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L127)*
+*Defined in [derivable/arcs.ts:141](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L141)*
 
 **Parameters:**
 
@@ -49,7 +49,7 @@ Name | Type |
 
 • **a**: *[IPoint](../modules/_point_interface_.md#ipoint)*
 
-*Defined in [derivable/arcs.ts:128](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L128)*
+*Defined in [derivable/arcs.ts:142](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L142)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 • **b**: *[IPoint](../modules/_point_interface_.md#ipoint)*
 
-*Defined in [derivable/arcs.ts:128](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L128)*
+*Defined in [derivable/arcs.ts:142](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L142)*
 
 ## Methods
 
@@ -65,7 +65,7 @@ ___
 
 ▸ **derivative**(): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [derivable/arcs.ts:132](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L132)*
+*Defined in [derivable/arcs.ts:146](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L146)*
 
 **Returns:** *[Point](_point_point_.point.md)‹›*
 
@@ -77,7 +77,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/arcs.ts:129](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L129)*
+*Defined in [derivable/arcs.ts:143](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L143)*
 
 **Parameters:**
 

@@ -17,7 +17,7 @@
 
 • **Corner**: = 1
 
-*Defined in [bez-tool/shared/slice-arc.ts:15](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L15)*
+*Defined in [bez-tool/shared/slice-arc.ts:15](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L15)*
 
 ___
 
@@ -25,7 +25,7 @@ ___
 
 • **Extrema**: = 2
 
-*Defined in [bez-tool/shared/slice-arc.ts:16](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L16)*
+*Defined in [bez-tool/shared/slice-arc.ts:16](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L16)*
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 • **Hetero**: = 3
 
-*Defined in [bez-tool/shared/slice-arc.ts:17](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L17)*
+*Defined in [bez-tool/shared/slice-arc.ts:17](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L17)*
 
 ___
 
@@ -41,4 +41,4 @@ ___
 
 • **Smooth**: = 0
 
-*Defined in [bez-tool/shared/slice-arc.ts:14](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L14)*
+*Defined in [bez-tool/shared/slice-arc.ts:14](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L14)*

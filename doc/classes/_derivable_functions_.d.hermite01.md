@@ -25,7 +25,7 @@
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:102](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L102)*
+*Defined in [derivable/functions.ts:102](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L102)*
 
 **Parameters:**
 
@@ -43,7 +43,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:99](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L99)*
+*Defined in [derivable/functions.ts:99](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L99)*
 
 **Parameters:**
 

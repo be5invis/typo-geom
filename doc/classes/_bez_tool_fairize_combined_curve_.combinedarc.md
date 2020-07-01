@@ -25,8 +25,7 @@
 
 * [derivative](_bez_tool_fairize_combined_curve_.combinedarc.md#derivative)
 * [eval](_bez_tool_fairize_combined_curve_.combinedarc.md#eval)
-* [getIndex](_bez_tool_fairize_combined_curve_.combinedarc.md#getindex)
-* [measureLength](_bez_tool_fairize_combined_curve_.combinedarc.md#measurelength)
+* [getIndex](_bez_tool_fairize_combined_curve_.combinedarc.md#private-getindex)
 * [reduceIfStraight](_bez_tool_fairize_combined_curve_.combinedarc.md#reduceifstraight)
 
 ## Constructors
@@ -35,7 +34,7 @@
 
 \+ **new CombinedArc**(`segments`: [Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)[]): *[CombinedArc](_bez_tool_fairize_combined_curve_.combinedarc.md)*
 
-*Defined in [bez-tool/fairize/combined-curve.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/fairize/combined-curve.ts#L7)*
+*Defined in [bez-tool/fairize/combined-curve.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/fairize/combined-curve.ts#L7)*
 
 **Parameters:**
 
@@ -51,7 +50,7 @@ Name | Type |
 
 • **lengths**: *number[]* = []
 
-*Defined in [bez-tool/fairize/combined-curve.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/fairize/combined-curve.ts#L7)*
+*Defined in [bez-tool/fairize/combined-curve.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/fairize/combined-curve.ts#L7)*
 
 ___
 
@@ -59,7 +58,7 @@ ___
 
 • **segments**: *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)[]*
 
-*Defined in [bez-tool/fairize/combined-curve.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/fairize/combined-curve.ts#L8)*
+*Defined in [bez-tool/fairize/combined-curve.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/fairize/combined-curve.ts#L8)*
 
 ## Methods
 
@@ -69,7 +68,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [bez-tool/fairize/combined-curve.ts:44](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/fairize/combined-curve.ts#L44)*
+*Defined in [bez-tool/fairize/combined-curve.ts:33](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/fairize/combined-curve.ts#L33)*
 
 **Parameters:**
 
@@ -87,7 +86,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [bez-tool/fairize/combined-curve.ts:37](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/fairize/combined-curve.ts#L37)*
+*Defined in [bez-tool/fairize/combined-curve.ts:26](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/fairize/combined-curve.ts#L26)*
 
 **Parameters:**
 
@@ -99,11 +98,11 @@ Name | Type |
 
 ___
 
-###  getIndex
+### `Private` getIndex
 
 ▸ **getIndex**(`t`: number): *number*
 
-*Defined in [bez-tool/fairize/combined-curve.ts:32](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/fairize/combined-curve.ts#L32)*
+*Defined in [bez-tool/fairize/combined-curve.ts:21](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/fairize/combined-curve.ts#L21)*
 
 **Parameters:**
 
@@ -115,26 +114,10 @@ Name | Type |
 
 ___
 
-###  measureLength
-
-▸ **measureLength**(`c`: [Arc](../modules/_derivable_interface_.md#arc)): *number*
-
-*Defined in [bez-tool/fairize/combined-curve.ts:21](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/fairize/combined-curve.ts#L21)*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`c` | [Arc](../modules/_derivable_interface_.md#arc) |
-
-**Returns:** *number*
-
-___
-
 ###  reduceIfStraight
 
 ▸ **reduceIfStraight**(): *[Arc](../modules/_derivable_interface_.md#arc)*
 
-*Defined in [bez-tool/fairize/combined-curve.ts:52](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/fairize/combined-curve.ts#L52)*
+*Defined in [bez-tool/fairize/combined-curve.ts:41](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/fairize/combined-curve.ts#L41)*
 
 **Returns:** *[Arc](../modules/_derivable_interface_.md#arc)*

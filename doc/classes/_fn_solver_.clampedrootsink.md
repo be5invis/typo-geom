@@ -35,7 +35,7 @@
 
 \+ **new ClampedRootSink**(`min`: number, `max`: number, `fInclusive`: boolean): *[ClampedRootSink](_fn_solver_.clampedrootsink.md)*
 
-*Defined in [fn/solver.ts:228](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L228)*
+*Defined in [fn/solver.ts:204](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L204)*
 
 **Parameters:**
 
@@ -53,7 +53,7 @@ Name | Type |
 
 • **fInclusive**: *boolean*
 
-*Defined in [fn/solver.ts:232](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L232)*
+*Defined in [fn/solver.ts:208](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L208)*
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • **max**: *number*
 
-*Defined in [fn/solver.ts:231](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L231)*
+*Defined in [fn/solver.ts:207](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L207)*
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 • **min**: *number*
 
-*Defined in [fn/solver.ts:230](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L230)*
+*Defined in [fn/solver.ts:206](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L206)*
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 • **rootCount**: *number* = 0
 
-*Defined in [fn/solver.ts:235](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L235)*
+*Defined in [fn/solver.ts:211](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L211)*
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 • **roots**: *number[]* = []
 
-*Defined in [fn/solver.ts:234](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L234)*
+*Defined in [fn/solver.ts:210](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L210)*
 
 ## Methods
 
@@ -95,7 +95,7 @@ ___
 
 *Implementation of [IRootSink](../interfaces/_fn_solver_.irootsink.md)*
 
-*Defined in [fn/solver.ts:236](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L236)*
+*Defined in [fn/solver.ts:212](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L212)*
 
 **Parameters:**
 
@@ -113,6 +113,6 @@ ___
 
 *Implementation of [IRootSink](../interfaces/_fn_solver_.irootsink.md)*
 
-*Defined in [fn/solver.ts:250](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L250)*
+*Defined in [fn/solver.ts:226](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L226)*
 
 **Returns:** *void*

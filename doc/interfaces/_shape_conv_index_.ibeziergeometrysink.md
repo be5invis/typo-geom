@@ -23,7 +23,7 @@
 
 ▸ **beginShape**(): *void*
 
-*Defined in [shape-conv/index.ts:5](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L5)*
+*Defined in [shape-conv/index.ts:6](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L6)*
 
 **Returns:** *void*
 
@@ -33,7 +33,7 @@ ___
 
 ▸ **cubicTo**(`x1`: number, `y1`: number, `x2`: number, `y2`: number, `x`: number, `y`: number): *void*
 
-*Defined in [shape-conv/index.ts:9](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L9)*
+*Defined in [shape-conv/index.ts:10](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L10)*
 
 **Parameters:**
 
@@ -54,7 +54,7 @@ ___
 
 ▸ **curveTo**(`x1`: number, `y1`: number, `x2`: number, `y2`: number): *void*
 
-*Defined in [shape-conv/index.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L8)*
+*Defined in [shape-conv/index.ts:9](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L9)*
 
 **Parameters:**
 
@@ -73,7 +73,7 @@ ___
 
 ▸ **endShape**(): *void*
 
-*Defined in [shape-conv/index.ts:10](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L10)*
+*Defined in [shape-conv/index.ts:11](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L11)*
 
 **Returns:** *void*
 
@@ -83,7 +83,7 @@ ___
 
 ▸ **lineTo**(`x`: number, `y`: number): *void*
 
-*Defined in [shape-conv/index.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L7)*
+*Defined in [shape-conv/index.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L8)*
 
 **Parameters:**
 
@@ -100,7 +100,7 @@ ___
 
 ▸ **moveTo**(`x`: number, `y`: number): *void*
 
-*Defined in [shape-conv/index.ts:6](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/shape-conv/index.ts#L6)*
+*Defined in [shape-conv/index.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/shape-conv/index.ts#L7)*
 
 **Parameters:**
 

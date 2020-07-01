@@ -18,7 +18,7 @@
 
 • **exact**: *[quadifyCurve](_quadify_functional_.md#quadifycurve)* = quadifyCurve
 
-*Defined in [quadify/index.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/index.ts#L13)*
+*Defined in [quadify/index.ts:13](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/index.ts#L13)*
 
 ## Functions
 
@@ -26,7 +26,7 @@
 
 ▸ **auto**(`c`: [Arc](_derivable_interface_.md#arc), `allowError`: number, `maxSegments`: number, `maxDistanceTestPoints`: number): *null | [XY](../interfaces/_point_interface_.xy.md)‹number›[]*
 
-*Defined in [quadify/index.ts:5](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/index.ts#L5)*
+*Defined in [quadify/index.ts:5](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/index.ts#L5)*
 
 **Parameters:**
 

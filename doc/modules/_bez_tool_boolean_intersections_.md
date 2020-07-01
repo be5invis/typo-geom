@@ -24,7 +24,7 @@
 
 Ƭ **FIntersection**: *number*
 
-*Defined in [bez-tool/boolean/intersections.ts:9](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L9)*
+*Defined in [bez-tool/boolean/intersections.ts:9](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L9)*
 
 ## Functions
 
@@ -32,7 +32,7 @@
 
 ▸ **findCrossIntersections**(`shape1`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md)[][], `shape2`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md)[][], `i1`: [FIntersection](_bez_tool_boolean_intersections_.md#fintersection)[][], `i2`: [FIntersection](_bez_tool_boolean_intersections_.md#fintersection)[][], `sameShape`: boolean): *void*
 
-*Defined in [bez-tool/boolean/intersections.ts:43](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L43)*
+*Defined in [bez-tool/boolean/intersections.ts:43](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L43)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 
 ▸ **findSelfIntersections**(`shape`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md)[][]): *number[][]*
 
-*Defined in [bez-tool/boolean/intersections.ts:17](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L17)*
+*Defined in [bez-tool/boolean/intersections.ts:17](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L17)*
 
 **Parameters:**
 

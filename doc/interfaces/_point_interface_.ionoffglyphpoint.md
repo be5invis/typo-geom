@@ -30,7 +30,7 @@
 
 • **on**: *boolean*
 
-*Defined in [point/interface.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/interface.ts#L8)*
+*Defined in [point/interface.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/point/interface.ts#L8)*
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 *Inherited from [XY](_point_interface_.xy.md).[x](_point_interface_.xy.md#readonly-x)*
 
-*Defined in [point/interface.ts:2](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/interface.ts#L2)*
+*Defined in [point/interface.ts:2](https://github.com/be5invis/typo-geom/blob/5527277/src/point/interface.ts#L2)*
 
 ___
 
@@ -50,4 +50,4 @@ ___
 
 *Inherited from [XY](_point_interface_.xy.md).[y](_point_interface_.xy.md#readonly-y)*
 
-*Defined in [point/interface.ts:3](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/interface.ts#L3)*
+*Defined in [point/interface.ts:3](https://github.com/be5invis/typo-geom/blob/5527277/src/point/interface.ts#L3)*

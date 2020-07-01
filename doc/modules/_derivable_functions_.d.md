@@ -30,13 +30,13 @@
 
 ### ▪ **Param**: *object*
 
-*Defined in [derivable/functions.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L13)*
+*Defined in [derivable/functions.ts:13](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L13)*
 
 ###  derivative
 
 ▸ **derivative**(): *number*
 
-*Defined in [derivable/functions.ts:17](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L17)*
+*Defined in [derivable/functions.ts:17](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L17)*
 
 **Returns:** *number*
 
@@ -44,7 +44,7 @@
 
 ▸ **eval**(`t`: number): *number*
 
-*Defined in [derivable/functions.ts:14](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L14)*
+*Defined in [derivable/functions.ts:14](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L14)*
 
 **Parameters:**
 

@@ -21,7 +21,7 @@
 
 • **xMax**: *number*
 
-*Defined in [derivable/interface.ts:24](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L24)*
+*Defined in [derivable/interface.ts:24](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L24)*
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 • **xMin**: *number*
 
-*Defined in [derivable/interface.ts:23](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L23)*
+*Defined in [derivable/interface.ts:23](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L23)*
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 • **yMax**: *number*
 
-*Defined in [derivable/interface.ts:26](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L26)*
+*Defined in [derivable/interface.ts:26](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L26)*
 
 ___
 
@@ -45,4 +45,4 @@ ___
 
 • **yMin**: *number*
 
-*Defined in [derivable/interface.ts:25](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L25)*
+*Defined in [derivable/interface.ts:25](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L25)*

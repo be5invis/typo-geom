@@ -12,7 +12,6 @@
 * [Boolean](_index_.md#boolean)
 * [BoundingBox](_index_.md#boundingbox)
 * [CURVE_TIME_EPSILON](_index_.md#curve_time_epsilon)
-* [ClampedRootSink](_index_.md#clampedrootsink)
 * [CompositeTransform](_index_.md#compositetransform)
 * [Contour](_index_.md#contour)
 * [D](_index_.md#d)
@@ -25,26 +24,23 @@
 * [IBezierGeometrySink](_index_.md#ibeziergeometrysink)
 * [IOnOffGlyphPoint](_index_.md#ionoffglyphpoint)
 * [IPoint](_index_.md#ipoint)
-* [IRootSink](_index_.md#irootsink)
+* [Integral](_index_.md#integral)
 * [LinearTransform](_index_.md#lineartransform)
 * [MACHINE_EPSILON](_index_.md#machine_epsilon)
 * [OnOffGlyphPoint](_index_.md#onoffglyphpoint)
 * [Point](_index_.md#point)
 * [Quadify](_index_.md#quadify)
 * [Quadify](_index_.md#quadify)
+* [RootSolver](_index_.md#rootsolver)
 * [Shape](_index_.md#shape)
 * [ShapeTransform](_index_.md#shapetransform)
 * [XY](_index_.md#xy)
-* [bezierSolveCubic](_index_.md#beziersolvecubic)
 * [clamp](_index_.md#clamp)
-* [getDistance](_index_.md#getdistance)
 * [mix](_index_.md#mix)
 * [numberClose](_index_.md#numberclose)
-* [signedDistance](_index_.md#signeddistance)
-* [solveCubic](_index_.md#solvecubic)
-* [solveQuadratic](_index_.md#solvequadratic)
 * [transferBezArcShape](_index_.md#transferbezarcshape)
 * [transferGenericShape](_index_.md#transfergenericshape)
+* [transferGenericShapeAsBezier](_index_.md#transfergenericshapeasbezier)
 * [transformBoundingBox](_index_.md#transformboundingbox)
 * [transformPoint](_index_.md#transformpoint)
 * [transformPointXY](_index_.md#transformpointxy)
@@ -86,12 +82,6 @@ ___
 ###  CURVE_TIME_EPSILON
 
 • **CURVE_TIME_EPSILON**:
-
-___
-
-###  ClampedRootSink
-
-• **ClampedRootSink**:
 
 ___
 
@@ -167,9 +157,9 @@ ___
 
 ___
 
-###  IRootSink
+###  Integral
 
-• **IRootSink**:
+• **Integral**:
 
 ___
 
@@ -209,6 +199,12 @@ ___
 
 ___
 
+###  RootSolver
+
+• **RootSolver**:
+
+___
+
 ###  Shape
 
 • **Shape**:
@@ -227,21 +223,9 @@ ___
 
 ___
 
-###  bezierSolveCubic
-
-• **bezierSolveCubic**:
-
-___
-
 ###  clamp
 
 • **clamp**:
-
-___
-
-###  getDistance
-
-• **getDistance**:
 
 ___
 
@@ -257,24 +241,6 @@ ___
 
 ___
 
-###  signedDistance
-
-• **signedDistance**:
-
-___
-
-###  solveCubic
-
-• **solveCubic**:
-
-___
-
-###  solveQuadratic
-
-• **solveQuadratic**:
-
-___
-
 ###  transferBezArcShape
 
 • **transferBezArcShape**:
@@ -284,6 +250,12 @@ ___
 ###  transferGenericShape
 
 • **transferGenericShape**:
+
+___
+
+###  transferGenericShapeAsBezier
+
+• **transferGenericShapeAsBezier**:
 
 ___
 

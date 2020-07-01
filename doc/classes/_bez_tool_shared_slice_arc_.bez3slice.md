@@ -27,42 +27,46 @@
 * [cornerTypeBefore](_bez_tool_shared_slice_arc_.bez3slice.md#cornertypebefore)
 * [d](_bez_tool_shared_slice_arc_.bez3slice.md#readonly-d)
 * [isStraightCache](_bez_tool_shared_slice_arc_.bez3slice.md#private-optional-isstraightcache)
-* [t1](_bez_tool_shared_slice_arc_.bez3slice.md#t1)
-* [t2](_bez_tool_shared_slice_arc_.bez3slice.md#t2)
 
 ### Methods
 
 * [classify](_bez_tool_shared_slice_arc_.bez3slice.md#classify)
+* [cleanupClassifyResults](_bez_tool_shared_slice_arc_.bez3slice.md#private-cleanupclassifyresults)
 * [derivative](_bez_tool_shared_slice_arc_.bez3slice.md#derivative)
 * [eval](_bez_tool_shared_slice_arc_.bez3slice.md#eval)
 * [forceStraight](_bez_tool_shared_slice_arc_.bez3slice.md#forcestraight)
+* [getExtremaImpl](_bez_tool_shared_slice_arc_.bez3slice.md#private-getextremaimpl)
+* [getLength](_bez_tool_shared_slice_arc_.bez3slice.md#getlength)
+* [getLengthIntegrand](_bez_tool_shared_slice_arc_.bez3slice.md#private-getlengthintegrand)
+* [getLengthSteps](_bez_tool_shared_slice_arc_.bez3slice.md#private-getlengthsteps)
 * [getTOf](_bez_tool_shared_slice_arc_.bez3slice.md#gettof)
+* [getXExtrema](_bez_tool_shared_slice_arc_.bez3slice.md#getxextrema)
+* [getYExtrema](_bez_tool_shared_slice_arc_.bez3slice.md#getyextrema)
 * [isStraight](_bez_tool_shared_slice_arc_.bez3slice.md#isstraight)
 * [sliceRatio](_bez_tool_shared_slice_arc_.bez3slice.md#sliceratio)
 * [splitRatio](_bez_tool_shared_slice_arc_.bez3slice.md#splitratio)
 * [toString](_bez_tool_shared_slice_arc_.bez3slice.md#tostring)
+* [fromArcSlice](_bez_tool_shared_slice_arc_.bez3slice.md#static-fromarcslice)
 * [fromStraightSegment](_bez_tool_shared_slice_arc_.bez3slice.md#static-fromstraightsegment)
 
 ## Constructors
 
 ###  constructor
 
-\+ **new Bez3Slice**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `c`: [IPoint](../modules/_point_interface_.md#ipoint), `d`: [IPoint](../modules/_point_interface_.md#ipoint), `t1`: number, `t2`: number): *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)*
+\+ **new Bez3Slice**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `c`: [IPoint](../modules/_point_interface_.md#ipoint), `d`: [IPoint](../modules/_point_interface_.md#ipoint)): *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)*
 
 *Overrides [Bez3](_derivable_arcs_.bez3.md).[constructor](_derivable_arcs_.bez3.md#constructor)*
 
-*Defined in [bez-tool/shared/slice-arc.ts:23](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L23)*
+*Defined in [bez-tool/shared/slice-arc.ts:23](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L23)*
 
 **Parameters:**
 
-Name | Type | Default |
------- | ------ | ------ |
-`a` | [IPoint](../modules/_point_interface_.md#ipoint) | - |
-`b` | [IPoint](../modules/_point_interface_.md#ipoint) | - |
-`c` | [IPoint](../modules/_point_interface_.md#ipoint) | - |
-`d` | [IPoint](../modules/_point_interface_.md#ipoint) | - |
-`t1` | number | 0 |
-`t2` | number | 1 |
+Name | Type |
+------ | ------ |
+`a` | [IPoint](../modules/_point_interface_.md#ipoint) |
+`b` | [IPoint](../modules/_point_interface_.md#ipoint) |
+`c` | [IPoint](../modules/_point_interface_.md#ipoint) |
+`d` | [IPoint](../modules/_point_interface_.md#ipoint) |
 
 **Returns:** *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)*
 
@@ -74,7 +78,7 @@ Name | Type | Default |
 
 *Inherited from [Bez3](_derivable_arcs_.bez3.md).[a](_derivable_arcs_.bez3.md#readonly-a)*
 
-*Defined in [derivable/arcs.ts:38](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L38)*
+*Defined in [derivable/arcs.ts:38](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L38)*
 
 ___
 
@@ -84,7 +88,7 @@ ___
 
 *Inherited from [Bez3](_derivable_arcs_.bez3.md).[b](_derivable_arcs_.bez3.md#readonly-b)*
 
-*Defined in [derivable/arcs.ts:39](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L39)*
+*Defined in [derivable/arcs.ts:39](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L39)*
 
 ___
 
@@ -94,7 +98,7 @@ ___
 
 *Inherited from [Bez3](_derivable_arcs_.bez3.md).[c](_derivable_arcs_.bez3.md#readonly-c)*
 
-*Defined in [derivable/arcs.ts:40](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L40)*
+*Defined in [derivable/arcs.ts:40](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L40)*
 
 ___
 
@@ -102,7 +106,7 @@ ___
 
 • **cornerTypeAfter**: *[CornerType](../enums/_bez_tool_shared_slice_arc_.cornertype.md)* = CornerType.Corner
 
-*Defined in [bez-tool/shared/slice-arc.ts:35](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L35)*
+*Defined in [bez-tool/shared/slice-arc.ts:28](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L28)*
 
 ___
 
@@ -110,7 +114,7 @@ ___
 
 • **cornerTypeBefore**: *[CornerType](../enums/_bez_tool_shared_slice_arc_.cornertype.md)* = CornerType.Corner
 
-*Defined in [bez-tool/shared/slice-arc.ts:34](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L34)*
+*Defined in [bez-tool/shared/slice-arc.ts:27](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L27)*
 
 ___
 
@@ -120,7 +124,7 @@ ___
 
 *Inherited from [Bez3](_derivable_arcs_.bez3.md).[d](_derivable_arcs_.bez3.md#readonly-d)*
 
-*Defined in [derivable/arcs.ts:41](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L41)*
+*Defined in [derivable/arcs.ts:41](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L41)*
 
 ___
 
@@ -128,43 +132,42 @@ ___
 
 • **isStraightCache**? : *undefined | false | true*
 
-*Defined in [bez-tool/shared/slice-arc.ts:36](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L36)*
-
-___
-
-###  t1
-
-• **t1**: *number*
-
-*Defined in [bez-tool/shared/slice-arc.ts:29](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L29)*
-
-___
-
-###  t2
-
-• **t2**: *number*
-
-*Defined in [bez-tool/shared/slice-arc.ts:30](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L30)*
+*Defined in [bez-tool/shared/slice-arc.ts:29](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L29)*
 
 ## Methods
 
 ###  classify
 
-▸ **classify**(): *object*
+▸ **classify**(`sink?`: [IRootSink](../interfaces/_fn_solver_.irootsink.md)): *void*
 
-*Defined in [bez-tool/shared/slice-arc.ts:156](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L156)*
+*Defined in [bez-tool/shared/slice-arc.ts:133](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L133)*
 
-**Returns:** *object*
+**Parameters:**
 
-* **roots**: *null | number[]* = t1Ok || t2Ok
-						? t1Ok && t2Ok
-							? t1! < t2!
-								? [t1!, t2!]
-								: [t2!, t1!] // 2 solutions
-							: [t1Ok ? t1! : t2!] // 1 solution
-						: null
+Name | Type |
+------ | ------ |
+`sink?` | [IRootSink](../interfaces/_fn_solver_.irootsink.md) |
 
-* **type**: *string* = type
+**Returns:** *void*
+
+___
+
+### `Private` cleanupClassifyResults
+
+▸ **cleanupClassifyResults**(`type`: [CurveClass](../modules/_bez_tool_shared_slice_arc_.md#curveclass), `sink?`: [IRootSink](../interfaces/_fn_solver_.irootsink.md), `t1?`: undefined | number, `t2?`: undefined | number): *void*
+
+*Defined in [bez-tool/shared/slice-arc.ts:190](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L190)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`type` | [CurveClass](../modules/_bez_tool_shared_slice_arc_.md#curveclass) |
+`sink?` | [IRootSink](../interfaces/_fn_solver_.irootsink.md) |
+`t1?` | undefined &#124; number |
+`t2?` | undefined &#124; number |
+
+**Returns:** *void*
 
 ___
 
@@ -176,7 +179,7 @@ ___
 
 *Inherited from [Bez3](_derivable_arcs_.bez3.md).[derivative](_derivable_arcs_.bez3.md#derivative)*
 
-*Defined in [derivable/arcs.ts:51](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L51)*
+*Defined in [derivable/arcs.ts:51](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L51)*
 
 **Parameters:**
 
@@ -196,7 +199,7 @@ ___
 
 *Inherited from [Bez3](_derivable_arcs_.bez3.md).[eval](_derivable_arcs_.bez3.md#eval)*
 
-*Defined in [derivable/arcs.ts:44](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L44)*
+*Defined in [derivable/arcs.ts:44](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L44)*
 
 **Parameters:**
 
@@ -212,9 +215,73 @@ ___
 
 ▸ **forceStraight**(): *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)‹›*
 
-*Defined in [bez-tool/shared/slice-arc.ts:38](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L38)*
+*Defined in [bez-tool/shared/slice-arc.ts:31](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L31)*
 
 **Returns:** *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)‹›*
+
+___
+
+### `Private` getExtremaImpl
+
+▸ **getExtremaImpl**(`v0`: number, `v1`: number, `v2`: number, `v3`: number, `sink`: [IRootSink](../interfaces/_fn_solver_.irootsink.md)): *void*
+
+*Defined in [bez-tool/shared/slice-arc.ts:246](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L246)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`v0` | number |
+`v1` | number |
+`v2` | number |
+`v3` | number |
+`sink` | [IRootSink](../interfaces/_fn_solver_.irootsink.md) |
+
+**Returns:** *void*
+
+___
+
+###  getLength
+
+▸ **getLength**(`a`: number, `b`: number): *number*
+
+*Defined in [bez-tool/shared/slice-arc.ts:204](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L204)*
+
+**Parameters:**
+
+Name | Type | Default |
+------ | ------ | ------ |
+`a` | number | 0 |
+`b` | number | 1 |
+
+**Returns:** *number*
+
+___
+
+### `Private` getLengthIntegrand
+
+▸ **getLengthIntegrand**(): *(Anonymous function)*
+
+*Defined in [bez-tool/shared/slice-arc.ts:217](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L217)*
+
+**Returns:** *(Anonymous function)*
+
+___
+
+### `Private` getLengthSteps
+
+▸ **getLengthSteps**(`a`: number, `b`: number): *number*
+
+*Defined in [bez-tool/shared/slice-arc.ts:233](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L233)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`a` | number |
+`b` | number |
+
+**Returns:** *number*
 
 ___
 
@@ -222,7 +289,7 @@ ___
 
 ▸ **getTOf**(`point`: [IPoint](../modules/_point_interface_.md#ipoint)): *number | null*
 
-*Defined in [bez-tool/shared/slice-arc.ts:117](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L117)*
+*Defined in [bez-tool/shared/slice-arc.ts:94](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L94)*
 
 **Parameters:**
 
@@ -234,13 +301,45 @@ Name | Type |
 
 ___
 
+###  getXExtrema
+
+▸ **getXExtrema**(`sink`: [IRootSink](../interfaces/_fn_solver_.irootsink.md)): *void*
+
+*Defined in [bez-tool/shared/slice-arc.ts:240](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L240)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`sink` | [IRootSink](../interfaces/_fn_solver_.irootsink.md) |
+
+**Returns:** *void*
+
+___
+
+###  getYExtrema
+
+▸ **getYExtrema**(`sink`: [IRootSink](../interfaces/_fn_solver_.irootsink.md)): *void*
+
+*Defined in [bez-tool/shared/slice-arc.ts:243](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L243)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`sink` | [IRootSink](../interfaces/_fn_solver_.irootsink.md) |
+
+**Returns:** *void*
+
+___
+
 ###  isStraight
 
 ▸ **isStraight**(): *boolean*
 
 *Overrides [Bez3](_derivable_arcs_.bez3.md).[isStraight](_derivable_arcs_.bez3.md#isstraight)*
 
-*Defined in [bez-tool/shared/slice-arc.ts:52](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L52)*
+*Defined in [bez-tool/shared/slice-arc.ts:43](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L43)*
 
 **Returns:** *boolean*
 
@@ -250,7 +349,7 @@ ___
 
 ▸ **sliceRatio**(`t1`: number, `t2`: number): *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)‹›*
 
-*Defined in [bez-tool/shared/slice-arc.ts:105](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L105)*
+*Defined in [bez-tool/shared/slice-arc.ts:82](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L82)*
 
 **Parameters:**
 
@@ -267,7 +366,7 @@ ___
 
 ▸ **splitRatio**(`t`: number): *[[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md), [Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)]*
 
-*Defined in [bez-tool/shared/slice-arc.ts:65](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L65)*
+*Defined in [bez-tool/shared/slice-arc.ts:56](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L56)*
 
 **Parameters:**
 
@@ -283,19 +382,37 @@ ___
 
 ▸ **toString**(): *string*
 
-*Defined in [bez-tool/shared/slice-arc.ts:59](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/shared/slice-arc.ts#L59)*
+*Defined in [bez-tool/shared/slice-arc.ts:50](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L50)*
 
 **Returns:** *string*
 
 ___
 
+### `Static` fromArcSlice
+
+▸ **fromArcSlice**(`arc`: [Arc](../modules/_derivable_interface_.md#arc), `t0`: number, `t1`: number): *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)‹›*
+
+*Defined in [bez-tool/shared/slice-arc.ts:266](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L266)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`arc` | [Arc](../modules/_derivable_interface_.md#arc) |
+`t0` | number |
+`t1` | number |
+
+**Returns:** *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)‹›*
+
+___
+
 ### `Static` fromStraightSegment
 
-▸ **fromStraightSegment**(`ss`: [StraightSegment](_derivable_arcs_.straightsegment.md)): *[Bez3](_derivable_arcs_.bez3.md)‹›*
+▸ **fromStraightSegment**(`ss`: [StraightSegment](_derivable_arcs_.straightsegment.md)): *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)‹›*
 
-*Inherited from [Bez3](_derivable_arcs_.bez3.md).[fromStraightSegment](_derivable_arcs_.bez3.md#static-fromstraightsegment)*
+*Overrides [Bez3](_derivable_arcs_.bez3.md).[fromStraightSegment](_derivable_arcs_.bez3.md#static-fromstraightsegment)*
 
-*Defined in [derivable/arcs.ts:80](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L80)*
+*Defined in [bez-tool/shared/slice-arc.ts:258](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/shared/slice-arc.ts#L258)*
 
 **Parameters:**
 
@@ -303,4 +420,4 @@ Name | Type |
 ------ | ------ |
 `ss` | [StraightSegment](_derivable_arcs_.straightsegment.md) |
 
-**Returns:** *[Bez3](_derivable_arcs_.bez3.md)‹›*
+**Returns:** *[Bez3Slice](_bez_tool_shared_slice_arc_.bez3slice.md)‹›*

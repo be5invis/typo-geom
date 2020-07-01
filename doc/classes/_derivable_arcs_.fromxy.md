@@ -32,7 +32,7 @@
 
 \+ **new FromXY**(`x`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction), `y`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)): *[FromXY](_derivable_arcs_.fromxy.md)*
 
-*Defined in [derivable/arcs.ts:6](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L6)*
+*Defined in [derivable/arcs.ts:6](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L6)*
 
 **Parameters:**
 
@@ -49,7 +49,7 @@ Name | Type |
 
 • **x**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/arcs.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L7)*
+*Defined in [derivable/arcs.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L7)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 • **y**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/arcs.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L7)*
+*Defined in [derivable/arcs.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L7)*
 
 ## Methods
 
@@ -67,7 +67,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/arcs.ts:11](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L11)*
+*Defined in [derivable/arcs.ts:11](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L11)*
 
 **Parameters:**
 
@@ -85,7 +85,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/arcs.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L8)*
+*Defined in [derivable/arcs.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L8)*
 
 **Parameters:**
 

@@ -17,7 +17,7 @@
 
 • **CURVE_TIME_EPSILON**: *1e-8* = 1e-8
 
-*Defined in [fn/constants.ts:3](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/constants.ts#L3)*
+*Defined in [fn/constants.ts:3](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/constants.ts#L3)*
 
 ___
 
@@ -25,7 +25,7 @@ ___
 
 • **EPSILON**: *1e-12* = 1e-12
 
-*Defined in [fn/constants.ts:1](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/constants.ts#L1)*
+*Defined in [fn/constants.ts:1](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/constants.ts#L1)*
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 • **GEOMETRIC_EPSILON**: *1e-7* = 1e-7
 
-*Defined in [fn/constants.ts:4](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/constants.ts#L4)*
+*Defined in [fn/constants.ts:4](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/constants.ts#L4)*
 
 ___
 
@@ -41,4 +41,4 @@ ___
 
 • **MACHINE_EPSILON**: *1.12e-16* = 1.12e-16
 
-*Defined in [fn/constants.ts:2](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/constants.ts#L2)*
+*Defined in [fn/constants.ts:2](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/constants.ts#L2)*

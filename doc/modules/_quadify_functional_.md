@@ -26,7 +26,7 @@
 
 • **invMatrixCache**: *Map‹number, number[][]›* = new Map()
 
-*Defined in [quadify/functional.ts:75](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L75)*
+*Defined in [quadify/functional.ts:75](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L75)*
 
 ## Functions
 
@@ -34,7 +34,7 @@
 
 ▸ **X**(`n`: number): *number*
 
-*Defined in [quadify/functional.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L7)*
+*Defined in [quadify/functional.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L7)*
 
 **Parameters:**
 
@@ -50,7 +50,7 @@ ___
 
 ▸ **Y**(`n`: number): *number*
 
-*Defined in [quadify/functional.ts:10](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L10)*
+*Defined in [quadify/functional.ts:10](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L10)*
 
 **Parameters:**
 
@@ -66,7 +66,7 @@ ___
 
 ▸ **autoQuadifyCurve**(`c`: [Arc](_derivable_interface_.md#arc), `allowError`: number, `maxSegments`: number, `samples`: number): *[IPoint](_point_interface_.md#ipoint)[] | null*
 
-*Defined in [quadify/functional.ts:172](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L172)*
+*Defined in [quadify/functional.ts:172](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L172)*
 
 **Parameters:**
 
@@ -85,7 +85,7 @@ ___
 
 ▸ **estimateError**(`c`: [Arc](_derivable_interface_.md#arc), `offPoints`: [IPoint](_point_interface_.md#ipoint)[], `N`: number): *number*
 
-*Defined in [quadify/functional.ts:138](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L138)*
+*Defined in [quadify/functional.ts:138](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L138)*
 
 **Parameters:**
 
@@ -103,7 +103,7 @@ ___
 
 ▸ **findIntersection**(`p1`: [IPoint](_point_interface_.md#ipoint), `d1`: [IPoint](_point_interface_.md#ipoint), `d2`: [IPoint](_point_interface_.md#ipoint), `p2`: [IPoint](_point_interface_.md#ipoint)): *[IPoint](_point_interface_.md#ipoint) | null*
 
-*Defined in [quadify/functional.ts:14](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L14)*
+*Defined in [quadify/functional.ts:14](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L14)*
 
 **Parameters:**
 
@@ -122,7 +122,7 @@ ___
 
 ▸ **getInvMatrix**(`n`: number): *number[][]*
 
-*Defined in [quadify/functional.ts:76](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L76)*
+*Defined in [quadify/functional.ts:76](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L76)*
 
 **Parameters:**
 
@@ -138,7 +138,7 @@ ___
 
 ▸ **getMatrix**(`n`: number): *number[][]*
 
-*Defined in [quadify/functional.ts:43](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L43)*
+*Defined in [quadify/functional.ts:43](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L43)*
 
 **Parameters:**
 
@@ -154,7 +154,7 @@ ___
 
 ▸ **getResults**(`c`: [Arc](_derivable_interface_.md#arc), `n`: number): *number[]*
 
-*Defined in [quadify/functional.ts:85](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L85)*
+*Defined in [quadify/functional.ts:85](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L85)*
 
 **Parameters:**
 
@@ -171,7 +171,7 @@ ___
 
 ▸ **quadifyCurve**(`c`: [Arc](_derivable_interface_.md#arc), `n`: number): *[IPoint](_point_interface_.md#ipoint)[] | null*
 
-*Defined in [quadify/functional.ts:111](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/quadify/functional.ts#L111)*
+*Defined in [quadify/functional.ts:111](https://github.com/be5invis/typo-geom/blob/5527277/src/quadify/functional.ts#L111)*
 
 **Parameters:**
 

@@ -12,6 +12,7 @@
 * [Mixed](../classes/_derivable_arcs_.mixed.md)
 * [Mixed3](../classes/_derivable_arcs_.mixed3.md)
 * [Reparametrized](../classes/_derivable_arcs_.reparametrized.md)
+* [Reverted](../classes/_derivable_arcs_.reverted.md)
 * [StraightSegment](../classes/_derivable_arcs_.straightsegment.md)
 * [Transformed](../classes/_derivable_arcs_.transformed.md)
 
@@ -26,7 +27,7 @@
 
 ▸ **bez3**(`a`: number, `b`: number, `c`: number, `d`: number, `t`: number): *number*
 
-*Defined in [derivable/arcs.ts:16](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L16)*
+*Defined in [derivable/arcs.ts:16](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L16)*
 
 **Parameters:**
 
@@ -46,7 +47,7 @@ ___
 
 ▸ **bezT3**(`P0`: number, `P1`: number, `P2`: number, `P3`: number, `t`: number): *number*
 
-*Defined in [derivable/arcs.ts:25](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L25)*
+*Defined in [derivable/arcs.ts:25](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L25)*
 
 **Parameters:**
 

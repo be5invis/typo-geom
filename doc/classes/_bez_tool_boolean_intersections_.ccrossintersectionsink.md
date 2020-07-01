@@ -33,7 +33,7 @@
 
 \+ **new CCrossIntersectionSink**(`iArc1`: number, `iArc2`: number, `results1`: [FIntersection](../modules/_bez_tool_boolean_intersections_.md#fintersection)[], `results2`: [FIntersection](../modules/_bez_tool_boolean_intersections_.md#fintersection)[]): *[CCrossIntersectionSink](_bez_tool_boolean_intersections_.ccrossintersectionsink.md)*
 
-*Defined in [bez-tool/boolean/intersections.ts:30](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L30)*
+*Defined in [bez-tool/boolean/intersections.ts:30](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L30)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ Name | Type |
 
 • **iArc1**: *number*
 
-*Defined in [bez-tool/boolean/intersections.ts:32](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L32)*
+*Defined in [bez-tool/boolean/intersections.ts:32](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L32)*
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 • **iArc2**: *number*
 
-*Defined in [bez-tool/boolean/intersections.ts:33](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L33)*
+*Defined in [bez-tool/boolean/intersections.ts:33](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L33)*
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 • **results1**: *[FIntersection](../modules/_bez_tool_boolean_intersections_.md#fintersection)[]*
 
-*Defined in [bez-tool/boolean/intersections.ts:34](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L34)*
+*Defined in [bez-tool/boolean/intersections.ts:34](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L34)*
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 • **results2**: *[FIntersection](../modules/_bez_tool_boolean_intersections_.md#fintersection)[]*
 
-*Defined in [bez-tool/boolean/intersections.ts:35](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L35)*
+*Defined in [bez-tool/boolean/intersections.ts:35](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L35)*
 
 ## Methods
 
@@ -86,7 +86,7 @@ ___
 
 *Implementation of [CrossIntersectionSink](../interfaces/_bez_tool_boolean_bez3_intersections_.crossintersectionsink.md)*
 
-*Defined in [bez-tool/boolean/intersections.ts:37](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/intersections.ts#L37)*
+*Defined in [bez-tool/boolean/intersections.ts:37](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/intersections.ts#L37)*
 
 **Parameters:**
 

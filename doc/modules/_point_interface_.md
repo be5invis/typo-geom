@@ -19,4 +19,4 @@
 
 Ƭ **IPoint**: *[XY](../interfaces/_point_interface_.xy.md)‹number›*
 
-*Defined in [point/interface.ts:6](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/interface.ts#L6)*
+*Defined in [point/interface.ts:6](https://github.com/be5invis/typo-geom/blob/5527277/src/point/interface.ts#L6)*

@@ -16,9 +16,7 @@
 
 * [bezierSolveCubic](_fn_solver_.md#beziersolvecubic)
 * [getDiscriminant](_fn_solver_.md#getdiscriminant)
-* [getDistance](_fn_solver_.md#getdistance)
 * [getNormalizationFactor](_fn_solver_.md#getnormalizationfactor)
-* [signedDistance](_fn_solver_.md#signeddistance)
 * [solveCubic](_fn_solver_.md#solvecubic)
 * [solveQuadratic](_fn_solver_.md#solvequadratic)
 
@@ -28,7 +26,7 @@
 
 ▸ **bezierSolveCubic**(`v0`: number, `v1`: number, `v2`: number, `v3`: number, `val`: number, `sink`: [IRootSink](../interfaces/_fn_solver_.irootsink.md)): *void*
 
-*Defined in [fn/solver.ts:185](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L185)*
+*Defined in [fn/solver.ts:183](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L183)*
 
 **Parameters:**
 
@@ -49,7 +47,7 @@ ___
 
 ▸ **getDiscriminant**(`a`: number, `b`: number, `c`: number): *number*
 
-*Defined in [fn/solver.ts:12](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L12)*
+*Defined in [fn/solver.ts:10](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L10)*
 
 **Parameters:**
 
@@ -63,32 +61,11 @@ Name | Type |
 
 ___
 
-###  getDistance
-
-▸ **getDistance**(`px`: number, `py`: number, `vx`: number, `vy`: number, `x`: number, `y`: number): *number*
-
-*Defined in [fn/solver.ts:224](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L224)*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`px` | number |
-`py` | number |
-`vx` | number |
-`vy` | number |
-`x` | number |
-`y` | number |
-
-**Returns:** *number*
-
-___
-
 ###  getNormalizationFactor
 
 ▸ **getNormalizationFactor**(...`args`: number[]): *number*
 
-*Defined in [fn/solver.ts:38](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L38)*
+*Defined in [fn/solver.ts:36](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L36)*
 
 **Parameters:**
 
@@ -100,32 +77,11 @@ Name | Type |
 
 ___
 
-###  signedDistance
-
-▸ **signedDistance**(`px`: number, `py`: number, `vx`: number, `vy`: number, `x`: number, `y`: number): *number*
-
-*Defined in [fn/solver.ts:206](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L206)*
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`px` | number |
-`py` | number |
-`vx` | number |
-`vy` | number |
-`x` | number |
-`y` | number |
-
-**Returns:** *number*
-
-___
-
 ###  solveCubic
 
 ▸ **solveCubic**(`a`: number, `b`: number, `c`: number, `d`: number, `sink`: [IRootSink](../interfaces/_fn_solver_.irootsink.md)): *void*
 
-*Defined in [fn/solver.ts:119](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L119)*
+*Defined in [fn/solver.ts:117](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L117)*
 
 Solve a cubic equation, using numerically stable methods,
 given an equation of the form ax³ + bx² + cx + d = 0.
@@ -165,7 +121,7 @@ ___
 
 ▸ **solveQuadratic**(`a`: number, `b`: number, `c`: number, `sink`: [IRootSink](../interfaces/_fn_solver_.irootsink.md)): *void*
 
-*Defined in [fn/solver.ts:57](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L57)*
+*Defined in [fn/solver.ts:55](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L55)*
 
 Solve a quadratic equation in a numerically robust manner;
 given a quadratic equation ax² + bx + c = 0, find the values of x.

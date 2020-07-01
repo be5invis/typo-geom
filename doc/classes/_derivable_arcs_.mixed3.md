@@ -35,7 +35,7 @@
 
 \+ **new Mixed3**(`n`: [Arc](../modules/_derivable_interface_.md#arc), `f`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction), `a`: [Arc](../modules/_derivable_interface_.md#arc), `g`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction), `b`: [Arc](../modules/_derivable_interface_.md#arc)): *[Mixed3](_derivable_arcs_.mixed3.md)*
 
-*Defined in [derivable/arcs.ts:171](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L171)*
+*Defined in [derivable/arcs.ts:185](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L185)*
 
 **Parameters:**
 
@@ -55,7 +55,7 @@ Name | Type |
 
 • **a**: *[Arc](../modules/_derivable_interface_.md#arc)*
 
-*Defined in [derivable/arcs.ts:168](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L168)*
+*Defined in [derivable/arcs.ts:182](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L182)*
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 • **b**: *[Arc](../modules/_derivable_interface_.md#arc)*
 
-*Defined in [derivable/arcs.ts:169](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L169)*
+*Defined in [derivable/arcs.ts:183](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L183)*
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 • **f**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/arcs.ts:170](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L170)*
+*Defined in [derivable/arcs.ts:184](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L184)*
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 • **g**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/arcs.ts:171](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L171)*
+*Defined in [derivable/arcs.ts:185](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L185)*
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 • **n**: *[Arc](../modules/_derivable_interface_.md#arc)*
 
-*Defined in [derivable/arcs.ts:167](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L167)*
+*Defined in [derivable/arcs.ts:181](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L181)*
 
 ## Methods
 
@@ -97,7 +97,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/arcs.ts:191](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L191)*
+*Defined in [derivable/arcs.ts:205](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L205)*
 
 **Parameters:**
 
@@ -115,7 +115,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/arcs.ts:180](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L180)*
+*Defined in [derivable/arcs.ts:194](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L194)*
 
 **Parameters:**
 

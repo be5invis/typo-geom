@@ -4,10 +4,13 @@
 
 ## Index
 
+### Classes
+
+* [SegEntry](../classes/_bez_tool_boolean_to_poly_.segentry.md)
+
 ### Type aliases
 
 * [IntKnot](_bez_tool_boolean_to_poly_.md#intknot)
-* [SegEntry](_bez_tool_boolean_to_poly_.md#segentry)
 
 ### Variables
 
@@ -29,15 +32,7 @@
 
 Ƭ **IntKnot**: *IIntPoint & object*
 
-*Defined in [bez-tool/boolean/to-poly.ts:7](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L7)*
-
-___
-
-###  SegEntry
-
-Ƭ **SegEntry**: *[[Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), number, number, number, number, number]*
-
-*Defined in [bez-tool/boolean/to-poly.ts:12](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L12)*
+*Defined in [bez-tool/boolean/to-poly.ts:7](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L7)*
 
 ## Variables
 
@@ -45,7 +40,7 @@ ___
 
 • **DICING_STOPS**: *4* = 4
 
-*Defined in [bez-tool/boolean/to-poly.ts:112](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L112)*
+*Defined in [bez-tool/boolean/to-poly.ts:132](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L132)*
 
 ## Functions
 
@@ -53,7 +48,7 @@ ___
 
 ▸ **MakeKnot**(`t`: number, `s`: [IPoint](_point_interface_.md#ipoint), `resolution`: number): *object*
 
-*Defined in [bez-tool/boolean/to-poly.ts:101](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L101)*
+*Defined in [bez-tool/boolean/to-poly.ts:121](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L121)*
 
 **Parameters:**
 
@@ -77,7 +72,7 @@ ___
 
 ▸ **by_t**(`a`: [IntKnot](_bez_tool_boolean_to_poly_.md#intknot), `b`: [IntKnot](_bez_tool_boolean_to_poly_.md#intknot)): *number*
 
-*Defined in [bez-tool/boolean/to-poly.ts:98](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L98)*
+*Defined in [bez-tool/boolean/to-poly.ts:118](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L118)*
 
 **Parameters:**
 
@@ -94,7 +89,7 @@ ___
 
 ▸ **diceKnots**(`arc`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md), `resolution`: number, `knots`: [IntKnot](_bez_tool_boolean_to_poly_.md#intknot)[]): *IIntPoint & object[]*
 
-*Defined in [bez-tool/boolean/to-poly.ts:113](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L113)*
+*Defined in [bez-tool/boolean/to-poly.ts:133](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L133)*
 
 **Parameters:**
 
@@ -112,7 +107,7 @@ ___
 
 ▸ **intKnotNotSame**(`knot`: [IntKnot](_bez_tool_boolean_to_poly_.md#intknot), `last`: [IntKnot](_bez_tool_boolean_to_poly_.md#intknot)): *boolean*
 
-*Defined in [bez-tool/boolean/to-poly.ts:108](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L108)*
+*Defined in [bez-tool/boolean/to-poly.ts:128](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L128)*
 
 **Parameters:**
 
@@ -129,7 +124,7 @@ ___
 
 ▸ **keyOfZ**(`z`: IIntPoint): *string*
 
-*Defined in [bez-tool/boolean/to-poly.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L8)*
+*Defined in [bez-tool/boolean/to-poly.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L8)*
 
 **Parameters:**
 
@@ -143,17 +138,17 @@ ___
 
 ###  setSegHash
 
-▸ **setSegHash**(`segHash`: Map‹string, [SegEntry](_bez_tool_boolean_to_poly_.md#segentry)›, `key`: string, `entry`: [SegEntry](_bez_tool_boolean_to_poly_.md#segentry)): *void*
+▸ **setSegHash**(`segHash`: Map‹string, [SegEntry](../classes/_bez_tool_boolean_to_poly_.segentry.md)›, `key`: string, `entry`: [SegEntry](../classes/_bez_tool_boolean_to_poly_.segentry.md)): *void*
 
-*Defined in [bez-tool/boolean/to-poly.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L13)*
+*Defined in [bez-tool/boolean/to-poly.ts:48](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L48)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`segHash` | Map‹string, [SegEntry](_bez_tool_boolean_to_poly_.md#segentry)› |
+`segHash` | Map‹string, [SegEntry](../classes/_bez_tool_boolean_to_poly_.segentry.md)› |
 `key` | string |
-`entry` | [SegEntry](_bez_tool_boolean_to_poly_.md#segentry) |
+`entry` | [SegEntry](../classes/_bez_tool_boolean_to_poly_.segentry.md) |
 
 **Returns:** *void*
 
@@ -161,18 +156,18 @@ ___
 
 ###  toPoly
 
-▸ **toPoly**(`shape`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md)[][], `sindex`: number, `splats`: [FIntersection](_bez_tool_boolean_intersections_.md#fintersection)[][], `segHash`: Map‹string, [SegEntry](_bez_tool_boolean_to_poly_.md#segentry)›, `termHash`: Set‹string›, `resolution`: number): *IntPoint‹›[][]*
+▸ **toPoly**(`shape`: [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md)[][], `sid`: number, `splats`: [FIntersection](_bez_tool_boolean_intersections_.md#fintersection)[][], `segHash`: Map‹string, [SegEntry](../classes/_bez_tool_boolean_to_poly_.segentry.md)›, `termHash`: Set‹string›, `resolution`: number): *IntPoint‹›[][]*
 
-*Defined in [bez-tool/boolean/to-poly.ts:29](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/bez-tool/boolean/to-poly.ts#L29)*
+*Defined in [bez-tool/boolean/to-poly.ts:55](https://github.com/be5invis/typo-geom/blob/5527277/src/bez-tool/boolean/to-poly.ts#L55)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
 `shape` | [Bez3Slice](../classes/_bez_tool_shared_slice_arc_.bez3slice.md)[][] |
-`sindex` | number |
+`sid` | number |
 `splats` | [FIntersection](_bez_tool_boolean_intersections_.md#fintersection)[][] |
-`segHash` | Map‹string, [SegEntry](_bez_tool_boolean_to_poly_.md#segentry)› |
+`segHash` | Map‹string, [SegEntry](../classes/_bez_tool_boolean_to_poly_.segentry.md)› |
 `termHash` | Set‹string› |
 `resolution` | number |
 

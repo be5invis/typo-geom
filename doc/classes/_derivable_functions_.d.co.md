@@ -31,7 +31,7 @@
 
 \+ **new Co**(`a`: [DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)): *[Co](_derivable_functions_.d.co.md)*
 
-*Defined in [derivable/functions.ts:58](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L58)*
+*Defined in [derivable/functions.ts:58](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L58)*
 
 **Parameters:**
 
@@ -47,7 +47,7 @@ Name | Type |
 
 • **a**: *[DerivableFunction](../modules/_derivable_interface_.md#derivablefunction)*
 
-*Defined in [derivable/functions.ts:59](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L59)*
+*Defined in [derivable/functions.ts:59](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L59)*
 
 ## Methods
 
@@ -57,7 +57,7 @@ Name | Type |
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:63](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L63)*
+*Defined in [derivable/functions.ts:63](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L63)*
 
 **Parameters:**
 
@@ -75,7 +75,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/functions.ts:60](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/functions.ts#L60)*
+*Defined in [derivable/functions.ts:60](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/functions.ts#L60)*
 
 **Parameters:**
 

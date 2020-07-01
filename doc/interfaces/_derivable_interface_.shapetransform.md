@@ -28,7 +28,7 @@
 
 ▸ **dxx**(`x`: number, `y`: number): *number*
 
-*Defined in [derivable/interface.ts:14](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L14)*
+*Defined in [derivable/interface.ts:14](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L14)*
 
 **Parameters:**
 
@@ -45,7 +45,7 @@ ___
 
 ▸ **dxy**(`x`: number, `y`: number): *number*
 
-*Defined in [derivable/interface.ts:15](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L15)*
+*Defined in [derivable/interface.ts:15](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L15)*
 
 **Parameters:**
 
@@ -62,7 +62,7 @@ ___
 
 ▸ **dyx**(`x`: number, `y`: number): *number*
 
-*Defined in [derivable/interface.ts:16](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L16)*
+*Defined in [derivable/interface.ts:16](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L16)*
 
 **Parameters:**
 
@@ -79,7 +79,7 @@ ___
 
 ▸ **dyy**(`x`: number, `y`: number): *number*
 
-*Defined in [derivable/interface.ts:17](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L17)*
+*Defined in [derivable/interface.ts:17](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L17)*
 
 **Parameters:**
 
@@ -96,7 +96,7 @@ ___
 
 ▸ **x**(`x`: number, `y`: number): *number*
 
-*Defined in [derivable/interface.ts:12](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L12)*
+*Defined in [derivable/interface.ts:12](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L12)*
 
 **Parameters:**
 
@@ -113,7 +113,7 @@ ___
 
 ▸ **y**(`x`: number, `y`: number): *number*
 
-*Defined in [derivable/interface.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/interface.ts#L13)*
+*Defined in [derivable/interface.ts:13](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/interface.ts#L13)*
 
 **Parameters:**
 

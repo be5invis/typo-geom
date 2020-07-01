@@ -23,7 +23,7 @@
 
 ▸ **addRoot**(`x`: number): *boolean*
 
-*Defined in [fn/solver.ts:50](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L50)*
+*Defined in [fn/solver.ts:48](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L48)*
 
 **Parameters:**
 
@@ -39,6 +39,6 @@ ___
 
 ▸ **degenerated**(): *void*
 
-*Defined in [fn/solver.ts:49](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/fn/solver.ts#L49)*
+*Defined in [fn/solver.ts:47](https://github.com/be5invis/typo-geom/blob/5527277/src/fn/solver.ts#L47)*
 
 **Returns:** *void*

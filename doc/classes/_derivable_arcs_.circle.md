@@ -33,7 +33,7 @@
 
 \+ **new Circle**(`cx`: number, `cy`: number, `radius`: number): *[Circle](_derivable_arcs_.circle.md)*
 
-*Defined in [derivable/arcs.ts:110](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L110)*
+*Defined in [derivable/arcs.ts:124](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L124)*
 
 **Parameters:**
 
@@ -51,7 +51,7 @@ Name | Type |
 
 • **centerX**: *number*
 
-*Defined in [derivable/arcs.ts:108](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L108)*
+*Defined in [derivable/arcs.ts:122](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L122)*
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 • **centerY**: *number*
 
-*Defined in [derivable/arcs.ts:109](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L109)*
+*Defined in [derivable/arcs.ts:123](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L123)*
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 • **radius**: *number*
 
-*Defined in [derivable/arcs.ts:110](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L110)*
+*Defined in [derivable/arcs.ts:124](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L124)*
 
 ## Methods
 
@@ -77,7 +77,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/arcs.ts:122](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L122)*
+*Defined in [derivable/arcs.ts:136](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L136)*
 
 **Parameters:**
 
@@ -95,7 +95,7 @@ ___
 
 *Implementation of [Derivable](../interfaces/_derivable_interface_.derivable.md)*
 
-*Defined in [derivable/arcs.ts:116](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/arcs.ts#L116)*
+*Defined in [derivable/arcs.ts:130](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/arcs.ts#L130)*
 
 **Parameters:**
 

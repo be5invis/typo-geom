@@ -45,10 +45,12 @@
 * [from](_point_point_.point.md#static-from)
 * [intersect](_point_point_.point.md#static-intersect)
 * [mixRange](_point_point_.point.md#static-mixrange)
+* [pointLineDist](_point_point_.point.md#static-pointlinedist)
 * [project](_point_point_.point.md#static-project)
 * [rayIntersection](_point_point_.point.md#static-rayintersection)
 * [scalarProject](_point_point_.point.md#static-scalarproject)
-* [signedDist](_point_point_.point.md#static-signeddist)
+* [signedPointLineDist](_point_point_.point.md#static-signedpointlinedist)
+* [squareDist](_point_point_.point.md#static-squaredist)
 
 ## Constructors
 
@@ -56,7 +58,7 @@
 
 \+ **new Point**(`x`: number, `y`: number): *[Point](_point_point_.point.md)*
 
-*Defined in [point/point.ts:6](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L6)*
+*Defined in [point/point.ts:10](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L10)*
 
 **Parameters:**
 
@@ -75,7 +77,7 @@ Name | Type | Default |
 
 *Implementation of [XY](../interfaces/_point_interface_.xy.md).[x](../interfaces/_point_interface_.xy.md#readonly-x)*
 
-*Defined in [point/point.ts:5](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L5)*
+*Defined in [point/point.ts:9](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L9)*
 
 ___
 
@@ -85,7 +87,7 @@ ___
 
 *Implementation of [XY](../interfaces/_point_interface_.xy.md).[y](../interfaces/_point_interface_.xy.md#readonly-y)*
 
-*Defined in [point/point.ts:6](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L6)*
+*Defined in [point/point.ts:10](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L10)*
 
 ## Methods
 
@@ -93,7 +95,7 @@ ___
 
 ▸ **add**(`b`: [IPoint](../modules/_point_interface_.md#ipoint)): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:21](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L21)*
+*Defined in [point/point.ts:25](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L25)*
 
 **Parameters:**
 
@@ -109,7 +111,7 @@ ___
 
 ▸ **addScale**(`s`: number, `b`: [IPoint](../modules/_point_interface_.md#ipoint)): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:24](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L24)*
+*Defined in [point/point.ts:28](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L28)*
 
 **Parameters:**
 
@@ -126,7 +128,7 @@ ___
 
 ▸ **angle**(): *number*
 
-*Defined in [point/point.ts:30](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L30)*
+*Defined in [point/point.ts:34](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L34)*
 
 **Returns:** *number*
 
@@ -136,7 +138,7 @@ ___
 
 ▸ **clone**(): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:12](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L12)*
+*Defined in [point/point.ts:16](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L16)*
 
 **Returns:** *[Point](_point_point_.point.md)‹›*
 
@@ -146,7 +148,7 @@ ___
 
 ▸ **dot**(`z`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
 
-*Defined in [point/point.ts:15](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L15)*
+*Defined in [point/point.ts:19](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L19)*
 
 **Parameters:**
 
@@ -162,7 +164,7 @@ ___
 
 ▸ **isClose**(`b`: [IPoint](../modules/_point_interface_.md#ipoint), `tolerance`: number): *boolean*
 
-*Defined in [point/point.ts:55](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L55)*
+*Defined in [point/point.ts:59](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L59)*
 
 **Parameters:**
 
@@ -179,7 +181,7 @@ ___
 
 ▸ **mag**(): *number*
 
-*Defined in [point/point.ts:33](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L33)*
+*Defined in [point/point.ts:37](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L37)*
 
 **Returns:** *number*
 
@@ -189,7 +191,7 @@ ___
 
 ▸ **minus**(`b`: [IPoint](../modules/_point_interface_.md#ipoint)): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:27](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L27)*
+*Defined in [point/point.ts:31](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L31)*
 
 **Parameters:**
 
@@ -205,7 +207,7 @@ ___
 
 ▸ **mix**(`b`: [IPoint](../modules/_point_interface_.md#ipoint), `t`: number): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:18](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L18)*
+*Defined in [point/point.ts:22](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L22)*
 
 **Parameters:**
 
@@ -222,7 +224,7 @@ ___
 
 ▸ **rotate90**(): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:52](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L52)*
+*Defined in [point/point.ts:56](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L56)*
 
 **Returns:** *[Point](_point_point_.point.md)‹›*
 
@@ -232,7 +234,7 @@ ___
 
 ▸ **scale**(`t`: number): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:36](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L36)*
+*Defined in [point/point.ts:40](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L40)*
 
 **Parameters:**
 
@@ -248,7 +250,7 @@ ___
 
 ▸ **scaleAround**(`z`: [Point](_point_point_.point.md), `t`: number): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:42](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L42)*
+*Defined in [point/point.ts:46](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L46)*
 
 **Parameters:**
 
@@ -265,7 +267,7 @@ ___
 
 ▸ **scaleAroundXY**(`z`: [Point](_point_point_.point.md), `tx`: number, `ty`: number): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:45](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L45)*
+*Defined in [point/point.ts:49](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L49)*
 
 **Parameters:**
 
@@ -283,7 +285,7 @@ ___
 
 ▸ **scaleXY**(`tx`: number, `ty`: number): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:39](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L39)*
+*Defined in [point/point.ts:43](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L43)*
 
 **Parameters:**
 
@@ -300,7 +302,7 @@ ___
 
 ▸ **toLength**(`d`: number): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:48](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L48)*
+*Defined in [point/point.ts:52](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L52)*
 
 **Parameters:**
 
@@ -316,7 +318,7 @@ ___
 
 ▸ **cosAngle**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `p`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
 
-*Defined in [point/point.ts:122](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L122)*
+*Defined in [point/point.ts:126](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L126)*
 
 **Parameters:**
 
@@ -334,7 +336,7 @@ ___
 
 ▸ **cross**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
 
-*Defined in [point/point.ts:136](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L136)*
+*Defined in [point/point.ts:146](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L146)*
 
 **Parameters:**
 
@@ -349,9 +351,9 @@ ___
 
 ### `Static` dist
 
-▸ **dist**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `p`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
+▸ **dist**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
 
-*Defined in [point/point.ts:130](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L130)*
+*Defined in [point/point.ts:134](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L134)*
 
 **Parameters:**
 
@@ -359,7 +361,6 @@ Name | Type |
 ------ | ------ |
 `a` | [IPoint](../modules/_point_interface_.md#ipoint) |
 `b` | [IPoint](../modules/_point_interface_.md#ipoint) |
-`p` | [IPoint](../modules/_point_interface_.md#ipoint) |
 
 **Returns:** *number*
 
@@ -369,7 +370,7 @@ ___
 
 ▸ **dot**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
 
-*Defined in [point/point.ts:133](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L133)*
+*Defined in [point/point.ts:143](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L143)*
 
 **Parameters:**
 
@@ -386,7 +387,7 @@ ___
 
 ▸ **from**(`p`: [IPoint](../modules/_point_interface_.md#ipoint)): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:142](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L142)*
+*Defined in [point/point.ts:152](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L152)*
 
 **Parameters:**
 
@@ -402,7 +403,7 @@ ___
 
 ▸ **intersect**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `c`: [IPoint](../modules/_point_interface_.md#ipoint), `d`: [IPoint](../modules/_point_interface_.md#ipoint), `fInfinite`: boolean): *null | [Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:58](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L58)*
+*Defined in [point/point.ts:62](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L62)*
 
 **Parameters:**
 
@@ -422,7 +423,7 @@ ___
 
 ▸ **mixRange**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `c`: [IPoint](../modules/_point_interface_.md#ipoint), `d`: [IPoint](../modules/_point_interface_.md#ipoint), `t`: number): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:139](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L139)*
+*Defined in [point/point.ts:149](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L149)*
 
 **Parameters:**
 
@@ -438,11 +439,29 @@ Name | Type |
 
 ___
 
+### `Static` pointLineDist
+
+▸ **pointLineDist**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `p`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
+
+*Defined in [point/point.ts:140](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L140)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`a` | [IPoint](../modules/_point_interface_.md#ipoint) |
+`b` | [IPoint](../modules/_point_interface_.md#ipoint) |
+`p` | [IPoint](../modules/_point_interface_.md#ipoint) |
+
+**Returns:** *number*
+
+___
+
 ### `Static` project
 
 ▸ **project**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `p`: [IPoint](../modules/_point_interface_.md#ipoint)): *[Point](_point_point_.point.md)‹›*
 
-*Defined in [point/point.ts:111](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L111)*
+*Defined in [point/point.ts:115](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L115)*
 
 **Parameters:**
 
@@ -460,7 +479,7 @@ ___
 
 ▸ **rayIntersection**(`p1`: [IPoint](../modules/_point_interface_.md#ipoint), `_d1`: [IPoint](../modules/_point_interface_.md#ipoint), `_d2`: [IPoint](../modules/_point_interface_.md#ipoint), `p2`: [IPoint](../modules/_point_interface_.md#ipoint)): *[Point](_point_point_.point.md) | null*
 
-*Defined in [point/point.ts:86](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L86)*
+*Defined in [point/point.ts:90](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L90)*
 
 **Parameters:**
 
@@ -479,7 +498,7 @@ ___
 
 ▸ **scalarProject**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `p`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
 
-*Defined in [point/point.ts:115](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L115)*
+*Defined in [point/point.ts:119](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L119)*
 
 **Parameters:**
 
@@ -493,11 +512,11 @@ Name | Type |
 
 ___
 
-### `Static` signedDist
+### `Static` signedPointLineDist
 
-▸ **signedDist**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `p`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
+▸ **signedPointLineDist**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint), `p`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
 
-*Defined in [point/point.ts:127](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/point/point.ts#L127)*
+*Defined in [point/point.ts:137](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L137)*
 
 **Parameters:**
 
@@ -506,5 +525,22 @@ Name | Type |
 `a` | [IPoint](../modules/_point_interface_.md#ipoint) |
 `b` | [IPoint](../modules/_point_interface_.md#ipoint) |
 `p` | [IPoint](../modules/_point_interface_.md#ipoint) |
+
+**Returns:** *number*
+
+___
+
+### `Static` squareDist
+
+▸ **squareDist**(`a`: [IPoint](../modules/_point_interface_.md#ipoint), `b`: [IPoint](../modules/_point_interface_.md#ipoint)): *number*
+
+*Defined in [point/point.ts:131](https://github.com/be5invis/typo-geom/blob/5527277/src/point/point.ts#L131)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`a` | [IPoint](../modules/_point_interface_.md#ipoint) |
+`b` | [IPoint](../modules/_point_interface_.md#ipoint) |
 
 **Returns:** *number*

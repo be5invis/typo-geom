@@ -42,7 +42,7 @@
 
 \+ **new LinearTransform**(`xx`: number, `xy`: number, `yx`: number, `yy`: number, `x`: number, `y`: number): *[LinearTransform](_derivable_transforms_.lineartransform.md)*
 
-*Defined in [derivable/transforms.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L13)*
+*Defined in [derivable/transforms.ts:13](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L13)*
 
 **Parameters:**
 
@@ -63,7 +63,7 @@ Name | Type |
 
 • **tx**: *number*
 
-*Defined in [derivable/transforms.ts:12](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L12)*
+*Defined in [derivable/transforms.ts:12](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L12)*
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 • **ty**: *number*
 
-*Defined in [derivable/transforms.ts:13](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L13)*
+*Defined in [derivable/transforms.ts:13](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L13)*
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 • **xx**: *number*
 
-*Defined in [derivable/transforms.ts:8](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L8)*
+*Defined in [derivable/transforms.ts:8](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L8)*
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 • **xy**: *number*
 
-*Defined in [derivable/transforms.ts:10](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L10)*
+*Defined in [derivable/transforms.ts:10](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L10)*
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 • **yx**: *number*
 
-*Defined in [derivable/transforms.ts:9](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L9)*
+*Defined in [derivable/transforms.ts:9](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L9)*
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 • **yy**: *number*
 
-*Defined in [derivable/transforms.ts:11](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L11)*
+*Defined in [derivable/transforms.ts:11](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L11)*
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 ▪ **neutral**: *[LinearTransform](_derivable_transforms_.lineartransform.md)* = new LinearTransform(1, 0, 0, 1, 0, 0)
 
-*Defined in [derivable/transforms.ts:54](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L54)*
+*Defined in [derivable/transforms.ts:54](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L54)*
 
 ## Methods
 
@@ -121,7 +121,7 @@ ___
 
 *Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:29](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L29)*
+*Defined in [derivable/transforms.ts:29](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L29)*
 
 **Parameters:**
 
@@ -140,7 +140,7 @@ ___
 
 *Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:32](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L32)*
+*Defined in [derivable/transforms.ts:32](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L32)*
 
 **Parameters:**
 
@@ -159,7 +159,7 @@ ___
 
 *Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:35](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L35)*
+*Defined in [derivable/transforms.ts:35](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L35)*
 
 **Parameters:**
 
@@ -178,7 +178,7 @@ ___
 
 *Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:38](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L38)*
+*Defined in [derivable/transforms.ts:38](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L38)*
 
 **Parameters:**
 
@@ -195,7 +195,7 @@ ___
 
 ▸ **inverse**(): *[LinearTransform](_derivable_transforms_.lineartransform.md)‹›*
 
-*Defined in [derivable/transforms.ts:42](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L42)*
+*Defined in [derivable/transforms.ts:42](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L42)*
 
 **Returns:** *[LinearTransform](_derivable_transforms_.lineartransform.md)‹›*
 
@@ -207,7 +207,7 @@ ___
 
 *Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:23](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L23)*
+*Defined in [derivable/transforms.ts:23](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L23)*
 
 **Parameters:**
 
@@ -226,7 +226,7 @@ ___
 
 *Implementation of [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)*
 
-*Defined in [derivable/transforms.ts:26](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L26)*
+*Defined in [derivable/transforms.ts:26](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L26)*
 
 **Parameters:**
 

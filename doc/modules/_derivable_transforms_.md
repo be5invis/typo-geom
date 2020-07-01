@@ -22,7 +22,7 @@
 
 ▸ **transformBoundingBox**(`tfm`: [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md), `b`: [BoundingBox](../interfaces/_derivable_interface_.boundingbox.md)): *object*
 
-*Defined in [derivable/transforms.ts:118](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L118)*
+*Defined in [derivable/transforms.ts:118](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L118)*
 
 **Parameters:**
 
@@ -47,7 +47,7 @@ ___
 
 ▸ **transformPoint**(`t`: [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md), `z`: [IPoint](_point_interface_.md#ipoint)): *[Point](../classes/_point_point_.point.md)‹›*
 
-*Defined in [derivable/transforms.ts:97](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L97)*
+*Defined in [derivable/transforms.ts:97](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L97)*
 
 **Parameters:**
 
@@ -64,7 +64,7 @@ ___
 
 ▸ **transformPointXY**(`t`: [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md), `x`: number, `y`: number): *[Point](../classes/_point_point_.point.md)‹›*
 
-*Defined in [derivable/transforms.ts:101](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L101)*
+*Defined in [derivable/transforms.ts:101](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L101)*
 
 **Parameters:**
 
@@ -82,7 +82,7 @@ ___
 
 ▸ **transformShape**(`sh`: [Shape](_derivable_interface_.md#shape), `tfm`: [ShapeTransform](../interfaces/_derivable_interface_.shapetransform.md)): *[Derivable](../interfaces/_derivable_interface_.derivable.md)‹[XY](../interfaces/_point_interface_.xy.md)‹number››[][]*
 
-*Defined in [derivable/transforms.ts:105](https://github.com/be5invis/typo-geom/blob/9ebaae4/src/derivable/transforms.ts#L105)*
+*Defined in [derivable/transforms.ts:105](https://github.com/be5invis/typo-geom/blob/5527277/src/derivable/transforms.ts#L105)*
 
 **Parameters:**
 
