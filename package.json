@@ -1,6 +1,6 @@
 {
 	"name": "typo-geom",
-	"version": "0.8.3",
+	"version": "0.8.4",
 	"description": "Basic Geometric library for Type Design",
 	"license": "MIT",
 	"author": "Renzhi Li aka Belleve Invis<belleve@typeof.net>",
@@ -26,7 +26,6 @@
 		"tslib": "^1.11.0"
 	},
 	"devDependencies": {
-		"@types/mathjs": "^6.0.5",
 		"@types/node": "~14.0.13",
 		"ava": "^3.9.0",
 		"rimraf": "~3.0.2",

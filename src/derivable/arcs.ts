@@ -104,6 +104,20 @@ export class Reparametrized implements Arc {
 	}
 }
 
+export class Reverted implements Arc {
+	curve: Arc;
+	constructor(c: Arc) {
+		this.curve = c;
+	}
+	eval(t: number) {
+		return this.curve.eval(1 - t);
+	}
+	derivative(t: number) {
+		const d = this.curve.derivative(1 - t);
+		return new Point(-d.x, -d.y);
+	}
+}
+
 export class Circle implements Arc {
 	centerX: number;
 	centerY: number;

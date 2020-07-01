@@ -4,7 +4,7 @@
  * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
  */
 
-import { Arcs } from "../../derivable";
+import { Arcs, Arc } from "../../derivable";
 import { EPSILON, GEOMETRIC_EPSILON, mix, numberClose, RootSolver, Integral } from "../../fn";
 import { IPoint } from "../../point/interface";
 import { Point } from "../../point/point";
@@ -254,5 +254,24 @@ export class Bez3Slice extends Arcs.Bez3 {
 		const b = 6 * (v0 - 2 * v1 + v2);
 		const c = 3 * (v1 - v0);
 		RootSolver.solveQuadratic(a, b, c, sink);
+	}
+	static fromStraightSegment(ss: Arcs.StraightSegment) {
+		return new Bez3Slice(
+			ss.a,
+			Point.from(ss.a).mix(ss.b, 1 / 3),
+			Point.from(ss.a).mix(ss.b, 2 / 3),
+			ss.b
+		);
+	}
+	static fromArcSlice(arc: Arc, t0: number, t1: number) {
+		const scalar = t1 - t0;
+		const z0 = arc.eval(t0),
+			z1 = arc.eval(t1);
+		return new Bez3Slice(
+			z0,
+			Point.from(z0).addScale(scalar / 3, arc.derivative(t0)),
+			Point.from(z1).addScale(-scalar / 3, arc.derivative(t1)),
+			z1
+		);
 	}
 }
