@@ -129,7 +129,7 @@ function intKnotNotSame(knot: IntKnot, last: IntKnot) {
 	return knot.X !== last.X || knot.Y !== last.Y;
 }
 
-const DICING_STOPS = 0;
+const DICING_STOPS = 4;
 function diceKnots(arc: Bez3Slice, resolution: number, knots: IntKnot[]) {
 	let enableDicing = DICING_STOPS && !arc.isStraight();
 	knots = knots.sort(by_t);
