@@ -1,15 +1,15 @@
 import { mix, numberClose } from "../fn";
-import { IPoint } from "../point/interface";
-import { Point } from "../point/point";
+import { IVec2 } from "../point/interface";
+import { Point2, Offset2 } from "../point/point";
 import { Arc, DerivableFunction, ShapeTransform } from "./interface";
 
 export class FromXY implements Arc {
 	constructor(private readonly x: DerivableFunction, private readonly y: DerivableFunction) {}
 	eval(t: number) {
-		return new Point(this.x.eval(t), this.y.eval(t));
+		return new Point2(this.x.eval(t), this.y.eval(t));
 	}
 	derivative(t: number) {
-		return new Point(this.x.derivative(t), this.y.derivative(t));
+		return new Offset2(this.x.derivative(t), this.y.derivative(t));
 	}
 }
 
@@ -35,39 +35,39 @@ function bezT3(P0: number, P1: number, P2: number, P3: number, t: number) {
 
 export class Bez3 implements Arc {
 	constructor(
-		public readonly a: IPoint,
-		public readonly b: IPoint,
-		public readonly c: IPoint,
-		public readonly d: IPoint
+		public readonly a: IVec2,
+		public readonly b: IVec2,
+		public readonly c: IVec2,
+		public readonly d: IVec2
 	) {}
 
 	eval(t: number) {
-		return new Point(
+		return new Point2(
 			bez3(this.a.x, this.b.x, this.c.x, this.d.x, t),
 			bez3(this.a.y, this.b.y, this.c.y, this.d.y, t)
 		);
 	}
 
 	derivative(t: number) {
-		return new Point(
+		return new Offset2(
 			bezT3(this.a.x, this.b.x, this.c.x, this.d.x, t),
 			bezT3(this.a.y, this.b.y, this.c.y, this.d.y, t)
 		);
 	}
 
 	isStraight() {
-		const p1 = Point.from(this.a),
-			p2 = Point.from(this.d);
-		const h1 = Point.from(this.b).minus(this.a),
-			h2 = Point.from(this.c).minus(this.d);
-		if (numberClose(h1.mag(), 0) || numberClose(h2.mag(), 0)) return true;
+		const p1 = Point2.from(this.a),
+			p2 = Point2.from(this.d);
+		const h1 = Offset2.differenceFrom(this.b, this.a),
+			h2 = Offset2.differenceFrom(this.c, this.d);
+		if (h1.isAlmostZero() || h2.isAlmostZero()) return true;
 
 		const v = p2.minus(p1);
-		if (numberClose(v.mag(), 0)) return false;
+		if (v.isAlmostZero()) return false;
 
 		if (
-			numberClose(0, Point.pointLineDist(this.a, this.d, this.b)) &&
-			numberClose(0, Point.pointLineDist(this.a, this.d, this.c))
+			numberClose(0, Point2.pointLineDist(this.a, this.d, this.b)) &&
+			numberClose(0, Point2.pointLineDist(this.a, this.d, this.c))
 		) {
 			const div = v.dot(v),
 				s1 = v.dot(h1) / div,
@@ -80,8 +80,8 @@ export class Bez3 implements Arc {
 	static fromStraightSegment(ss: StraightSegment) {
 		return new Bez3(
 			ss.a,
-			Point.from(ss.a).mix(ss.b, 1 / 3),
-			Point.from(ss.a).mix(ss.b, 2 / 3),
+			Point2.from(ss.a).mix(Point2.from(ss.b), 1 / 3),
+			Point2.from(ss.a).mix(Point2.from(ss.b), 2 / 3),
 			ss.b
 		);
 	}
@@ -100,7 +100,7 @@ export class Reparametrized implements Arc {
 	derivative(t: number) {
 		const d = this.curve.derivative(this.fn.eval(t));
 		const dF = this.fn.derivative(t);
-		return new Point(d.x * dF, d.y * dF);
+		return new Offset2(d.x * dF, d.y * dF);
 	}
 }
 
@@ -114,7 +114,7 @@ export class Reverted implements Arc {
 	}
 	derivative(t: number) {
 		const d = this.curve.derivative(1 - t);
-		return new Point(-d.x, -d.y);
+		return new Offset2(-d.x, -d.y);
 	}
 }
 
@@ -128,23 +128,23 @@ export class Circle implements Arc {
 		this.radius = radius;
 	}
 	eval(t: number) {
-		return new Point(
+		return new Point2(
 			this.centerX + this.radius * Math.cos(t),
 			this.centerY + this.radius * Math.sin(t)
 		);
 	}
 	derivative(t: number) {
-		return new Point(-this.radius * Math.sin(t), this.radius * Math.cos(t));
+		return new Offset2(-this.radius * Math.sin(t), this.radius * Math.cos(t));
 	}
 }
 
 export class StraightSegment implements Arc {
-	constructor(public readonly a: IPoint, public readonly b: IPoint) {}
+	constructor(public readonly a: IVec2, public readonly b: IVec2) {}
 	eval(t: number) {
-		return new Point(mix(this.a.x, this.b.x, t), mix(this.a.y, this.b.y, t));
+		return new Point2(mix(this.a.x, this.b.x, t), mix(this.a.y, this.b.y, t));
 	}
 	derivative() {
-		return new Point(this.b.x - this.a.x, this.b.y - this.a.y);
+		return new Offset2(this.b.x - this.a.x, this.b.y - this.a.y);
 	}
 }
 
@@ -161,7 +161,7 @@ export class Mixed implements Arc {
 		const za = this.a.eval(t);
 		const zb = this.b.eval(t);
 		const m = this.mix.eval(t);
-		return new Point(za.x + (zb.x - za.x) * m, za.y + (zb.y - za.y) * m);
+		return new Point2(za.x + (zb.x - za.x) * m, za.y + (zb.y - za.y) * m);
 	}
 	derivative(t: number) {
 		const za = this.a.eval(t);
@@ -170,7 +170,7 @@ export class Mixed implements Arc {
 		const dzb = this.b.derivative(t);
 		const m = this.mix.eval(t);
 		const dm = this.mix.derivative(t);
-		return new Point(
+		return new Offset2(
 			(1 - m) * dza.x + (zb.x - za.x) * dm + m * dzb.x,
 			(1 - m) * dza.y + (zb.y - za.y) * dm + m * dzb.y
 		);
@@ -197,7 +197,7 @@ export class Mixed3 implements Arc {
 		const b = this.b.eval(t);
 		const f = this.f.eval(t);
 		const g = this.g.eval(t);
-		return new Point(
+		return new Point2(
 			(1 - f - g) * n.x + f * a.x + g * b.x,
 			(1 - f - g) * n.y + f * a.y + g * b.y
 		);
@@ -213,7 +213,7 @@ export class Mixed3 implements Arc {
 		const db = this.b.derivative(t);
 		const df = this.f.derivative(t);
 		const dg = this.g.derivative(t);
-		return new Point(
+		return new Offset2(
 			f * da.x + a.x * df + g * db.x + b.x * dg - n.x * (df + dg) - (f + g - 1) * dn.x,
 			f * da.y + a.y * df + g * db.y + b.y * dg - n.y * (df + dg) - (f + g - 1) * dn.y
 		);
@@ -229,12 +229,12 @@ export class Transformed implements Arc {
 	}
 	eval(t: number) {
 		const z = this.c.eval(t);
-		return new Point(this.tfm.x(z.x, z.y), this.tfm.y(z.x, z.y));
+		return new Point2(this.tfm.x(z.x, z.y), this.tfm.y(z.x, z.y));
 	}
 	derivative(t: number) {
 		const z = this.c.eval(t);
 		const d = this.c.derivative(t);
-		return new Point(
+		return new Offset2(
 			d.x * this.tfm.dxx(z.x, z.y) + d.y * this.tfm.dxy(z.x, z.y),
 			d.x * this.tfm.dyx(z.x, z.y) + d.y * this.tfm.dyy(z.x, z.y)
 		);

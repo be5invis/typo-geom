@@ -1,6 +1,6 @@
 import { ShapeTransform, Shape, BoundingBox } from "./interface";
-import { IPoint } from "../point/interface";
-import { Point } from "../point/point";
+import { IVec2 } from "../point/interface";
+import { Point2 } from "../point/point";
 import { BB } from "./bounding-box";
 import { Transformed } from "./arcs";
 
@@ -94,12 +94,12 @@ export class CompositeTransform implements ShapeTransform {
 	}
 }
 
-export function transformPoint(t: ShapeTransform, z: IPoint) {
-	return new Point(t.x(z.x, z.y), t.y(z.x, z.y));
+export function transformPoint(t: ShapeTransform, z: IVec2) {
+	return new Point2(t.x(z.x, z.y), t.y(z.x, z.y));
 }
 
 export function transformPointXY(t: ShapeTransform, x: number, y: number) {
-	return new Point(t.x(x, y), t.y(x, y));
+	return new Point2(t.x(x, y), t.y(x, y));
 }
 
 export function transformShape(sh: Shape, tfm: ShapeTransform) {

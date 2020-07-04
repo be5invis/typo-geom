@@ -1,6 +1,6 @@
 import { convertShapeToBez3 } from "../bez-tool/shape-to-bez3";
 import { Arc, Arcs } from "../derivable";
-import { Point } from "../point/point";
+import { Point2 } from "../point/point";
 
 export interface IBezierGeometrySink {
 	beginShape(): void;
@@ -27,17 +27,17 @@ export function transferBezArcShape(
 	sink.beginShape();
 	for (const contour of shape) {
 		if (!contour.length) continue;
-		let z0 = Point.from(contour[0].eval(0));
+		let z0 = Point2.from(contour[0].eval(0));
 		sink.moveTo(z0.x, z0.y);
 		for (const arc of contour) {
-			const a = Point.from(arc.eval(0)),
-				d = Point.from(arc.eval(1));
-			if (Point.squareDist(a, z0) > tolerance * tolerance) {
+			const a = Point2.from(arc.eval(0)),
+				d = Point2.from(arc.eval(1));
+			if (!Point2.areClose(a, z0, tolerance)) {
 				sink.lineTo(a.x, a.y);
 				z0 = a;
 			}
 			if (arc.isStraight()) {
-				if (Point.squareDist(d, z0) > tolerance * tolerance) {
+				if (!Point2.areClose(d, z0, tolerance)) {
 					sink.lineTo(d.x, d.y);
 					z0 = d;
 				}
@@ -58,17 +58,17 @@ export function transferGenericShape(shape: Arc[][], sink: IArcGeometrySink, tol
 	sink.beginShape();
 	for (const contour of shape) {
 		if (!contour.length) continue;
-		let z0 = Point.from(contour[0].eval(0));
+		let z0 = Point2.from(contour[0].eval(0));
 		sink.moveTo(z0.x, z0.y);
 		for (const arc of contour) {
-			const a = Point.from(arc.eval(0)),
-				d = Point.from(arc.eval(1));
-			if (Point.squareDist(a, z0) > tolerance * tolerance) {
+			const a = Point2.from(arc.eval(0)),
+				d = Point2.from(arc.eval(1));
+			if (!Point2.areClose(a, z0, tolerance)) {
 				sink.lineTo(a.x, a.y);
 				z0 = a;
 			}
 			if (arc instanceof Arcs.StraightSegment) {
-				if (Point.squareDist(d, z0) > tolerance * tolerance) {
+				if (!Point2.areClose(d, z0, tolerance)) {
 					sink.lineTo(d.x, d.y);
 					z0 = d;
 				}

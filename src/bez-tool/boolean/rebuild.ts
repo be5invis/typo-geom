@@ -1,5 +1,5 @@
 import { IIntPoint } from "clipper-lib";
-import { Point } from "../../point/point";
+import { Point2 } from "../../point/point";
 import { inPlaceRotateArray } from "../../util/in-place-array";
 import { Bez3Slice } from "../shared/slice-arc";
 import { keyOfZ, SegEntry } from "./to-poly";
@@ -57,15 +57,15 @@ function collectPrimSegments(
 		} else {
 			const a = descale(poly[j], resolution);
 			const d = descale(poly[j + 1], resolution);
-			const b = Point.from(a).mix(d, 1 / 3);
-			const c = Point.from(a).mix(d, 2 / 3);
+			const b = Point2.from(a).mix(d, 1 / 3);
+			const c = Point2.from(a).mix(d, 2 / 3);
 			primSegments.push(new SegEntry(new Bez3Slice(a, b, c, d), 0, 1));
 		}
 	}
 	return primSegments;
 }
 function descale(Z: IIntPoint, resolution: number) {
-	return new Point(Z.X / resolution, Z.Y / resolution);
+	return new Point2(Z.X / resolution, Z.Y / resolution);
 }
 
 function inPlaceAnnexPrimSegments(primSegments: SegEntry[]) {

@@ -1,6 +1,6 @@
 import { Arc, Arcs } from "../../derivable";
 import { numberClose } from "../../fn";
-import { Point } from "../../point/point";
+import { Point2 } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
 
 export class CombinedArc implements Arc {
@@ -36,7 +36,7 @@ export class CombinedArc implements Arc {
 		const tNext = j < this.lengths.length - 1 ? this.lengths[j + 1] : 1;
 		const tRelative = (t - tBefore) / (tNext - tBefore);
 		const d = this.segments[j].derivative(tRelative);
-		return new Point(d.x / (tNext - tBefore), d.y / (tNext - tBefore));
+		return new Point2(d.x / (tNext - tBefore), d.y / (tNext - tBefore));
 	}
 	reduceIfStraight(): Arc {
 		if (!this.segments.length) return this;
@@ -45,10 +45,10 @@ export class CombinedArc implements Arc {
 			z1 = this.segments[this.segments.length - 1].d;
 		for (const seg of this.segments) {
 			if (
-				!numberClose(0, Point.pointLineDist(z0, z1, seg.a)) ||
-				!numberClose(0, Point.pointLineDist(z0, z1, seg.b)) ||
-				!numberClose(0, Point.pointLineDist(z0, z1, seg.c)) ||
-				!numberClose(0, Point.pointLineDist(z0, z1, seg.d))
+				!numberClose(0, Point2.pointLineDist(z0, z1, seg.a)) ||
+				!numberClose(0, Point2.pointLineDist(z0, z1, seg.b)) ||
+				!numberClose(0, Point2.pointLineDist(z0, z1, seg.c)) ||
+				!numberClose(0, Point2.pointLineDist(z0, z1, seg.d))
 			) {
 				return this;
 			}

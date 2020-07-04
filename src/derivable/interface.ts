@@ -1,11 +1,11 @@
-import { IPoint } from "../point/interface";
+import { IVec2 } from "../point/interface";
 
 export interface Derivable<T> {
 	eval(t: number): T;
 	derivative(t: number): T;
 }
 
-export type Arc = Derivable<IPoint>;
+export type Arc = Derivable<IVec2>;
 export type DerivableFunction = Derivable<number>;
 
 export interface ShapeTransform {

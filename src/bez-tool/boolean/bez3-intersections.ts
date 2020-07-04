@@ -5,7 +5,7 @@
  */
 
 import { EPSILON, numberClose, RootSolver } from "../../fn";
-import { Point } from "../../point/point";
+import { Point2 } from "../../point/point";
 import { getOverlaps } from "./bez3-overlap";
 import { Bez3Slice } from "../shared/slice-arc";
 
@@ -63,7 +63,7 @@ export function bez3SelfIntersections(arc: Bez3Slice, sink: SelfIntersectionSink
 export type PointArrayRep = [number, number];
 
 function lineIntersectionImpl(v1: Bez3Slice, v2: Bez3Slice, sink: CrossIntersectionSink) {
-	const pt = Point.intersect(v1.a, v1.d, v2.a, v2.d);
+	const pt = Point2.intersect(v1.a, v1.d, v2.a, v2.d);
 	if (pt) {
 		const t1 = v1.getTOf(pt),
 			t2 = v2.getTOf(pt);
@@ -107,7 +107,7 @@ function getCurveLineIntersections(v: Bez3Slice, px: number, py: number, vx: num
 	if (numberClose(vx, 0) && numberClose(vy, 0)) {
 		// Handle special case of a line with no direction as a point,
 		// and check if it is on the curve.
-		const t = v.getTOf(new Point(px, py));
+		const t = v.getTOf(new Point2(px, py));
 		return t === null ? [] : [t];
 	}
 
@@ -152,8 +152,8 @@ function curveIntersectionImpl(
 
 	// Calculate the fat-line L for Q is the baseline l and two
 	// offsets which completely encloses the curve P.
-	let d1 = Point.signedPointLineDist(v2.a, v2.d, v2.b),
-		d2 = Point.signedPointLineDist(v2.a, v2.d, v2.c),
+	let d1 = Point2.signedPointLineDist(v2.a, v2.d, v2.b),
+		d2 = Point2.signedPointLineDist(v2.a, v2.d, v2.c),
 		factor = d1 * d2 > 0 ? 3 / 4 : 4 / 9,
 		dMin = factor * Math.min(0, d1, d2),
 		dMax = factor * Math.max(0, d1, d2);
@@ -161,10 +161,10 @@ function curveIntersectionImpl(
 	// Calculate non-parametric bezier curve D(ti, di(t)) - di(t) is the
 	// distance of P from the baseline l of the fat-line, ti is equally
 	// spaced in [0, 1]
-	let dp0 = Point.signedPointLineDist(v2.a, v2.d, v1.a);
-	let dp1 = Point.signedPointLineDist(v2.a, v2.d, v1.b);
-	let dp2 = Point.signedPointLineDist(v2.a, v2.d, v1.c);
-	let dp3 = Point.signedPointLineDist(v2.a, v2.d, v1.d);
+	let dp0 = Point2.signedPointLineDist(v2.a, v2.d, v1.a);
+	let dp1 = Point2.signedPointLineDist(v2.a, v2.d, v1.b);
+	let dp2 = Point2.signedPointLineDist(v2.a, v2.d, v1.c);
+	let dp3 = Point2.signedPointLineDist(v2.a, v2.d, v1.d);
 	let hull = getConvexHull(dp0, dp1, dp2, dp3),
 		top = hull[0],
 		bottom = hull[1];
@@ -398,8 +398,8 @@ function clipConvexHullPart(part: PointArrayRep[], top: boolean, threshold: numb
 function getFatline(v: Bez3Slice) {
 	// Calculate the fat-line L, for Q is the baseline l and two
 	// offsets which completely encloses the curve P.
-	let d1 = Point.signedPointLineDist(v.a, v.d, v.b) || 0;
-	let d2 = Point.signedPointLineDist(v.a, v.d, v.c) || 0;
+	let d1 = Point2.signedPointLineDist(v.a, v.d, v.b) || 0;
+	let d2 = Point2.signedPointLineDist(v.a, v.d, v.c) || 0;
 	let factor = d1 * d2 > 0 ? 3.0 / 4.0 : 4.0 / 9.0; // Get a tighter fit
 	let dMin = factor * Math.min(0, d1, d2);
 	let dMax = factor * Math.max(0, d1, d2);

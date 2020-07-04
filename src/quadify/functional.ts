@@ -1,7 +1,7 @@
 import { mat, inverse } from "@josh-brown/vector";
 import { minDistanceToQuad } from "./estimate";
 import { mix } from "../fn";
-import { IPoint } from "../point/interface";
+import { IVec2 } from "../point/interface";
 import { Arc } from "../derivable/interface";
 
 function X(n: number) {
@@ -11,7 +11,7 @@ function Y(n: number) {
 	return n * 2 + 1;
 }
 
-function findIntersection(p1: IPoint, d1: IPoint, d2: IPoint, p2: IPoint): IPoint | null {
+function findIntersection(p1: IVec2, d1: IVec2, d2: IVec2, p2: IVec2): IVec2 | null {
 	const det = d2.x * d1.y - d2.y * d1.x;
 	const numU = (p2.y - p1.y) * d2.x - (p2.x - p1.x) * d2.y;
 	const numV = (p2.y - p1.y) * d1.x - (p2.x - p1.x) * d1.y;
@@ -108,7 +108,7 @@ function getResults(c: Arc, n: number) {
 	return results;
 }
 
-export function quadifyCurve(c: Arc, n: number = 1): IPoint[] | null {
+export function quadifyCurve(c: Arc, n: number = 1): IVec2[] | null {
 	if (n <= 0) return [];
 
 	if (n === 1) {
@@ -135,18 +135,18 @@ export function quadifyCurve(c: Arc, n: number = 1): IPoint[] | null {
 	return points;
 }
 
-function estimateError(c: Arc, offPoints: IPoint[], N: number) {
+function estimateError(c: Arc, offPoints: IVec2[], N: number) {
 	let curves: number[][] = [];
 	for (let j = 0; j < offPoints.length; j++) {
 		const z = offPoints[j];
-		const pointBefore: IPoint =
+		const pointBefore: IVec2 =
 			j > 0
 				? {
 						x: mix(z.x, offPoints[j - 1].x, 1 / 2),
 						y: mix(z.y, offPoints[j - 1].y, 1 / 2)
 				  }
 				: c.eval(0);
-		const pointAfter: IPoint =
+		const pointAfter: IVec2 =
 			j < offPoints.length - 1
 				? {
 						x: mix(z.x, offPoints[j + 1].x, 1 / 2),
@@ -174,7 +174,7 @@ export function autoQuadifyCurve(
 	allowError: number,
 	maxSegments: number,
 	samples: number
-): IPoint[] | null {
+): IVec2[] | null {
 	let results = null;
 	for (let s = 1; s <= maxSegments; s++) {
 		try {

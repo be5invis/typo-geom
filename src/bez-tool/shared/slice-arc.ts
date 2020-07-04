@@ -4,11 +4,11 @@
  * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
  */
 
-import { Arcs, Arc } from "../../derivable";
-import { EPSILON, GEOMETRIC_EPSILON, mix, numberClose, RootSolver, Integral } from "../../fn";
-import { IPoint } from "../../point/interface";
-import { Point } from "../../point/point";
+import { Arc, Arcs } from "../../derivable";
+import { EPSILON, GEOMETRIC_EPSILON, Integral, numberClose, RootSolver } from "../../fn";
 import { IRootSink } from "../../fn/solver";
+import { IVec2 } from "../../point/interface";
+import { Point2, Offset2 } from "../../point/point";
 
 export enum CornerType {
 	Smooth = 0,
@@ -21,7 +21,7 @@ export type CurveClass = "line" | "quadratic" | "serpentine" | "cusp" | "loop" |
 export type CurveClassifyResult = { type: CurveClass; roots: null | number[] };
 
 export class Bez3Slice extends Arcs.Bez3 {
-	constructor(a: IPoint, b: IPoint, c: IPoint, d: IPoint) {
+	constructor(a: IVec2, b: IVec2, c: IVec2, d: IVec2) {
 		super(a, b, c, d);
 	}
 	public cornerTypeBefore = CornerType.Corner;
@@ -31,8 +31,8 @@ export class Bez3Slice extends Arcs.Bez3 {
 	forceStraight() {
 		const arc = new Bez3Slice(
 			this.a,
-			Point.from(this.a).mix(this.d, 1 / 3),
-			Point.from(this.a).mix(this.d, 2 / 3),
+			Point2.from(this.a).mix(Point2.from(this.d), 1 / 3),
+			Point2.from(this.a).mix(Point2.from(this.d), 2 / 3),
 			this.d
 		);
 		arc.cornerTypeBefore = this.cornerTypeBefore;
@@ -74,8 +74,8 @@ export class Bez3Slice extends Arcs.Bez3 {
 
 		// We now have all the values we need to build the sub-curves [left, right]:
 		return [
-			new Bez3Slice(this.a, new Point(p3x, p3y), new Point(p6x, p6y), new Point(p8x, p8y)),
-			new Bez3Slice(new Point(p8x, p8y), new Point(p7x, p7y), new Point(p5x, p5y), this.d)
+			new Bez3Slice(this.a, new Point2(p3x, p3y), new Point2(p6x, p6y), new Point2(p8x, p8y)),
+			new Bez3Slice(new Point2(p8x, p8y), new Point2(p7x, p7y), new Point2(p5x, p5y), this.d)
 		];
 	}
 
@@ -91,9 +91,9 @@ export class Bez3Slice extends Arcs.Bez3 {
 		return v;
 	}
 
-	getTOf(point: IPoint): number | null {
-		let p0 = Point.from(this.a),
-			p3 = Point.from(this.d);
+	getTOf(point: IVec2): number | null {
+		let p0 = Point2.from(this.a),
+			p3 = Point2.from(this.d);
 		if (p0.isClose(point, EPSILON)) return 0;
 		if (p3.isClose(point, EPSILON)) return 1;
 
@@ -204,7 +204,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 	getLength(a: number = 0, b: number = 1) {
 		if (this.isStraight()) {
 			const slice = this.sliceRatio(a, b);
-			return Point.dist(slice.a, slice.d);
+			return Point2.dist(slice.a, slice.d);
 		} else {
 			return Integral.gaussLegendre(
 				this.getLengthIntegrand(),
@@ -258,8 +258,8 @@ export class Bez3Slice extends Arcs.Bez3 {
 	static fromStraightSegment(ss: Arcs.StraightSegment) {
 		return new Bez3Slice(
 			ss.a,
-			Point.from(ss.a).mix(ss.b, 1 / 3),
-			Point.from(ss.a).mix(ss.b, 2 / 3),
+			Point2.from(ss.a).mix(Point2.from(ss.b), 1 / 3),
+			Point2.from(ss.a).mix(Point2.from(ss.b), 2 / 3),
 			ss.b
 		);
 	}
@@ -269,8 +269,8 @@ export class Bez3Slice extends Arcs.Bez3 {
 			z1 = arc.eval(t1);
 		return new Bez3Slice(
 			z0,
-			Point.from(z0).addScale(scalar / 3, arc.derivative(t0)),
-			Point.from(z1).addScale(-scalar / 3, arc.derivative(t1)),
+			Point2.from(z0).addScale(scalar / 3, Offset2.from(arc.derivative(t0))),
+			Point2.from(z1).addScale(-scalar / 3, Offset2.from(arc.derivative(t1))),
 			z1
 		);
 	}

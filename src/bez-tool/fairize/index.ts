@@ -1,7 +1,7 @@
 import { Arc, Arcs } from "../../derivable";
 import { GEOMETRIC_EPSILON } from "../../fn";
-import { IPoint } from "../../point/interface";
-import { Point } from "../../point/point";
+import { IVec2 } from "../../point/interface";
+import { Point2, Offset2 } from "../../point/point";
 import { inPlaceRotateArray } from "../../util/in-place-array";
 import { Bez3Slice, CornerType } from "../shared/slice-arc";
 import { splitAtExtrema } from "../shared/split-at-extrema";
@@ -54,12 +54,13 @@ function markCornersAndSplit(contour: Bez3Slice[], sink: Bez3Slice[]) {
 			z0 = cBefore.c,
 			z2 = cAfter.b,
 			z11 = cBefore.d;
-		if (!Point.from(z1).isClose(z11, GEOMETRIC_EPSILON)) {
+		if (!Point2.from(z1).isClose(z11, GEOMETRIC_EPSILON)) {
 			cBefore.cornerTypeAfter = cAfter.cornerTypeBefore = CornerType.Corner;
 		} else {
 			const hetero = cBefore.isStraight() !== cAfter.isStraight();
-			const almostLinear = Point.pointLineDist(z0, z2, z1) < GEOMETRIC_EPSILON;
-			const inBetween = Point.dot(Point.from(z0).minus(z1), Point.from(z2).minus(z1)) < 0;
+			const almostLinear = Point2.pointLineDist(z0, z2, z1) < GEOMETRIC_EPSILON;
+			const inBetween =
+				Offset2.dot(Offset2.differenceFrom(z0, z1), Offset2.differenceFrom(z2, z1)) < 0;
 			if (hetero) {
 				cBefore.cornerTypeAfter = cAfter.cornerTypeBefore = CornerType.Hetero;
 			} else if (almostLinear && inBetween) {
@@ -90,7 +91,7 @@ function inPlaceFilterDegenerates(contour: Bez3Slice[]) {
 	while (i < contour.length) {
 		const arc = contour[i];
 		const isStraight = arc.isStraight();
-		const isDegenerate = isStraight && Point.from(arc.d).minus(arc.a).mag() < GEOMETRIC_EPSILON;
+		const isDegenerate = isStraight && Point2.areClose(arc.d, arc.a, GEOMETRIC_EPSILON);
 		if (!isDegenerate) {
 			if (isStraight) {
 				contour[j++] = arc.forceStraight();
@@ -107,7 +108,7 @@ function isStopCt(ct: CornerType) {
 	return ct !== CornerType.Smooth;
 }
 function canonicalStart(contour: Bez3Slice[]) {
-	let zStart: null | IPoint = null,
+	let zStart: null | IVec2 = null,
 		jStart = 0;
 
 	for (let j = 0; j < contour.length; j++) {

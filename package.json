@@ -1,6 +1,6 @@
 {
 	"name": "typo-geom",
-	"version": "0.8.4",
+	"version": "0.9.0",
 	"description": "Basic Geometric library for Type Design",
 	"license": "MIT",
 	"author": "Renzhi Li aka Belleve Invis<belleve@typeof.net>",
@@ -9,7 +9,6 @@
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
 		"clean": "rimraf coverage lib tmp",
-		"doc": "typedoc --out ./doc --theme markdown src",
 		"prepack": "npm run clean && tsc -p tsconfig.release.json",
 		"test": "ava --verbose",
 		"watch": "tsc -w -p tsconfig.json"
@@ -31,8 +30,6 @@
 		"rimraf": "~3.0.2",
 		"tslint": "^6.1.2",
 		"tsutils": "~3.17.1",
-		"typedoc": "^0.17.7",
-		"typedoc-plugin-markdown": "^2.3.1",
 		"typescript": "^3.9.5"
 	},
 	"engines": {

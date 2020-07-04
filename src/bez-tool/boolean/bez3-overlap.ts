@@ -5,7 +5,7 @@
  */
 
 import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON } from "../../fn";
-import { Point } from "../../point/point";
+import { Point2 } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
 
 function getSquaredLineLength(v: Bez3Slice) {
@@ -27,17 +27,17 @@ export function getOverlaps(v1: Bez3Slice, v2: Bez3Slice) {
 	// picked line. Note that the curve for the picked line might not
 	// actually be a line, so we have to perform more checks after.
 	if (
-		Point.pointLineDist(l1.a, l1.d, l2.a) < GEOMETRIC_EPSILON &&
-		Point.pointLineDist(l1.a, l1.d, l2.d) < GEOMETRIC_EPSILON
+		Point2.pointLineDist(l1.a, l1.d, l2.a) < GEOMETRIC_EPSILON &&
+		Point2.pointLineDist(l1.a, l1.d, l2.d) < GEOMETRIC_EPSILON
 	) {
 		// If not both curves are straight, check against both of their
 		// handles, and treat them as straight if they are very close.
 		if (
 			!straightBoth &&
-			Point.pointLineDist(l1.a, l1.d, l1.b) < GEOMETRIC_EPSILON &&
-			Point.pointLineDist(l1.a, l1.d, l1.c) < GEOMETRIC_EPSILON &&
-			Point.pointLineDist(l1.a, l1.d, l2.b) < GEOMETRIC_EPSILON &&
-			Point.pointLineDist(l1.a, l1.d, l2.c) < GEOMETRIC_EPSILON
+			Point2.pointLineDist(l1.a, l1.d, l1.b) < GEOMETRIC_EPSILON &&
+			Point2.pointLineDist(l1.a, l1.d, l1.c) < GEOMETRIC_EPSILON &&
+			Point2.pointLineDist(l1.a, l1.d, l2.b) < GEOMETRIC_EPSILON &&
+			Point2.pointLineDist(l1.a, l1.d, l2.c) < GEOMETRIC_EPSILON
 		) {
 			straight1 = straight2 = straightBoth = true;
 		}
@@ -60,7 +60,7 @@ export function getOverlaps(v1: Bez3Slice, v2: Bez3Slice) {
 		const i1 = i & 1, // 0, 1, 0, 1
 			i2 = i1 ^ 1, // 1, 0, 1, 0
 			t1 = i >> 1, // 0, 0, 1, 1
-			t2 = v[i1].getTOf(Point.from(t1 ? v[i2].d : v[i2].a));
+			t2 = v[i1].getTOf(Point2.from(t1 ? v[i2].d : v[i2].a));
 		if (t2 != null) {
 			// If point is on curve
 			const pair: OverlapSpot = i1 ? [t1, t2] : [t2, t1];

@@ -1,6 +1,6 @@
 import { Arc, Arcs } from "../../derivable";
 import { mix } from "../../fn";
-import { Point } from "../../point/point";
+import { Point2 } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
 import { splitAtExtrema } from "../shared/split-at-extrema";
 
@@ -17,7 +17,7 @@ export function convertContourToBez3(contour: Arc[], err: number): Arcs.Bez3[] {
 		const arc = contour[j];
 		const zLast = arcLast.eval(1),
 			zStart = arc.eval(0);
-		if (Point.squareDist(zLast, zStart) > err * err) {
+		if (!Point2.areClose(zLast, zStart, err)) {
 			arcs.push(Bez3Slice.fromStraightSegment(new Arcs.StraightSegment(zLast, zStart)));
 		}
 		if (arc instanceof Arcs.Bez3) {
@@ -49,7 +49,7 @@ function convertArcToBez3(
 	for (let t = 1; t < PROBE_STOPS; t++) {
 		const zTest = testArc.eval(t / PROBE_STOPS);
 		const zArc = arc.eval(mix(t0, t1, t / PROBE_STOPS));
-		if (Point.squareDist(zTest, zArc) > err * err) {
+		if (!Point2.areClose(zTest, zArc, err)) {
 			needsSubdivide = true;
 			break;
 		}

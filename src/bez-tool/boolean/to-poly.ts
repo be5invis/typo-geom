@@ -1,6 +1,6 @@
 import { IIntPoint, IntPoint } from "clipper-lib";
 import { mix } from "../../fn";
-import { IPoint } from "../../point/interface";
+import { IVec2 } from "../../point/interface";
 import { Bez3Slice } from "../shared/slice-arc";
 import { FIntersection } from "./intersections";
 
@@ -118,7 +118,7 @@ export function toPoly(
 function by_t(a: IntKnot, b: IntKnot) {
 	return a.t - b.t;
 }
-function MakeKnot(t: number, s: IPoint, resolution: number) {
+function MakeKnot(t: number, s: IVec2, resolution: number) {
 	return {
 		X: Math.round(s.x * resolution),
 		Y: Math.round(s.y * resolution),

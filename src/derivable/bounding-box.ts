@@ -1,5 +1,5 @@
 import { BoundingBox } from "./interface";
-import { IPoint } from "../point/interface";
+import { IVec2 } from "../point/interface";
 
 export namespace BB {
 	const NE = 0x100000;
@@ -11,7 +11,7 @@ export namespace BB {
 		return b.xMin <= b.xMax && b.yMin <= b.yMax;
 	}
 
-	export function coverPoint(b: BoundingBox, z: IPoint) {
+	export function coverPoint(b: BoundingBox, z: IVec2) {
 		coverX(b, z.x), coverY(b, z.y);
 	}
 	export function coverX(b: BoundingBox, x: number) {

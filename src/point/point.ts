@@ -1,11 +1,8 @@
-import { IPoint } from "./interface";
-import { numberClose, MACHINE_EPSILON, EPSILON } from "../fn";
+import { EPSILON, MACHINE_EPSILON, numberClose } from "../fn";
+import { IVec2 } from "./interface";
 
-export function z(x: number, y: number) {
-	return new Point(x, y);
-}
-
-export class Point implements IPoint {
+export class Offset2 implements IVec2 {
+	private _m_vector_type: "Vec2" = "Vec2";
 	x: number;
 	y: number;
 
@@ -14,22 +11,22 @@ export class Point implements IPoint {
 		this.y = y;
 	}
 	clone() {
-		return new Point(this.x, this.y);
+		return new Offset2(this.x, this.y);
 	}
-	dot(z: IPoint) {
+	dot(z: IVec2) {
 		return this.x * z.x + this.y * z.y;
 	}
-	mix(b: IPoint, t: number) {
-		return new Point(this.x + (b.x - this.x) * t, this.y + (b.y - this.y) * t);
+	add(b: IVec2) {
+		return new Offset2(this.x + b.x, this.y + b.y);
 	}
-	add(b: IPoint) {
-		return new Point(this.x + b.x, this.y + b.y);
+	addScale(s: number, b: IVec2) {
+		return new Offset2(this.x + s * b.x, this.y + s * b.y);
 	}
-	addScale(s: number, b: IPoint) {
-		return new Point(this.x + s * b.x, this.y + s * b.y);
+	minus(b: IVec2) {
+		return new Offset2(this.x - b.x, this.y - b.y);
 	}
-	minus(b: IPoint) {
-		return new Point(this.x - b.x, this.y - b.y);
+	mix(b: Offset2, t: number) {
+		return new Offset2(this.x + (b.x - this.x) * t, this.y + (b.y - this.y) * t);
 	}
 	angle() {
 		return Math.atan2(this.y, this.x);
@@ -37,29 +34,68 @@ export class Point implements IPoint {
 	mag() {
 		return Math.hypot(this.x, this.y);
 	}
+	isAlmostZero(ep: number = EPSILON) {
+		return this.x * this.x + this.y * this.y < ep * ep;
+	}
 	scale(t: number) {
-		return new Point(this.x * t, this.y * t);
+		return new Offset2(this.x * t, this.y * t);
 	}
 	scaleXY(tx: number, ty: number) {
-		return new Point(this.x * tx, this.y * ty);
-	}
-	scaleAround(z: Point, t: number) {
-		return this.minus(z).scale(t).add(z);
-	}
-	scaleAroundXY(z: Point, tx: number, ty: number) {
-		return this.minus(z).scaleXY(tx, ty).add(z);
+		return new Offset2(this.x * tx, this.y * ty);
 	}
 	toLength(d: number) {
 		const h = Math.hypot(this.x, this.y);
-		return new Point((d * this.x) / h, (d * this.y) / h);
+		return new Offset2((d * this.x) / h, (d * this.y) / h);
 	}
-	rotate90() {
-		return new Point(this.y, -this.x);
+	static from(p: IVec2) {
+		return new Offset2(p.x, p.y);
 	}
-	isClose(b: IPoint, tolerance: number) {
-		return Point.squareDist(this, b) <= tolerance * tolerance;
+	static differenceFrom(a: IVec2, b: IVec2) {
+		return new Offset2(a.x - b.x, a.y - b.y);
 	}
-	static intersect(a: IPoint, b: IPoint, c: IPoint, d: IPoint, fInfinite = false) {
+	static dot(a: IVec2, b: IVec2) {
+		return a.x * b.x + a.y * b.y;
+	}
+	static cross(a: IVec2, b: IVec2) {
+		return a.x * b.y - a.y * b.x;
+	}
+}
+
+export class Point2 implements IVec2 {
+	private _m_vector_type: "Point" = "Point";
+	x: number;
+	y: number;
+
+	constructor(x: number = 0, y: number = 0) {
+		this.x = x;
+		this.y = y;
+	}
+	clone() {
+		return new Point2(this.x, this.y);
+	}
+
+	mix(b: Point2, t: number) {
+		return new Point2(this.x + (b.x - this.x) * t, this.y + (b.y - this.y) * t);
+	}
+	add(b: Offset2) {
+		return new Point2(this.x + b.x, this.y + b.y);
+	}
+	addScale(s: number, b: Offset2) {
+		return new Point2(this.x + s * b.x, this.y + s * b.y);
+	}
+	minus(b: Point2) {
+		return new Offset2(this.x - b.x, this.y - b.y);
+	}
+	scaleAround(z: Point2, t: number) {
+		return z.add(this.minus(z).scale(t));
+	}
+	scaleAroundXY(z: Point2, tx: number, ty: number) {
+		return z.add(this.minus(z).scaleXY(tx, ty));
+	}
+	isClose(b: IVec2, tolerance: number) {
+		return Point2.squareDist(this, b) <= tolerance * tolerance;
+	}
+	static intersect(a: IVec2, b: IVec2, c: IVec2, d: IVec2, fInfinite = false) {
 		const p1x = a.x,
 			p1y = a.y,
 			v1x = b.x - a.x,
@@ -82,14 +118,14 @@ export class Point implements IPoint {
 				uMax = 1 + EPSILON;
 			if (fInfinite || (uMin < u1 && u1 < uMax && uMin < u2 && u2 < uMax)) {
 				if (!fInfinite) u1 = u1 <= 0 ? 0 : u1 >= 1 ? 1 : u1;
-				return new Point(p1x + u1 * v1x, p1y + u1 * v1y);
+				return new Point2(p1x + u1 * v1x, p1y + u1 * v1y);
 			}
 		}
 		return null;
 	}
-	static rayIntersection(p1: IPoint, _d1: IPoint, _d2: IPoint, p2: IPoint): Point | null {
-		const d1 = Point.from(_d1).minus(p1);
-		const d2 = Point.from(_d2).minus(p2);
+	static rayIntersection(p1: IVec2, _d1: IVec2, _d2: IVec2, p2: IVec2): Point2 | null {
+		const d1 = Offset2.differenceFrom(_d1, p1);
+		const d2 = Offset2.differenceFrom(_d2, p2);
 		const det = d2.x * d1.y - d2.y * d1.x;
 		const numU = (p2.y - p1.y) * d2.x - (p2.x - p1.x) * d2.y;
 		const numV = (p2.y - p1.y) * d1.x - (p2.x - p1.x) * d1.y;
@@ -101,7 +137,7 @@ export class Point implements IPoint {
 				numU * det <= 0 &&
 				numV * det <= 0
 			) {
-				return new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+				return new Point2((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 			} else {
 				return null;
 			}
@@ -109,52 +145,46 @@ export class Point implements IPoint {
 		const u = numU / det;
 		const v = numV / det;
 		if (u <= 0 || v <= 0) return null;
-		return new Point(p1.x + d1.x * u, p1.y + d1.y * u);
+		return new Point2(p1.x + d1.x * u, p1.y + d1.y * u);
 	}
 
-	static project(a: IPoint, b: IPoint, p: IPoint) {
-		const scalar = Point.scalarProject(a, b, p);
-		return Point.from(a).mix(b, scalar);
+	static project(a: IVec2, b: IVec2, p: IVec2) {
+		const scalar = Point2.scalarProject(a, b, p);
+		return Point2.from(a).mix(Point2.from(b), scalar);
 	}
-	static scalarProject(a: IPoint, b: IPoint, p: IPoint) {
+	static scalarProject(a: IVec2, b: IVec2, p: IVec2) {
 		const apx = p.x - a.x,
 			apy = p.y - a.y;
 		const abx = b.x - a.x,
 			aby = b.y - a.y;
 		return (apx * abx + apy * aby) / (abx * abx + aby * aby);
 	}
-	static cosAngle(a: IPoint, b: IPoint, p: IPoint) {
-		const vp = Point.from(p).minus(a);
-		const vb = Point.from(b).minus(a);
+	static cosAngle(a: IVec2, b: IVec2, p: IVec2) {
+		const vp = Offset2.differenceFrom(p, a);
+		const vb = Offset2.differenceFrom(b, a);
 		return Math.min(1, Math.max(-1, vp.dot(vb) / (vp.mag() * vb.mag())));
 	}
-	static squareDist(a: IPoint, b: IPoint) {
+	static squareDist(a: IVec2, b: IVec2) {
 		return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
 	}
-	static dist(a: IPoint, b: IPoint) {
+	static areClose(a: IVec2, b: IVec2, t: number) {
+		return this.squareDist(a, b) < t * t;
+	}
+	static dist(a: IVec2, b: IVec2) {
 		return Math.hypot(a.x - b.x, a.y - b.y);
 	}
-	static signedPointLineDist(a: IPoint, b: IPoint, p: IPoint) {
-		return signedDistance(a.x, a.y, b.x, b.y, p.x, p.y);
+	static signedPointLineDist(a: IVec2, b: IVec2, p: IVec2) {
+		return signedDistanceImpl(a.x, a.y, b.x, b.y, p.x, p.y);
 	}
-	static pointLineDist(a: IPoint, b: IPoint, p: IPoint) {
-		return getDistance(a.x, a.y, b.x, b.y, p.x, p.y);
+	static pointLineDist(a: IVec2, b: IVec2, p: IVec2) {
+		return getDistanceImpl(a.x, a.y, b.x, b.y, p.x, p.y);
 	}
-	static dot(a: IPoint, b: IPoint) {
-		return a.x * b.x + a.y * b.y;
-	}
-	static cross(a: IPoint, b: IPoint) {
-		return a.x * b.y - a.y * b.x;
-	}
-	static mixRange(a: IPoint, b: IPoint, c: IPoint, d: IPoint, t: number) {
-		return new Point(b.x - t * (b.x - a.x + d.x - c.x), b.y - t * (b.y - a.y + d.y - c.y));
-	}
-	static from(p: IPoint) {
-		return new Point(p.x, p.y);
+	static from(p: IVec2) {
+		return new Point2(p.x, p.y);
 	}
 }
 
-function signedDistance(px: number, py: number, vx: number, vy: number, x: number, y: number) {
+function signedDistanceImpl(px: number, py: number, vx: number, vy: number, x: number, y: number) {
 	vx -= px;
 	vy -= py;
 	if (numberClose(vx, 0)) {
@@ -165,6 +195,6 @@ function signedDistance(px: number, py: number, vx: number, vy: number, x: numbe
 		return (vx * (y - py) - vy * (x - px)) / Math.sqrt(vx * vx + vy * vy);
 	}
 }
-function getDistance(px: number, py: number, vx: number, vy: number, x: number, y: number) {
-	return Math.abs(signedDistance(px, py, vx, vy, x, y));
+function getDistanceImpl(px: number, py: number, vx: number, vy: number, x: number, y: number) {
+	return Math.abs(signedDistanceImpl(px, py, vx, vy, x, y));
 }
