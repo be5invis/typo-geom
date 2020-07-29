@@ -76,7 +76,6 @@ const invMatrixCache: Map<number, number[][]> = new Map();
 function getInvMatrix(n: number) {
 	const existing = invMatrixCache.get(n);
 	if (existing) return existing;
-	console.log("forced compute", n);
 	const computed = inverse(mat(getMatrix(n)))!.toArray();
 	invMatrixCache.set(n, computed);
 	return computed;
