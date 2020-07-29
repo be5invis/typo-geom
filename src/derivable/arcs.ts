@@ -14,23 +14,13 @@ export class FromXY implements Arc {
 }
 
 function bez3(a: number, b: number, c: number, d: number, t: number): number {
-	const ab = mix(a, b, t);
-	const bc = mix(b, c, t);
-	const cd = mix(c, d, t);
-	const abc = mix(ab, bc, t);
-	const bcd = mix(bc, cd, t);
-	return mix(abc, bcd, t);
+	const cot = 1 - t;
+	return cot * cot * (a * cot + 3 * b * t) + t * t * (3 * c * cot + d * t);
 }
 
-function bezT3(P0: number, P1: number, P2: number, P3: number, t: number) {
-	return (
-		-3 * (1 - t) * (1 - t) * P0 +
-		3 * (1 - t) * (1 - t) * P1 -
-		6 * t * (1 - t) * P1 -
-		3 * t * t * P2 +
-		6 * t * (1 - t) * P2 +
-		3 * t * t * P3
-	);
+function bezT3(a: number, b: number, c: number, d: number, t: number) {
+	const cot = 1 - t;
+	return 3 * cot * cot * (b - a) + 6 * t * cot * (c - b) + 3 * t * t * (d - c);
 }
 
 export class Bez3 implements Arc {

@@ -1,8 +1,8 @@
-import { mat, inverse } from "@josh-brown/vector";
-import { minDistanceToQuad } from "./estimate";
-import { mix } from "../fn";
-import { IVec2 } from "../point/interface";
+import { inverse, mat } from "@josh-brown/vector";
 import { Arc } from "../derivable/interface";
+import { IVec2 } from "../point/interface";
+import { Offset2, Point2 } from "../point/point";
+import { mix } from "../fn";
 
 function X(n: number) {
 	return n * 2;
@@ -76,7 +76,7 @@ const invMatrixCache: Map<number, number[][]> = new Map();
 function getInvMatrix(n: number) {
 	const existing = invMatrixCache.get(n);
 	if (existing) return existing;
-
+	console.log("forced compute", n);
 	const computed = inverse(mat(getMatrix(n)))!.toArray();
 	invMatrixCache.set(n, computed);
 	return computed;
@@ -135,53 +135,53 @@ export function quadifyCurve(c: Arc, n: number = 1): IVec2[] | null {
 	return points;
 }
 
-function estimateError(c: Arc, offPoints: IVec2[], N: number) {
-	let curves: number[][] = [];
+function estimateError(c: Arc, offPoints: IVec2[]) {
+	let maxSquareDist = 0;
 	for (let j = 0; j < offPoints.length; j++) {
-		const z = offPoints[j];
-		const pointBefore: IVec2 =
+		const zOffQu = offPoints[j];
+		const zBeforeQu: IVec2 =
 			j > 0
 				? {
-						x: mix(z.x, offPoints[j - 1].x, 1 / 2),
-						y: mix(z.y, offPoints[j - 1].y, 1 / 2)
+						x: mix(zOffQu.x, offPoints[j - 1].x, 1 / 2),
+						y: mix(zOffQu.y, offPoints[j - 1].y, 1 / 2)
 				  }
 				: c.eval(0);
-		const pointAfter: IVec2 =
+		const zAfterQu: IVec2 =
 			j < offPoints.length - 1
 				? {
-						x: mix(z.x, offPoints[j + 1].x, 1 / 2),
-						y: mix(z.y, offPoints[j + 1].y, 1 / 2)
+						x: mix(zOffQu.x, offPoints[j + 1].x, 1 / 2),
+						y: mix(zOffQu.y, offPoints[j + 1].y, 1 / 2)
 				  }
 				: c.eval(1);
-		curves.push([pointBefore.x, pointBefore.y, z.x, z.y, pointAfter.x, pointAfter.y]);
+		const tBefore = j / offPoints.length,
+			tAfter = (j + 1) / offPoints.length;
+		const zBefore = c.eval(tBefore),
+			dBefore = c.derivative(tBefore),
+			zAfter = c.eval(tAfter),
+			dAfter = c.derivative(tAfter);
+		const dbBeforeCubic = Offset2.from(dBefore).scale(1 / (3 * offPoints.length));
+		const dbAfterCubic = Offset2.from(dAfter).scale(-1 / (3 * offPoints.length));
+		const dbBeforeQu = Offset2.differenceFrom(zOffQu, zBeforeQu).scale(2 / 3);
+		const dbAfterQu = Offset2.differenceFrom(zOffQu, zAfterQu).scale(2 / 3);
+		maxSquareDist = Math.max(
+			maxSquareDist,
+			Point2.squareDist(zBefore, zBeforeQu),
+			Point2.squareDist(zAfter, zAfterQu),
+			Point2.squareDist(dbBeforeCubic, dbBeforeQu),
+			Point2.squareDist(dbAfterCubic, dbAfterQu)
+		);
 	}
-	let squareDist = 0;
-	for (let j = 1; j < N; j++) {
-		let minDistSofar = 1e9;
-		const { x: zx, y: zy } = c.eval(j / N);
-		for (let k = 0; k < curves.length; k++) {
-			const c = curves[k];
-			const dist = minDistanceToQuad(zx, zy, c[0], c[1], c[2], c[3], c[4], c[5]);
-			if (dist < minDistSofar) minDistSofar = dist;
-		}
-		squareDist += minDistSofar;
-	}
-	return squareDist / N;
+	return maxSquareDist;
 }
 
-export function autoQuadifyCurve(
-	c: Arc,
-	allowError: number,
-	maxSegments: number,
-	samples: number
-): IVec2[] | null {
+export function autoQuadifyCurve(c: Arc, allowError: number, maxSegments: number): IVec2[] | null {
 	let results = null;
 	for (let s = 1; s <= maxSegments; s++) {
 		try {
 			let offPoints = quadifyCurve(c, s);
 			if (!offPoints || !offPoints.length) continue;
-			let err = estimateError(c, offPoints, samples * s);
-			if (err < allowError) return offPoints;
+			let err = estimateError(c, offPoints);
+			if (err <= allowError * allowError) return offPoints;
 			results = offPoints;
 		} catch (e) {}
 	}
