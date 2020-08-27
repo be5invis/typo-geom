@@ -7,7 +7,14 @@ export interface VectorSpace<T, X> {
 	addScale(x: T, s: X, y: T): T;
 }
 
+export interface InnerProductSpace<T, X> extends VectorSpace<T, X> {
+	innerProduct(a: T, b: T): X;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
 export function vsQuadifyCurve<V>(vs: VectorSpace<V, number>, arc: Derivable<V>, n: number) {
+	if (n < 2) throw new RangeError("vsQuadifyCurve: Must have at least 2 inner points");
 	const v = getConstantTerms(vs, arc, n);
 	const a = Array(n).fill(0);
 	const b = Array(n).fill(0);
@@ -21,9 +28,10 @@ export const vsNumber: VectorSpace<number, number> = {
 	neutral: 0,
 	addScale: (a, b, c) => a * b + c
 };
-export const vsNumberVec2: VectorSpace<IVec2, number> = {
+export const vsNumberVec2: InnerProductSpace<IVec2, number> = {
 	neutral: new Offset2(0, 0),
-	addScale: (a, b, c) => new Offset2(a.x + b * c.x, a.y + b * c.y)
+	addScale: (a, b, c) => new Offset2(a.x + b * c.x, a.y + b * c.y),
+	innerProduct: (a, b) => a.x * b.x + a.y * b.y
 };
 
 // Generalized, in-place Thomas algorithm
@@ -73,4 +81,80 @@ function getConstantTerms<V>(vs: VectorSpace<V, number>, c: Derivable<V>, n: num
 	constantTerms[n - 1] = vs.addScale(end, -dScale, dEnd);
 
 	return constantTerms;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+export function ipsEstimateQuadifyError<T>(
+	ips: InnerProductSpace<T, number>,
+	c: Derivable<T>,
+	offPoints: T[]
+) {
+	let maxSquareDist = 0;
+	for (let j = 0; j < offPoints.length; j++) {
+		const zOffQu = offPoints[j];
+
+		const zBeforeQu = j > 0 ? vsMix(ips, zOffQu, offPoints[j - 1], 1 / 2) : c.eval(0);
+		const zAfterQu =
+			j < offPoints.length - 1 ? vsMix(ips, zOffQu, offPoints[j + 1], 1 / 2) : c.eval(1);
+
+		const tBefore = j / offPoints.length,
+			tAfter = (j + 1) / offPoints.length;
+		const zBefore = c.eval(tBefore),
+			dBefore = c.derivative(tBefore),
+			zAfter = c.eval(tAfter),
+			dAfter = c.derivative(tAfter);
+
+		const dbBeforeCubic = vsScale(ips, 1 / (3 * offPoints.length), dBefore);
+		const dbAfterCubic = vsScale(ips, -1 / (3 * offPoints.length), dAfter);
+		const dbBeforeQu = vsScale(ips, 2 / 3, vsDifference(ips, zOffQu, zBeforeQu));
+		const dbAfterQu = vsScale(ips, 2 / 3, vsDifference(ips, zOffQu, zAfterQu));
+
+		maxSquareDist = Math.max(
+			maxSquareDist,
+			ipsSquareDist(ips, zBefore, zBeforeQu),
+			ipsSquareDist(ips, zAfter, zAfterQu),
+			ipsSquareDist(ips, dbBeforeCubic, dbBeforeQu),
+			ipsSquareDist(ips, dbAfterCubic, dbAfterQu)
+		);
+	}
+	return maxSquareDist;
+}
+
+export function ipsAutoQuadify<T>(
+	ips: InnerProductSpace<T, number>,
+	c: Derivable<T>,
+	allowError: number = 0.1,
+	maxSegments: number = 32
+) {
+	let results = null;
+	for (let s = 2; s <= maxSegments; s++) {
+		try {
+			let offPoints = vsQuadifyCurve(ips, c, s);
+			if (!offPoints || !offPoints.length) continue;
+			let err = ipsEstimateQuadifyError(ips, c, offPoints);
+			if (err <= allowError * allowError) return offPoints;
+			results = offPoints;
+		} catch (e) {}
+	}
+	return results;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+function vsDifference<T>(vs: VectorSpace<T, number>, a: T, b: T) {
+	return vs.addScale(a, -1, b);
+}
+
+function vsScale<T>(vs: VectorSpace<T, number>, p: number, a: T) {
+	return vs.addScale(vs.neutral, p, a);
+}
+
+function vsMix<T>(vs: VectorSpace<T, number>, a: T, b: T, p: number) {
+	return vs.addScale(a, p, vsDifference(vs, b, a));
+}
+
+function ipsSquareDist<T>(ips: InnerProductSpace<T, number>, a: T, b: T) {
+	const d = vsDifference(ips, a, b);
+	return ips.innerProduct(d, d);
 }

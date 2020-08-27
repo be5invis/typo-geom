@@ -1,8 +1,6 @@
 import { Arc } from "../derivable/interface";
-import { mix } from "../fn";
 import { IVec2 } from "../point/interface";
-import { Offset2, Point2 } from "../point/point";
-import { vsNumberVec2, vsQuadifyCurve } from "./vs-quadify";
+import { ipsEstimateQuadifyError, vsNumberVec2, vsQuadifyCurve } from "./vs-quadify";
 
 function findIntersection(p1: IVec2, d1: IVec2, d2: IVec2, p2: IVec2): IVec2 | null {
 	const det = d2.x * d1.y - d2.y * d1.x;
@@ -43,52 +41,17 @@ export function quadifyCurve(c: Arc, n: number = 1): IVec2[] | null {
 	return vsQuadifyCurve(vsNumberVec2, c, n);
 }
 
-function estimateError(c: Arc, offPoints: IVec2[]) {
-	let maxSquareDist = 0;
-	for (let j = 0; j < offPoints.length; j++) {
-		const zOffQu = offPoints[j];
-		const zBeforeQu: IVec2 =
-			j > 0
-				? {
-						x: mix(zOffQu.x, offPoints[j - 1].x, 1 / 2),
-						y: mix(zOffQu.y, offPoints[j - 1].y, 1 / 2)
-				  }
-				: c.eval(0);
-		const zAfterQu: IVec2 =
-			j < offPoints.length - 1
-				? {
-						x: mix(zOffQu.x, offPoints[j + 1].x, 1 / 2),
-						y: mix(zOffQu.y, offPoints[j + 1].y, 1 / 2)
-				  }
-				: c.eval(1);
-		const tBefore = j / offPoints.length,
-			tAfter = (j + 1) / offPoints.length;
-		const zBefore = c.eval(tBefore),
-			dBefore = c.derivative(tBefore),
-			zAfter = c.eval(tAfter),
-			dAfter = c.derivative(tAfter);
-		const dbBeforeCubic = Offset2.from(dBefore).scale(1 / (3 * offPoints.length));
-		const dbAfterCubic = Offset2.from(dAfter).scale(-1 / (3 * offPoints.length));
-		const dbBeforeQu = Offset2.differenceFrom(zOffQu, zBeforeQu).scale(2 / 3);
-		const dbAfterQu = Offset2.differenceFrom(zOffQu, zAfterQu).scale(2 / 3);
-		maxSquareDist = Math.max(
-			maxSquareDist,
-			Point2.squareDist(zBefore, zBeforeQu),
-			Point2.squareDist(zAfter, zAfterQu),
-			Point2.squareDist(dbBeforeCubic, dbBeforeQu),
-			Point2.squareDist(dbAfterCubic, dbAfterQu)
-		);
-	}
-	return maxSquareDist;
-}
-
-export function autoQuadifyCurve(c: Arc, allowError: number, maxSegments: number): IVec2[] | null {
+export function autoQuadifyCurve(
+	c: Arc,
+	allowError: number = 0.1,
+	maxSegments: number = 32
+): IVec2[] | null {
 	let results = null;
 	for (let s = 1; s <= maxSegments; s++) {
 		try {
 			let offPoints = quadifyCurve(c, s);
 			if (!offPoints || !offPoints.length) continue;
-			let err = estimateError(c, offPoints);
+			let err = ipsEstimateQuadifyError(vsNumberVec2, c, offPoints);
 			if (err <= allowError * allowError) return offPoints;
 			results = offPoints;
 		} catch (e) {}
