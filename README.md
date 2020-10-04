@@ -1,4 +1,13 @@
 # Typo-Geom
 
-A geometrics library for Type Design software, unifying geometric parts from [Megaminx](https://github.com/caryll/Megaminx) and [primitive-quadify-off-curves](https://github.com/be5invis/primitive-quadify-off-curves).
+A geometry library for type design softwares.
 
+## Installation
+
+```bash
+npm install typo-geom
+```
+
+## License
+
+MIT

@@ -19,9 +19,3 @@ export interface ShapeTransform {
 
 export type Contour = Arc[];
 export type Shape = Arc[][];
-export interface BoundingBox {
-	xMin: number;
-	xMax: number;
-	yMin: number;
-	yMax: number;
-}

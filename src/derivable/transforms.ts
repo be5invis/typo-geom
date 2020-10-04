@@ -1,8 +1,7 @@
-import { ShapeTransform, Shape, BoundingBox } from "./interface";
 import { IVec2 } from "../point/interface";
 import { Point2 } from "../point/point";
-import { BB } from "./bounding-box";
 import { Transformed } from "./arcs";
+import { Shape, ShapeTransform } from "./interface";
 
 export class LinearTransform implements ShapeTransform {
 	xx: number;
@@ -113,13 +112,4 @@ export function transformShape(sh: Shape, tfm: ShapeTransform) {
 		out[j] = contour;
 	}
 	return out;
-}
-
-export function transformBoundingBox(tfm: ShapeTransform, b: BoundingBox) {
-	const nbb = BB.empty();
-	BB.coverPoint(nbb, transformPointXY(tfm, b.xMin, b.yMin));
-	BB.coverPoint(nbb, transformPointXY(tfm, b.xMax, b.yMax));
-	BB.coverPoint(nbb, transformPointXY(tfm, b.xMax, b.yMin));
-	BB.coverPoint(nbb, transformPointXY(tfm, b.xMin, b.yMax));
-	return nbb;
 }

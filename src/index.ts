@@ -1,9 +1,8 @@
-export * from "./point/interface";
-export * from "./point/point";
-export * as Quadify from "./quadify/index";
+export { XY, IVec2 } from "./point/interface";
+export { Point2, Offset2 } from "./point/point";
 export * from "./derivable";
-export * from "./fn";
-export * from "./quadify/index";
+export * as Quadify from "./quadify/index";
 export * as Boolean from "./bez-tool/boolean";
 export * as Fairize from "./bez-tool/fairize";
-export * from "./shape-conv";
+export * as ShapeConv from "./shape-conv";
+export * as BoundingBox from "./bounding-box";
