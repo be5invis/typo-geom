@@ -4,12 +4,12 @@ import { Point2 } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
 import { splitAtExtrema } from "../shared/split-at-extrema";
 
-export function convertShapeToBez3(shape: Arc[][], err: number): Arcs.Bez3[][] {
-	let ans: Arcs.Bez3[][] = [];
+export function convertShapeToBez3(shape: Arc[][], err: number): Bez3Slice[][] {
+	let ans: Bez3Slice[][] = [];
 	for (let contour of shape) ans.push(convertContourToBez3(contour, err));
 	return ans;
 }
-export function convertContourToBez3(contour: Arc[], err: number): Arcs.Bez3[] {
+export function convertContourToBez3(contour: Arc[], err: number): Bez3Slice[] {
 	let arcs: Bez3Slice[] = [];
 	for (let j = 0; j < contour.length; j++) {
 		const jLast = (j - 1 + contour.length) % contour.length;

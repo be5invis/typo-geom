@@ -1,8 +1,9 @@
 import { Arc, Arcs } from "../../derivable";
 import { GEOMETRIC_EPSILON } from "../../fn";
 import { IVec2 } from "../../point/interface";
-import { Point2, Offset2 } from "../../point/point";
+import { Offset2, Point2 } from "../../point/point";
 import { inPlaceRotateArray } from "../../util/in-place-array";
+import { convertContourToBez3 } from "../shape-to-bez3";
 import { Bez3Slice, CornerType } from "../shared/slice-arc";
 import { splitAtExtrema } from "../shared/split-at-extrema";
 import { CombinedArc } from "./combined-curve";
@@ -14,6 +15,14 @@ export function fairizeBezierShape(shape: Arcs.Bez3[][]): Arc[][] {
 		const bezSlicesContour = [];
 		for (const arc of contour) bezSlicesContour.push(new Bez3Slice(arc.a, arc.b, arc.c, arc.d));
 		results.push(fairizeBezierContour(bezSlicesContour));
+	}
+	return results;
+}
+
+export function fairizeGenericShape(shape: Arc[][], tolerance = 1 / 16): Arc[][] {
+	let results: Arc[][] = [];
+	for (const contour of shape) {
+		results.push(fairizeBezierContour(convertContourToBez3(contour, tolerance)));
 	}
 	return results;
 }

@@ -1,6 +1,6 @@
 import { Arc } from "../derivable/interface";
 import { IVec2 } from "../point/interface";
-import { ipsEstimateQuadifyError, vsNumberVec2, vsQuadifyCurve } from "./vs-quadify";
+import { ipsErrorFitsIn, vsNumberVec2, vsQuadifyCurve } from "./vs-quadify";
 
 function findIntersection(p1: IVec2, d1: IVec2, d2: IVec2, p2: IVec2): IVec2 | null {
 	const det = d2.x * d1.y - d2.y * d1.x;
@@ -48,13 +48,10 @@ export function autoQuadifyCurve(
 ): IVec2[] | null {
 	let results = null;
 	for (let s = 1; s <= maxSegments; s++) {
-		try {
-			let offPoints = quadifyCurve(c, s);
-			if (!offPoints || !offPoints.length) continue;
-			let err = ipsEstimateQuadifyError(vsNumberVec2, c, offPoints);
-			if (err <= allowError * allowError) return offPoints;
-			results = offPoints;
-		} catch (e) {}
+		let offPoints = quadifyCurve(c, s);
+		if (!offPoints || !offPoints.length) continue;
+		if (ipsErrorFitsIn(vsNumberVec2, c, offPoints, allowError * allowError)) return offPoints;
+		results = offPoints;
 	}
 	return results;
 }

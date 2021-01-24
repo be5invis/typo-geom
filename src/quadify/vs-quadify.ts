@@ -1,3 +1,4 @@
+import { allowedNodeEnvironmentFlags } from "process";
 import { Derivable } from "../derivable";
 import { IVec2 } from "../point/interface";
 import { Offset2 } from "../point/point";
@@ -85,12 +86,15 @@ function getConstantTerms<V>(vs: VectorSpace<V, number>, c: Derivable<V>, n: num
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function ipsEstimateQuadifyError<T>(
+export function ipsErrorFitsIn<T>(
 	ips: InnerProductSpace<T, number>,
 	c: Derivable<T>,
-	offPoints: T[]
+	offPoints: T[],
+	squareError: number
 ) {
-	let maxSquareDist = 0;
+	let zBefore = c.eval(0),
+		dBefore = c.derivative(0);
+
 	for (let j = 0; j < offPoints.length; j++) {
 		const zOffQu = offPoints[j];
 
@@ -98,27 +102,24 @@ export function ipsEstimateQuadifyError<T>(
 		const zAfterQu =
 			j < offPoints.length - 1 ? vsMix(ips, zOffQu, offPoints[j + 1], 1 / 2) : c.eval(1);
 
-		const tBefore = j / offPoints.length,
-			tAfter = (j + 1) / offPoints.length;
-		const zBefore = c.eval(tBefore),
-			dBefore = c.derivative(tBefore),
-			zAfter = c.eval(tAfter),
-			dAfter = c.derivative(tAfter);
+		const tAfter = (j + 1) / offPoints.length;
+		const zAfter = c.eval(tAfter);
+		const dAfter = c.derivative(tAfter);
 
 		const dbBeforeCubic = vsScale(ips, 1 / (3 * offPoints.length), dBefore);
 		const dbAfterCubic = vsScale(ips, -1 / (3 * offPoints.length), dAfter);
 		const dbBeforeQu = vsScale(ips, 2 / 3, vsDifference(ips, zOffQu, zBeforeQu));
 		const dbAfterQu = vsScale(ips, 2 / 3, vsDifference(ips, zOffQu, zAfterQu));
 
-		maxSquareDist = Math.max(
-			maxSquareDist,
-			ipsSquareDist(ips, zBefore, zBeforeQu),
-			ipsSquareDist(ips, zAfter, zAfterQu),
-			ipsSquareDist(ips, dbBeforeCubic, dbBeforeQu),
-			ipsSquareDist(ips, dbAfterCubic, dbAfterQu)
-		);
+		if (ipsSquareDist(ips, zBefore, zBeforeQu) > squareError) return false;
+		if (ipsSquareDist(ips, zAfter, zAfterQu) > squareError) return false;
+		if (ipsSquareDist(ips, dbBeforeCubic, dbBeforeQu) > squareError) return false;
+		if (ipsSquareDist(ips, dbAfterCubic, dbAfterQu) > squareError) return false;
+
+		zBefore = zAfter;
+		dBefore = dAfter;
 	}
-	return maxSquareDist;
+	return true;
 }
 
 export function ipsAutoQuadify<T>(
@@ -129,13 +130,10 @@ export function ipsAutoQuadify<T>(
 ) {
 	let results = null;
 	for (let s = 2; s <= maxSegments; s++) {
-		try {
-			let offPoints = vsQuadifyCurve(ips, c, s);
-			if (!offPoints || !offPoints.length) continue;
-			let err = ipsEstimateQuadifyError(ips, c, offPoints);
-			if (err <= allowError * allowError) return offPoints;
-			results = offPoints;
-		} catch (e) {}
+		let offPoints = vsQuadifyCurve(ips, c, s);
+		if (!offPoints || !offPoints.length) continue;
+		if (ipsErrorFitsIn(ips, c, offPoints, allowError * allowError)) return offPoints;
+		results = offPoints;
 	}
 	return results;
 }

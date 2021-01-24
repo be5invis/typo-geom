@@ -2,38 +2,33 @@ import { Arc, Arcs } from "../../derivable";
 import { numberClose } from "../../fn";
 import { Point2 } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
+import { segTSearch } from "./seg-index-search";
 
 export class CombinedArc implements Arc {
-	private readonly lengths: number[] = [];
+	private readonly stops: number[] = [];
 	constructor(public readonly segments: Bez3Slice[]) {
-		for (let j = 0; j < segments.length; j++) {
-			this.lengths[j] = segments[j].getLength();
-		}
 		let totalLength = 0;
-		for (let j = 0; j < this.lengths.length; j++) totalLength += this.lengths[j];
+		for (let j = 0; j < this.segments.length; j++) {
+			totalLength += segments[j].getLength();
+		}
 		let lengthSofar = 0;
-		for (let j = 0; j < this.lengths.length; j++) {
-			let segLen = this.lengths[j];
-			this.lengths[j] = lengthSofar / totalLength;
+		for (let j = 0; j < this.segments.length; j++) {
+			let segLen = segments[j].getLength();
+			this.stops[j] = lengthSofar / totalLength;
 			lengthSofar += segLen;
 		}
 	}
-	private getIndex(t: number) {
-		let j = this.lengths.length - 1;
-		while (j > 0 && this.lengths[j] > t) j--;
-		return j;
-	}
 	eval(t: number) {
-		const j = this.getIndex(t);
-		const tBefore = this.lengths[j];
-		const tNext = j < this.lengths.length - 1 ? this.lengths[j + 1] : 1;
+		const j = segTSearch(this.stops, t);
+		const tBefore = this.stops[j];
+		const tNext = j < this.stops.length - 1 ? this.stops[j + 1] : 1;
 		const tRelative = (t - tBefore) / (tNext - tBefore);
 		return this.segments[j].eval(tRelative);
 	}
 	derivative(t: number) {
-		const j = this.getIndex(t);
-		const tBefore = this.lengths[j];
-		const tNext = j < this.lengths.length - 1 ? this.lengths[j + 1] : 1;
+		const j = segTSearch(this.stops, t);
+		const tBefore = this.stops[j];
+		const tNext = j < this.stops.length - 1 ? this.stops[j + 1] : 1;
 		const tRelative = (t - tBefore) / (tNext - tBefore);
 		const d = this.segments[j].derivative(tRelative);
 		return new Point2(d.x / (tNext - tBefore), d.y / (tNext - tBefore));
