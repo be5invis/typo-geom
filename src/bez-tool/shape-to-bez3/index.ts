@@ -2,7 +2,6 @@ import { Arc, Arcs } from "../../derivable";
 import { mix } from "../../fn";
 import { Point2 } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
-import { splitAtExtrema } from "../shared/split-at-extrema";
 
 export function convertShapeToBez3(shape: Arc[][], err: number): Bez3Slice[][] {
 	let ans: Bez3Slice[][] = [];
@@ -21,7 +20,7 @@ export function convertContourToBez3(contour: Arc[], err: number): Bez3Slice[] {
 			arcs.push(Bez3Slice.fromStraightSegment(new Arcs.StraightSegment(zLast, zStart)));
 		}
 		if (arc instanceof Arcs.Bez3) {
-			splitAtExtrema(new Bez3Slice(arc.a, arc.b, arc.c, arc.d), arcs);
+			arcs.push(new Bez3Slice(arc.a, arc.b, arc.c, arc.d));
 		} else {
 			convertArcToBez3(arc, err, arcs, 0, 1, 0, 8);
 		}
@@ -41,7 +40,7 @@ function convertArcToBez3(
 ) {
 	const testArc = Bez3Slice.fromArcSlice(arc, t0, t1);
 	if (depth >= maxDepth) {
-		splitAtExtrema(testArc, sink);
+		sink.push(testArc);
 		return;
 	}
 
@@ -56,7 +55,7 @@ function convertArcToBez3(
 	}
 
 	if (!needsSubdivide) {
-		splitAtExtrema(testArc, sink);
+		sink.push(testArc);
 	} else {
 		let tMid = mix(t0, t1, 1 / 2);
 		convertArcToBez3(arc, err, sink, t0, tMid, depth + 1, maxDepth);
