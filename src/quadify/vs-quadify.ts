@@ -53,16 +53,21 @@ export function ipsErrorFitsIn<T>(
 	let zBefore = c.eval(0),
 		dBefore = c.derivative(0);
 
-	for (let j = 0; j < offPoints.length; j++) {
+	const n = offPoints.length;
+
+	for (let j = 0; j < n; j++) {
 		const zOffQu = offPoints[j];
 
-		const tAfter = (j + 1) / offPoints.length;
+		const tAfter = (j + 1) / n;
 		const zAfter = c.eval(tAfter);
 		const dAfter = c.derivative(tAfter);
 
 		if (j % 2) {
-			const zBeforeQu = vsMix(ips, zOffQu, offPoints[j - 1], 1 / 2);
+			const zOffQuPrev = offPoints[j - 1];
+			const zBeforeQu = vsMix(ips, zOffQu, zOffQuPrev, 1 / 2);
+			const dBeforeQu = vsScale(ips, n, vsDifference(ips, zOffQu, zOffQuPrev));
 			if (ipsSquareDist(ips, zBefore, zBeforeQu) > squareError) return false;
+			if (ipsSquareDist(ips, dBefore, dBeforeQu) > 4 * n * n * squareError) return false;
 		}
 
 		zBefore = zAfter;
@@ -88,6 +93,10 @@ export function ipsAutoQuadify<T>(
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+function vsScale<T>(vs: VectorSpace<T, number>, s: number, x: T) {
+	return vs.addScale(vs.neutral, s, x);
+}
 
 function vsDifference<T>(vs: VectorSpace<T, number>, a: T, b: T) {
 	return vs.addScale(a, -1, b);
