@@ -7,8 +7,6 @@
 			"type": "typescript",
 			"tsconfig": "tsconfig.json",
 			"option": "watch",
-			"problemMatcher": ["$tsc-watch"],
-			"isBackground": true,
 			"label": "TSC - Watch",
 			"presentation": {
 				"echo": true,
@@ -16,7 +14,17 @@
 				"focus": false,
 				"panel": "shared"
 			},
-			"auto": true
+
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"owner": "typescript-strict-null",
+				"applyTo": "allDocuments"
+			},
+
+			"isBackground": true,
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
 		}
 	]
 }
