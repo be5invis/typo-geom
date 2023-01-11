@@ -13,8 +13,23 @@ function combineImpl(
 	rule2: ClipperLib.PolyFillType,
 	resolution = 256
 ) {
-	if (!s1.length) return s2;
-	if (!s2.length) return s1;
+	if (!s1.length) {
+		switch (op) {
+			case ClipperLib.ClipType.ctIntersection:
+			case ClipperLib.ClipType.ctDifference:
+				return [];
+			default:
+				return s2;
+		}
+	}
+	if (!s2.length) {
+		switch (op) {
+			case ClipperLib.ClipType.ctIntersection:
+				return [];
+			default:
+				return s1;
+		}
+	}
 
 	const i1 = findSelfIntersections(s1);
 	const i2 = findSelfIntersections(s2);
@@ -49,6 +64,10 @@ function removeOverlapImpl(s1: Bez3Slice[][], rule: ClipperLib.PolyFillType, res
 
 	const p1 = toPoly(s1, 1, i1, segHash, termHash, resolution);
 	const solution_paths = ClipperLib.Clipper.SimplifyPolygons(p1, rule);
+
+	// Invert order of output, like combineImpl
+	for (const path of solution_paths) path.reverse();
+
 	return rebuildShape(solution_paths, segHash, termHash, resolution);
 }
 
