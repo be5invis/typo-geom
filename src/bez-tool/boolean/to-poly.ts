@@ -5,8 +5,58 @@ import { Bez3Slice } from "../shared/slice-arc";
 import { FIntersection } from "./intersections";
 
 export type IntKnot = IIntPoint & { t: number };
-export function keyOfZ(z: IIntPoint) {
-	return "X" + z.X + "Y" + z.Y;
+
+export class SegHashStore {
+	private terms = new Map<number, Map<number, SegStart>>();
+
+	public addStart(z: IIntPoint) {
+		let s = this.terms.get(z.X);
+		if (!s) {
+			s = new Map();
+			this.terms.set(z.X, s);
+		}
+
+		let t = s.get(z.Y);
+		if (!t) {
+			t = new SegStart();
+			s.set(z.Y, t);
+		}
+		return t;
+	}
+
+	public getStart(z: IIntPoint): undefined | SegStart {
+		let s = this.terms.get(z.X);
+		if (!s) return undefined;
+		return s.get(z.Y);
+	}
+
+	public getSegment(start: IIntPoint, end: IIntPoint) {
+		let s = this.getStart(start);
+		if (!s) return undefined;
+		return s.getEnd(end);
+	}
+}
+
+export class SegStart {
+	private segments = new Map<number, Map<number, SegEntry>>();
+
+	public addEnd(dest: IIntPoint, entry: SegEntry) {
+		let m = this.segments.get(dest.X);
+		if (!m) {
+			m = new Map();
+			this.segments.set(dest.X, m);
+		}
+		let existing = m.get(dest.Y);
+		if (!existing || entry.compare(existing) < 0) {
+			m.set(dest.Y, entry);
+		}
+	}
+
+	public getEnd(dest: IIntPoint): undefined | SegEntry {
+		let m = this.segments.get(dest.X);
+		if (!m) return undefined;
+		return m.get(dest.Y);
+	}
 }
 
 export class SegEntry {
@@ -45,19 +95,11 @@ export class SegEntry {
 	}
 }
 
-function setSegHash(segHash: Map<string, SegEntry>, key: string, entry: SegEntry) {
-	const existing = segHash.get(key);
-	if (!existing || entry.compare(existing) < 0) {
-		segHash.set(key, entry);
-	}
-}
-
 export function toPoly(
 	shape: Bez3Slice[][],
 	sid: number,
 	splats: FIntersection[][],
-	segHash: Map<string, SegEntry>,
-	termHash: Set<string>,
+	segHash: SegHashStore,
 	resolution: number
 ) {
 	let ans: IntPoint[][] = [];
@@ -93,18 +135,14 @@ export function toPoly(
 
 			knots = diceKnots(arc, resolution, knots);
 			for (let j = 0; j < knots.length - 1; j++) {
-				termHash.add(keyOfZ(knots[j]));
-				termHash.add(keyOfZ(knots[j + 1]));
-				setSegHash(
-					segHash,
-					keyOfZ(knots[j]) + "-" + keyOfZ(knots[j + 1]),
-					new SegEntry(arc, knots[j].t, knots[j + 1].t, sid, j, k)
-				);
-				setSegHash(
-					segHash,
-					keyOfZ(knots[j + 1]) + "-" + keyOfZ(knots[j]),
-					new SegEntry(arc, knots[j + 1].t, knots[j].t, sid, j, k)
-				);
+				const start = knots[j],
+					end = knots[j + 1];
+
+				let forward = segHash.addStart(start);
+				forward.addEnd(end, new SegEntry(arc, start.t, end.t, sid, j, k));
+
+				let backward = segHash.addStart(end);
+				backward.addEnd(start, new SegEntry(arc, end.t, start.t, sid, j, k));
 			}
 			for (let m = k > 0 ? 1 : 0; m < knots.length; m++) {
 				points.push(new IntPoint(knots[m].X, knots[m].Y));

@@ -3,7 +3,7 @@ import { Arcs } from "../../derivable";
 import { findSelfIntersections, findCrossIntersections } from "./intersections";
 import { rebuildShape } from "./rebuild";
 import { Bez3Slice } from "../shared/slice-arc";
-import { SegEntry, toPoly } from "./to-poly";
+import { SegEntry, SegHashStore, toPoly } from "./to-poly";
 
 function combineImpl(
 	op: ClipperLib.ClipType,
@@ -37,11 +37,10 @@ function combineImpl(
 	findCrossIntersections(s2, s2, i2, i2, true);
 	findCrossIntersections(s1, s2, i1, i2, false);
 
-	const segHash = new Map<string, SegEntry>();
-	const termHash = new Set<string>();
+	const segHash = new SegHashStore();
 
-	const p1 = toPoly(s1, 1, i1, segHash, termHash, resolution);
-	const p2 = toPoly(s2, 2, i2, segHash, termHash, resolution);
+	const p1 = toPoly(s1, 1, i1, segHash, resolution);
+	const p2 = toPoly(s2, 2, i2, segHash, resolution);
 
 	const cpr = new ClipperLib.Clipper(
 		ClipperLib.Clipper.ioReverseSolution | ClipperLib.Clipper.ioStrictlySimple
@@ -50,7 +49,7 @@ function combineImpl(
 	cpr.AddPaths(p2, ClipperLib.PolyType.ptClip, ClipperLib.EndType.etClosedPolygon);
 	const solutionPaths = ClipperLib.Paths();
 	cpr.Execute(op || 0, solutionPaths, rule1 || 0, rule2 || 0);
-	return rebuildShape(solutionPaths, segHash, termHash, resolution);
+	return rebuildShape(solutionPaths, segHash, resolution);
 }
 
 function removeOverlapImpl(s1: Bez3Slice[][], rule: ClipperLib.PolyFillType, resolution = 256) {
@@ -59,16 +58,15 @@ function removeOverlapImpl(s1: Bez3Slice[][], rule: ClipperLib.PolyFillType, res
 	const i1 = findSelfIntersections(s1);
 	findCrossIntersections(s1, s1, i1, i1, true);
 
-	const segHash = new Map<string, SegEntry>();
-	const termHash = new Set<string>();
+	const segHash = new SegHashStore();
 
-	const p1 = toPoly(s1, 1, i1, segHash, termHash, resolution);
+	const p1 = toPoly(s1, 1, i1, segHash, resolution);
 	const solution_paths = ClipperLib.Clipper.SimplifyPolygons(p1, rule);
 
 	// Invert order of output, like combineImpl
 	for (const path of solution_paths) path.reverse();
 
-	return rebuildShape(solution_paths, segHash, termHash, resolution);
+	return rebuildShape(solution_paths, segHash, resolution);
 }
 
 function ToBez3Slices(shape: Arcs.Bez3[][]) {
