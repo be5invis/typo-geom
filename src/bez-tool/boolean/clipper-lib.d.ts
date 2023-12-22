@@ -40,6 +40,7 @@ declare module "clipper-lib" {
 		static readonly ioReverseSolution: number;
 		static readonly ioStrictlySimple: number;
 		static readonly ioPreserveCollinear: number;
+		Clear(): void;
 		AddPaths(path: IntPoint[][], type: PolyType, endType: EndType): void;
 		Execute(
 			op: ClipType,
