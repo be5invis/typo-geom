@@ -81,6 +81,7 @@ export function transferGenericShape(shape: Arc[][], sink: IArcGeometrySink, tol
 	sink.endShape();
 }
 
+export { convertShapeToBez3 } from "../bez-tool/shape-to-bez3";
 export function transferGenericShapeAsBezier(
 	shape: Arc[][],
 	sink: IBezierGeometrySink,

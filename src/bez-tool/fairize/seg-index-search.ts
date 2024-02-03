@@ -1,4 +1,5 @@
 export function segTSearch(stops: number[], t: number) {
+	if (t < 0) return 0;
 	let l = 0,
 		r = stops.length;
 	while (l < r) {

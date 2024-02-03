@@ -8,6 +8,7 @@ test("Segment T search", () => {
 });
 
 test("Segment T search 2", () => {
+	expect(segTSearch([0, 1, 2, 3], -0.1)).toBe(0);
 	expect(segTSearch([0, 1, 2, 3], 0)).toBe(0);
 	expect(segTSearch([0, 1, 2, 3], 1)).toBe(1);
 	expect(segTSearch([0, 1, 2, 3], 2)).toBe(2);
