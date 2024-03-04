@@ -1,15 +1,19 @@
-import { IVec2 } from "../point/interface";
+import { IJacobian2, IVec2 } from "../point/interface";
+import { Jacobian2 } from "../point/jacobian";
 import { Point2 } from "../point/point";
 import { Transformed } from "./arcs";
 import { Shape, ShapeTransform } from "./interface";
 
 export class LinearTransform implements ShapeTransform {
-	xx: number;
-	yx: number;
-	xy: number;
-	yy: number;
-	tx: number;
-	ty: number;
+	public readonly xx: number;
+	public readonly yx: number;
+	public readonly xy: number;
+	public readonly yy: number;
+	public readonly tx: number;
+	public readonly ty: number;
+
+	public readonly j: Jacobian2;
+
 	constructor(xx: number, xy: number, yx: number, yy: number, x: number, y: number) {
 		this.xx = xx;
 		this.xy = xy;
@@ -17,25 +21,18 @@ export class LinearTransform implements ShapeTransform {
 		this.yy = yy;
 		this.tx = x;
 		this.ty = y;
+
+		this.j = new Jacobian2(this.xx, this.xy, this.yx, this.yy);
 	}
 
-	x(x: number, y: number) {
-		return x * this.xx + y * this.xy + this.tx;
+	eval(t: IVec2): IVec2 {
+		return new Point2(
+			t.x * this.xx + t.y * this.xy + this.tx,
+			t.x * this.yx + t.y * this.yy + this.ty
+		);
 	}
-	y(x: number, y: number) {
-		return x * this.yx + y * this.yy + this.ty;
-	}
-	dxx(x: number, y: number) {
-		return this.xx;
-	}
-	dxy(x: number, y: number) {
-		return this.xy;
-	}
-	dyx(x: number, y: number) {
-		return this.yx;
-	}
-	dyy(x: number, y: number) {
-		return this.yy;
+	derivative(_t: IVec2): IJacobian2 {
+		return this.j;
 	}
 
 	inverse() {
@@ -53,37 +50,23 @@ export class LinearTransform implements ShapeTransform {
 	static neutral: LinearTransform = new LinearTransform(1, 0, 0, 1, 0, 0);
 }
 
+/**
+ * Combination of two transforms, apply a first then b.
+ *
+ * Note that b is the first parameter in the constructor
+ */
 export class CompositeTransform implements ShapeTransform {
-	private constructor(private a: ShapeTransform, private b: ShapeTransform) {}
-	x(x: number, y: number) {
-		const x1 = this.a.x(x, y);
-		const y1 = this.a.y(x, y);
-		return this.b.x(x1, y1);
+	private constructor(private b: ShapeTransform, private a: ShapeTransform) {}
+
+	eval(z: IVec2): IVec2 {
+		return this.b.eval(this.a.eval(z));
 	}
-	y(x: number, y: number) {
-		const x1 = this.a.x(x, y);
-		const y1 = this.a.y(x, y);
-		return this.b.y(x1, y1);
-	}
-	dxx(x: number, y: number) {
-		const x1 = this.a.x(x, y);
-		const y1 = this.a.y(x, y);
-		return this.b.dxx(x1, y1) * this.a.dxx(x, y) + this.b.dxy(x1, y1) * this.a.dyx(x, y);
-	}
-	dxy(x: number, y: number) {
-		const x1 = this.a.x(x, y);
-		const y1 = this.a.y(x, y);
-		return this.b.dxx(x1, y1) * this.a.dxy(x, y) + this.b.dxy(x1, y1) * this.a.dyy(x, y);
-	}
-	dyx(x: number, y: number) {
-		const x1 = this.a.x(x, y);
-		const y1 = this.a.y(x, y);
-		return this.b.dyx(x1, y1) * this.a.dxx(x, y) + this.b.dyy(x1, y1) * this.a.dyx(x, y);
-	}
-	dyy(x: number, y: number) {
-		const x1 = this.a.x(x, y);
-		const y1 = this.a.y(x, y);
-		return this.b.dyx(x1, y1) * this.a.dxy(x, y) + this.b.dyy(x1, y1) * this.a.dyy(x, y);
+
+	derivative(z: IVec2): IJacobian2 {
+		const z1 = this.a.eval(z);
+		const j1 = this.a.derivative(z);
+		const j2 = this.b.derivative(z1);
+		return Jacobian2.multiply(j2, j1);
 	}
 
 	static from(a: ShapeTransform, b: ShapeTransform) {
@@ -93,21 +76,13 @@ export class CompositeTransform implements ShapeTransform {
 	}
 }
 
-export function transformPoint(t: ShapeTransform, z: IVec2) {
-	return new Point2(t.x(z.x, z.y), t.y(z.x, z.y));
-}
-
-export function transformPointXY(t: ShapeTransform, x: number, y: number) {
-	return new Point2(t.x(x, y), t.y(x, y));
-}
-
 export function transformShape(sh: Shape, tfm: ShapeTransform) {
 	let out: Shape = [];
 	for (let j = 0; j < sh.length; j++) {
 		const c = sh[j];
-		const contour: typeof sh[0] = [];
+		const contour: (typeof sh)[0] = [];
 		for (let k = 0; k < c.length; k++) {
-			contour[k] = new Transformed(c[k], tfm);
+			contour[k] = new Transformed(tfm, c[k]);
 		}
 		out[j] = contour;
 	}

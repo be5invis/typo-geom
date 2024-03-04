@@ -14,7 +14,11 @@ export interface InnerProductSpace<T, X> extends VectorSpace<T, X> {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function vsQuadifyCurve<V>(vs: VectorSpace<V, number>, arc: Derivable<V>, n: number) {
+export function vsQuadifyCurve<V>(
+	vs: VectorSpace<V, number>,
+	arc: Derivable<number, V, V>,
+	n: number
+) {
 	if (n < 1) throw new RangeError("vsQuadifyCurve: Must have at least 2 inner points");
 	let knots: V[] = [];
 	let zBefore = arc.eval(0),
@@ -44,10 +48,10 @@ export const vsNumberVec2: InnerProductSpace<IVec2, number> = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function ipsErrorFitsIn<T>(
-	ips: InnerProductSpace<T, number>,
-	c: Derivable<T>,
-	offPoints: T[],
+export function ipsErrorFitsIn<V>(
+	ips: InnerProductSpace<V, number>,
+	c: Derivable<number, V, V>,
+	offPoints: V[],
 	squareError: number
 ) {
 	let zBefore = c.eval(0),
@@ -76,9 +80,9 @@ export function ipsErrorFitsIn<T>(
 	return true;
 }
 
-export function ipsAutoQuadify<T>(
-	ips: InnerProductSpace<T, number>,
-	c: Derivable<T>,
+export function ipsAutoQuadify<V>(
+	ips: InnerProductSpace<V, number>,
+	c: Derivable<number, V, V>,
 	allowError: number = 0.1,
 	maxSegments: number = 32
 ) {

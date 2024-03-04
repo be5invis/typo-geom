@@ -213,20 +213,17 @@ export class Mixed3 implements Arc {
 export class Transformed implements Arc {
 	c: Arc;
 	tfm: ShapeTransform;
-	constructor(c: Arc, t: ShapeTransform) {
+	constructor(t: ShapeTransform, c: Arc) {
 		this.c = c;
 		this.tfm = t;
 	}
 	eval(t: number) {
-		const z = this.c.eval(t);
-		return new Point2(this.tfm.x(z.x, z.y), this.tfm.y(z.x, z.y));
+		return this.tfm.eval(this.c.eval(t));
 	}
 	derivative(t: number) {
 		const z = this.c.eval(t);
 		const d = this.c.derivative(t);
-		return new Offset2(
-			d.x * this.tfm.dxx(z.x, z.y) + d.y * this.tfm.dxy(z.x, z.y),
-			d.x * this.tfm.dyx(z.x, z.y) + d.y * this.tfm.dyy(z.x, z.y)
-		);
+		const j = this.tfm.derivative(z);
+		return new Offset2(d.x * j.dxx + d.y * j.dxy, d.x * j.dyx + d.y * j.dyy);
 	}
 }
