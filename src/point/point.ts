@@ -2,7 +2,6 @@ import { EPSILON, MACHINE_EPSILON, numberClose } from "../fn";
 import { IVec2 } from "./interface";
 
 export class Offset2 implements IVec2 {
-	private _m_vector_type: "Vec2" = "Vec2";
 	x: number;
 	y: number;
 
@@ -62,7 +61,6 @@ export class Offset2 implements IVec2 {
 }
 
 export class Point2 implements IVec2 {
-	private _m_vector_type: "Point" = "Point";
 	x: number;
 	y: number;
 
