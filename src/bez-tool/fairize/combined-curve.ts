@@ -1,23 +1,23 @@
 import { Arc, Arcs } from "../../derivable";
 import { numberClose } from "../../fn";
-import { Point2 } from "../../point/point";
+import { Offset2, Point2 } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
 import { segTSearch } from "./seg-index-search";
 
 export class CombinedArc implements Arc {
 	private readonly stops: number[] = [];
+
 	constructor(public readonly segments: Bez3Slice[]) {
 		let totalLength = 0;
 		for (let j = 0; j < this.segments.length; j++) {
+			this.stops[j] = totalLength;
 			totalLength += segments[j].getLength();
 		}
-		let lengthSofar = 0;
 		for (let j = 0; j < this.segments.length; j++) {
-			let segLen = segments[j].getLength();
-			this.stops[j] = lengthSofar / totalLength;
-			lengthSofar += segLen;
+			this.stops[j] /= totalLength;
 		}
 	}
+
 	eval(t: number) {
 		const j = segTSearch(this.stops, t);
 		const tBefore = this.stops[j];
@@ -25,14 +25,15 @@ export class CombinedArc implements Arc {
 		const tRelative = (t - tBefore) / (tNext - tBefore);
 		return this.segments[j].eval(tRelative);
 	}
+
 	derivative(t: number) {
 		const j = segTSearch(this.stops, t);
 		const tBefore = this.stops[j];
 		const tNext = j < this.stops.length - 1 ? this.stops[j + 1] : 1;
 		const tRelative = (t - tBefore) / (tNext - tBefore);
-		const d = this.segments[j].derivative(tRelative);
-		return new Point2(d.x / (tNext - tBefore), d.y / (tNext - tBefore));
+		return Offset2.scaleFrom(1 / (tNext - tBefore), this.segments[j].derivative(tRelative));
 	}
+
 	reduceIfStraight(): Arc {
 		if (!this.segments.length) return this;
 

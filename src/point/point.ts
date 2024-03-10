@@ -46,6 +46,9 @@ export class Offset2 implements IVec2 {
 		const h = Math.hypot(this.x, this.y);
 		return new Offset2((d * this.x) / h, (d * this.y) / h);
 	}
+	static scaleFrom(s: number, p: IVec2) {
+		return new Offset2(s * p.x, s * p.y);
+	}
 	static from(p: IVec2) {
 		return new Offset2(p.x, p.y);
 	}

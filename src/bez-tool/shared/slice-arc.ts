@@ -225,9 +225,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 
 		return function (t: number) {
 			// Calculate quadratic equations of derivatives for x and y
-			var dx = (ax * t + bx) * t + cx,
-				dy = (ay * t + by) * t + cy;
-			return Math.sqrt(dx * dx + dy * dy);
+			return Math.hypot((ax * t + bx) * t + cx, (ay * t + by) * t + cy);
 		};
 	}
 	private getLengthSteps(a: number, b: number) {
