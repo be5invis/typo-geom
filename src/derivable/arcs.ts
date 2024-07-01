@@ -283,7 +283,10 @@ export class CombinedArc<T extends Arc> implements Arc {
 		const j = segTSearch(this.stops, t);
 		const tBefore = this.stops[j];
 		const tNext = j < this.stops.length - 1 ? this.stops[j + 1] : 1;
-		const tRelative = (t - tBefore) / (tNext - tBefore);
+		let tRelative = (t - tBefore) / (tNext - tBefore);
+		if (t <= tBefore) tRelative = 0;
+		if (t >= tNext) tRelative = 1;
+
 		return Point2.addScale(this.segments[j].eval(tRelative), tRelative, this.endAdjustments[j]);
 	}
 
@@ -291,7 +294,9 @@ export class CombinedArc<T extends Arc> implements Arc {
 		const j = segTSearch(this.stops, t);
 		const tBefore = this.stops[j];
 		const tNext = j < this.stops.length - 1 ? this.stops[j + 1] : 1;
-		const tRelative = (t - tBefore) / (tNext - tBefore);
+		let tRelative = (t - tBefore) / (tNext - tBefore);
+		if (t <= tBefore) tRelative = 0;
+		if (t >= tNext) tRelative = 1;
 
 		return this.endAdjustments[j]
 			.add(this.segments[j].derivative(tRelative))
