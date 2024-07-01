@@ -6,7 +6,7 @@ import { inPlaceRotateArray } from "../../util/in-place-array";
 import { convertContourToBez3 } from "../shape-to-bez3";
 import { Bez3Slice, CornerType } from "../shared/slice-arc";
 import { splitAtExtrema } from "../shared/split-at-extrema";
-import { CombinedArc } from "./combined-curve";
+import { FairizeCombinedArc } from "./combined-curve";
 
 export function fairizeBezierShape(shape: Arcs.Bez3[][]): Arc[][] {
 	let results: Arc[][] = [];
@@ -40,7 +40,7 @@ function fairizeBezierContour(contour: Bez3Slice[]) {
 		advanceRear: for (; rear < splitContour.length; rear++) {
 			if (isStopCt(splitContour[rear].cornerTypeAfter)) {
 				results.push(
-					new CombinedArc(splitContour.slice(front, rear + 1)).reduceIfStraight()
+					new FairizeCombinedArc(splitContour.slice(front, rear + 1)).reduceIfStraight()
 				);
 				front = rear = rear + 1;
 				continue advanceFront;
@@ -48,7 +48,7 @@ function fairizeBezierContour(contour: Bez3Slice[]) {
 		}
 		// If the entire contour is smooth, then process as a whole
 		// This shouldn't happen though
-		results.push(new CombinedArc(splitContour.slice(front)).reduceIfStraight());
+		results.push(new FairizeCombinedArc(splitContour.slice(front)).reduceIfStraight());
 		front = rear = splitContour.length;
 		break;
 	}

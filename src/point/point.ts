@@ -61,6 +61,9 @@ export class Offset2 implements IVec2 {
 	static cross(a: IVec2, b: IVec2) {
 		return a.x * b.y - a.y * b.x;
 	}
+	static addScale(a: IVec2, s: number, b: IVec2) {
+		return new Offset2(a.x + s * b.x, a.y + s * b.y);
+	}
 }
 
 export class Point2 implements IVec2 {
@@ -182,6 +185,9 @@ export class Point2 implements IVec2 {
 	}
 	static from(p: IVec2) {
 		return new Point2(p.x, p.y);
+	}
+	static addScale(a: IVec2, s: number, b: IVec2) {
+		return new Point2(a.x + s * b.x, a.y + s * b.y);
 	}
 }
 

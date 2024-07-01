@@ -9,30 +9,59 @@ export function convertShapeToBez3(shape: Arc[][], err: number): Bez3Slice[][] {
 	return ans;
 }
 export function convertContourToBez3(contour: Arc[], err: number): Bez3Slice[] {
-	let arcs: Bez3Slice[] = [];
+	let sink = new ContourConversionSink();
 	for (let j = 0; j < contour.length; j++) {
-		const jLast = (j - 1 + contour.length) % contour.length;
-		const arcLast = contour[jLast];
-		const arc = contour[j];
-		const zLast = arcLast.eval(1),
-			zStart = arc.eval(0);
-		if (!Point2.areClose(zLast, zStart, err)) {
-			arcs.push(Bez3Slice.fromStraightSegment(new Arcs.StraightSegment(zLast, zStart)));
+		convertArcToBez3(contour[j], err, sink);
+	}
+	sink.close();
+	return sink.result;
+}
+
+class ContourConversionSink {
+	private segments: Bez3Slice[] = [];
+	public get result() {
+		return this.segments;
+	}
+
+	public add(result: Bez3Slice) {
+		if (this.segments.length > 0) {
+			this.connectEndsIfNecessary(this.segments[this.segments.length - 1], result);
 		}
-		if (arc instanceof Arcs.Bez3) {
-			arcs.push(new Bez3Slice(arc.a, arc.b, arc.c, arc.d));
-		} else {
-			convertArcToBez3(arc, err, arcs, 0, 1, 0, 8);
+		this.segments.push(result);
+	}
+
+	public close() {
+		if (this.segments.length > 0) {
+			this.connectEndsIfNecessary(this.segments[this.segments.length - 1], this.segments[0]);
 		}
 	}
-	return arcs;
+
+	private connectEndsIfNecessary(prev: Bez3Slice, next: Bez3Slice) {
+		if (!Point2.areClose(prev.d, next.a, 1e-6)) {
+			this.segments.push(
+				Bez3Slice.fromStraightSegment(new Arcs.StraightSegment(prev.d, next.a))
+			);
+		}
+	}
+}
+
+function convertArcToBez3(arc: Arc, err: number, sink: ContourConversionSink) {
+	if (arc instanceof Arcs.Bez3) {
+		sink.add(new Bez3Slice(arc.a, arc.b, arc.c, arc.d));
+	} else if (arc instanceof Arcs.CombinedArc) {
+		for (let seg of arc.segments) {
+			convertArcToBez3(seg, err, sink);
+		}
+	} else {
+		convertArcToBez3Impl(arc, err, sink, 0, 1, 0, 8);
+	}
 }
 
 const PROBE_STOPS = 4;
-function convertArcToBez3(
+function convertArcToBez3Impl(
 	arc: Arc,
 	err: number,
-	sink: Bez3Slice[],
+	sink: ContourConversionSink,
 	t0: number,
 	t1: number,
 	depth: number,
@@ -40,7 +69,7 @@ function convertArcToBez3(
 ) {
 	const testArc = Bez3Slice.fromArcSlice(arc, t0, t1);
 	if (depth >= maxDepth) {
-		sink.push(testArc);
+		sink.add(testArc);
 		return;
 	}
 
@@ -55,10 +84,10 @@ function convertArcToBez3(
 	}
 
 	if (!needsSubdivide) {
-		sink.push(testArc);
+		sink.add(testArc);
 	} else {
 		let tMid = mix(t0, t1, 1 / 2);
-		convertArcToBez3(arc, err, sink, t0, tMid, depth + 1, maxDepth);
-		convertArcToBez3(arc, err, sink, tMid, t1, depth + 1, maxDepth);
+		convertArcToBez3Impl(arc, err, sink, t0, tMid, depth + 1, maxDepth);
+		convertArcToBez3Impl(arc, err, sink, tMid, t1, depth + 1, maxDepth);
 	}
 }

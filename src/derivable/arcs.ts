@@ -1,6 +1,7 @@
 import { mix, numberClose } from "../fn";
 import { IVec2 } from "../point/interface";
-import { Point2, Offset2 } from "../point/point";
+import { Offset2, Point2 } from "../point/point";
+import { segTSearch } from "../util/seg-index-search";
 import { Arc, DerivableFunction, ShapeTransform } from "./interface";
 
 export class FromXY implements Arc {
@@ -225,5 +226,72 @@ export class Transformed implements Arc {
 		const d = this.c.derivative(t);
 		const j = this.tfm.derivative(z);
 		return new Offset2(d.x * j.dxx + d.y * j.dxy, d.x * j.dyx + d.y * j.dyy);
+	}
+}
+
+export interface CurveMeasurer<T> {
+	measureLength(a: T): number;
+}
+
+export class CombinedArc<T extends Arc> implements Arc {
+	public readonly segments: T[];
+	protected readonly totalLength: number;
+	protected readonly stops: number[] = [];
+	protected readonly endAdjustments: Offset2[] = [];
+
+	constructor(measurer: CurveMeasurer<T>, _segments: T[]) {
+		// Copy segments
+		this.segments = [..._segments];
+
+		// Filter out zero-length segments
+		let rear = 0;
+		for (let j = 0; j < this.segments.length; j++) {
+			if (measurer.measureLength(this.segments[j]) > 0) {
+				this.segments[rear++] = this.segments[j];
+			}
+		}
+		this.segments.length = rear;
+
+		// Compute total length and stops
+		let totalLength = 0;
+		for (let j = 0; j < this.segments.length; j++) {
+			this.stops[j] = totalLength;
+			totalLength += measurer.measureLength(this.segments[j]);
+		}
+		for (let j = 0; j < this.segments.length; j++) {
+			this.stops[j] /= totalLength;
+		}
+		this.totalLength = totalLength;
+
+		// Amend the start adjustments
+		for (let i = 0; i < this.segments.length; i++) {
+			if (i + 1 < this.segments.length) {
+				const a = this.segments[i].eval(1);
+				const b = this.segments[i + 1].eval(0);
+				this.endAdjustments[i] = Offset2.differenceFrom(b, a);
+			} else {
+				this.endAdjustments[i] = new Offset2(0, 0);
+			}
+		}
+	}
+
+	eval(t: number) {
+		const j = segTSearch(this.stops, t);
+		const tBefore = this.stops[j];
+		const tNext = j < this.stops.length - 1 ? this.stops[j + 1] : 1;
+		const tRelative = (t - tBefore) / (tNext - tBefore);
+		return Point2.addScale(this.segments[j].eval(tRelative), tRelative, this.endAdjustments[j]);
+	}
+
+	derivative(t: number) {
+		const j = segTSearch(this.stops, t);
+		const tBefore = this.stops[j];
+		const tNext = j < this.stops.length - 1 ? this.stops[j + 1] : 1;
+		const tRelative = (t - tBefore) / (tNext - tBefore);
+		return Offset2.addScale(
+			this.endAdjustments[j],
+			1 / (tNext - tBefore),
+			this.segments[j].derivative(tRelative)
+		);
 	}
 }
