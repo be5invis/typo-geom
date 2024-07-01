@@ -275,6 +275,10 @@ export class CombinedArc<T extends Arc> implements Arc {
 		}
 	}
 
+	public isEmpty() {
+		return this.segments.length === 0 || this.totalLength === 0;
+	}
+
 	eval(t: number) {
 		const j = segTSearch(this.stops, t);
 		const tBefore = this.stops[j];
@@ -288,10 +292,9 @@ export class CombinedArc<T extends Arc> implements Arc {
 		const tBefore = this.stops[j];
 		const tNext = j < this.stops.length - 1 ? this.stops[j + 1] : 1;
 		const tRelative = (t - tBefore) / (tNext - tBefore);
-		return Offset2.addScale(
-			this.endAdjustments[j],
-			1 / (tNext - tBefore),
-			this.segments[j].derivative(tRelative)
-		);
+
+		return this.endAdjustments[j]
+			.add(this.segments[j].derivative(tRelative))
+			.scale(1 / (tNext - tBefore));
 	}
 }

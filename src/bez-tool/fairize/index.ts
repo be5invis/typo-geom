@@ -39,16 +39,16 @@ function fairizeBezierContour(contour: Bez3Slice[]) {
 	advanceFront: for (; front < splitContour.length; ) {
 		advanceRear: for (; rear < splitContour.length; rear++) {
 			if (isStopCt(splitContour[rear].cornerTypeAfter)) {
-				results.push(
-					new FairizeCombinedArc(splitContour.slice(front, rear + 1)).reduceIfStraight()
-				);
+				let c = new FairizeCombinedArc(splitContour.slice(front, rear + 1));
+				if (!c.isEmpty()) results.push(c.reduceIfStraight());
 				front = rear = rear + 1;
 				continue advanceFront;
 			}
 		}
 		// If the entire contour is smooth, then process as a whole
 		// This shouldn't happen though
-		results.push(new FairizeCombinedArc(splitContour.slice(front)).reduceIfStraight());
+		let c = new FairizeCombinedArc(splitContour.slice(front));
+		if (!c.isEmpty()) results.push(c.reduceIfStraight());
 		front = rear = splitContour.length;
 		break;
 	}
