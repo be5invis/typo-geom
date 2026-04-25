@@ -186,18 +186,18 @@ export class Bez3Slice extends Arcs.Bez3 {
 	}
 	private cleanupClassifyResults(type: CurveClass, sink?: IRootSink, t1?: number, t2?: number) {
 		let hasRoots = t1 !== undefined,
-			t1Ok = hasRoots && t1 !== undefined && t1 > 0 && t1 < 1,
-			t2Ok = hasRoots && t2 !== undefined && t2 > 0 && t2 < 1;
+			t1Ok = hasRoots && t1 != null && t1 > 0 && t1 < 1,
+			t2Ok = hasRoots && t2 != null && t2 > 0 && t2 < 1;
 		// Degrade to arch for serpentine, cusp or loop if no solutions
 		// within 0..1 are found. loop requires 2 solutions to be valid.
 		if (hasRoots && (!(t1Ok || t2Ok) || (type === "loop" && !(t1Ok && t2Ok)))) {
 			type = "arch";
 			t1Ok = t2Ok = false;
 		}
-		if (t1 == null || t2 == null)
-			throw new Error("Unexpected null t value in classify cleanup");
-		if (sink && t1Ok) sink.addRoot(t1);
-		if (sink && t2Ok) sink.addRoot(t2);
+		// biome-ignore lint/style/noNonNullAssertion: already checked above
+		if (sink && t1Ok) sink.addRoot(t1!);
+		// biome-ignore lint/style/noNonNullAssertion: already checked above
+		if (sink && t2Ok) sink.addRoot(t2!);
 	}
 
 	getLength(a: number = 0, b: number = 1) {
