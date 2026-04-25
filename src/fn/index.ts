@@ -1,4 +1,4 @@
 export * from "./constants";
-export * from "./utility";
-export * as RootSolver from "./solver";
 export * as Integral from "./integral";
+export * as RootSolver from "./solver";
+export * from "./utility";

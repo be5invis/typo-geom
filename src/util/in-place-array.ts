@@ -1,6 +1,6 @@
 function reverseArr<T>(arr: T[], left: number, right: number) {
 	while (left < right) {
-		var temp = arr[left];
+		const temp = arr[left];
 		arr[left] = arr[right];
 		arr[right] = temp;
 		left++;

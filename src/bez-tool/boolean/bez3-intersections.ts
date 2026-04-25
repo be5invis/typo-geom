@@ -6,8 +6,9 @@
 
 import { EPSILON, numberClose, RootSolver } from "../../fn";
 import { Point2 } from "../../point/point";
+import type { Bez3Slice } from "../shared/slice-arc";
+
 import { getOverlaps } from "./bez3-overlap";
-import { Bez3Slice } from "../shared/slice-arc";
 
 export interface SelfIntersectionSink {
 	add(t: number): void;
@@ -37,7 +38,7 @@ export function bez3Intersections(v1: Bez3Slice, v2: Bez3Slice, sink: CrossInter
 			sink.add(ta, tb);
 		}
 	} else {
-		var straight1 = v1.isStraight(),
+		const straight1 = v1.isStraight(),
 			straight2 = v2.isStraight();
 
 		if (straight1 && straight2) {
@@ -75,7 +76,7 @@ function lineCurveIntersectionImpl(
 	v1: Bez3Slice,
 	v2: Bez3Slice,
 	sink: CrossIntersectionSink,
-	flip: boolean
+	flip: boolean,
 ) {
 	// addCurveLineIntersections() is called so that v1 is always the curve
 	// and v2 the line. flip indicates whether the curves need to be flipped
@@ -91,7 +92,7 @@ function lineCurveIntersectionImpl(
 	for (let i = 0, l = roots.length; i < l; i++) {
 		// For each found solution on the rotated curve, get the point on
 		// the real curve and with that the location on the line.
-		var t1 = roots[i],
+		const t1 = roots[i],
 			p1 = v1.eval(t1),
 			t2 = v2.getTOf(p1);
 		if (t2 != null) {
@@ -119,8 +120,8 @@ function getCurveLineIntersections(v: Bez3Slice, px: number, py: number, vx: num
 		// Calculate the curve values of the rotated curve.
 		rv: number[] = [],
 		zs = [v.a, v.b, v.c, v.d];
-	for (var i = 0; i < 4; i++) {
-		var x = zs[i].x - px,
+	for (let i = 0; i < 4; i++) {
+		const x = zs[i].x - px,
 			y = zs[i].y - py;
 		rv.push(x * sin + y * cos);
 	}
@@ -142,7 +143,7 @@ function curveIntersectionImpl(
 	tMin: number,
 	tMax: number,
 	uMin: number,
-	uMax: number
+	uMax: number,
 ): number {
 	// Avoid deeper recursion, by counting the total amount of recursions,
 	// as well as the total amount of calls, to avoid massive call-trees as
@@ -152,7 +153,7 @@ function curveIntersectionImpl(
 
 	// Calculate the fat-line L for Q is the baseline l and two
 	// offsets which completely encloses the curve P.
-	let d1 = Point2.signedPointLineDist(v2.a, v2.d, v2.b),
+	const d1 = Point2.signedPointLineDist(v2.a, v2.d, v2.b),
 		d2 = Point2.signedPointLineDist(v2.a, v2.d, v2.c),
 		factor = d1 * d2 > 0 ? 3 / 4 : 4 / 9,
 		dMin = factor * Math.min(0, d1, d2),
@@ -161,11 +162,11 @@ function curveIntersectionImpl(
 	// Calculate non-parametric bezier curve D(ti, di(t)) - di(t) is the
 	// distance of P from the baseline l of the fat-line, ti is equally
 	// spaced in [0, 1]
-	let dp0 = Point2.signedPointLineDist(v2.a, v2.d, v1.a);
-	let dp1 = Point2.signedPointLineDist(v2.a, v2.d, v1.b);
-	let dp2 = Point2.signedPointLineDist(v2.a, v2.d, v1.c);
-	let dp3 = Point2.signedPointLineDist(v2.a, v2.d, v1.d);
-	let hull = getConvexHull(dp0, dp1, dp2, dp3),
+	const dp0 = Point2.signedPointLineDist(v2.a, v2.d, v1.a);
+	const dp1 = Point2.signedPointLineDist(v2.a, v2.d, v1.b);
+	const dp2 = Point2.signedPointLineDist(v2.a, v2.d, v1.c);
+	const dp3 = Point2.signedPointLineDist(v2.a, v2.d, v1.d);
+	const hull = getConvexHull(dp0, dp1, dp2, dp3),
 		top = hull[0],
 		bottom = hull[1];
 
@@ -177,19 +178,21 @@ function curveIntersectionImpl(
 		(d1 === 0 && d2 === 0 && dp0 === 0 && dp1 === 0 && dp2 === 0 && dp3 === 0) ||
 		// Clip convex-hull with dMin and dMax, taking into account that
 		// there will be no intersections if one of the results is null.
+		// biome-ignore lint/suspicious/noAssignInExpressions: simplify condition
 		(tMinClip = clipConvexHull(top, bottom, dMin, dMax)) == null ||
+		// biome-ignore lint/suspicious/noAssignInExpressions: simplify condition
 		(tMaxClip = clipConvexHull(top.reverse(), bottom.reverse(), dMin, dMax)) == null
 	)
 		return calls;
 
 	// tMin and tMax are within the range (0, 1). Project it back to the
 	// original parameter range for v2.
-	let tMinNew = tMin + (tMax - tMin) * tMinClip,
+	const tMinNew = tMin + (tMax - tMin) * tMinClip,
 		tMaxNew = tMin + (tMax - tMin) * tMaxClip;
 
 	if (Math.max(uMax - uMin, tMaxNew - tMinNew) < FAT_LINE_EPSILON) {
 		// We have isolated the intersection with sufficient precision
-		var t = (tMinNew + tMaxNew) / 2,
+		const t = (tMinNew + tMaxNew) / 2,
 			u = (uMin + uMax) / 2;
 		if (flip) {
 			sink.add(u, t);
@@ -199,12 +202,12 @@ function curveIntersectionImpl(
 	} else {
 		// Apply the result of the clipping to curve 1:
 		v1 = v1.sliceRatio(tMinClip, tMaxClip);
-		let uDiff = uMax - uMin;
+		const uDiff = uMax - uMin;
 
 		if (tMaxClip - tMinClip > 0.8) {
 			// Subdivide the curve which has converged the least.
 			if (tMaxNew - tMinNew > uDiff) {
-				let parts = v1.splitRatio(0.5),
+				const parts = v1.splitRatio(0.5),
 					t = (tMinNew + tMaxNew) / 2;
 				calls = curveIntersectionImpl(
 					v2,
@@ -216,7 +219,7 @@ function curveIntersectionImpl(
 					uMin,
 					uMax,
 					tMinNew,
-					t
+					t,
 				);
 				calls = curveIntersectionImpl(
 					v2,
@@ -228,10 +231,10 @@ function curveIntersectionImpl(
 					uMin,
 					uMax,
 					t,
-					tMaxNew
+					tMaxNew,
 				);
 			} else {
-				var parts = v2.splitRatio(0.5),
+				const parts = v2.splitRatio(0.5),
 					u = (uMin + uMax) / 2;
 				calls = curveIntersectionImpl(
 					parts[0],
@@ -243,7 +246,7 @@ function curveIntersectionImpl(
 					uMin,
 					u,
 					tMinNew,
-					tMaxNew
+					tMaxNew,
 				);
 				calls = curveIntersectionImpl(
 					parts[1],
@@ -255,7 +258,7 @@ function curveIntersectionImpl(
 					u,
 					uMax,
 					tMinNew,
-					tMaxNew
+					tMaxNew,
 				);
 			}
 		} else {
@@ -274,7 +277,7 @@ function curveIntersectionImpl(
 					uMin,
 					uMax,
 					tMinNew,
-					tMaxNew
+					tMaxNew,
 				);
 			} else {
 				// The interval on the other curve is already tight enough,
@@ -289,7 +292,7 @@ function curveIntersectionImpl(
 					tMinNew,
 					tMaxNew,
 					uMin,
-					uMax
+					uMax,
 				);
 			}
 		}
@@ -328,7 +331,7 @@ function getConvexHull(dq0: number, dq1: number, dq2: number, dq3: number): Poin
 		// it later if that is not the case.
 		hull = [
 			[p0, p1, p3],
-			[p0, p2, p3]
+			[p0, p2, p3],
 		];
 	} else {
 		// p1 and p2 lie on the same sides of [p0, p3]. The hull can be a
@@ -337,18 +340,18 @@ function getConvexHull(dq0: number, dq1: number, dq2: number, dq3: number): Poin
 		// a triangle if the vertical distance of one of the middle points
 		// (p1, p2) is equal or less than half the vertical distance of the
 		// other middle point.
-		var distRatio = dist1 / dist2;
+		const distRatio = dist1 / dist2;
 		hull = [
 			// p2 is inside, the hull is a triangle.
 			distRatio >= 2
 				? [p0, p1, p3]
 				: // p1 is inside, the hull is a triangle.
-				distRatio <= 0.5
-				? [p0, p2, p3]
-				: // Hull is a quadrilateral, we need all lines in correct order.
-				  [p0, p1, p2, p3],
+					distRatio <= 0.5
+					? [p0, p2, p3]
+					: // Hull is a quadrilateral, we need all lines in correct order.
+						[p0, p1, p2, p3],
 			// Line [p0, p3] is part of the hull.
-			[p0, p3]
+			[p0, p3],
 		];
 	}
 	// Flip hull if dist1 is negative or if it is zero and dist2 is negative
@@ -362,7 +365,7 @@ function clipConvexHull(
 	hullTop: PointArrayRep[],
 	hullBottom: PointArrayRep[],
 	dMin: number,
-	dMax: number
+	dMax: number,
 ) {
 	if (hullTop[0][1] < dMin) {
 		// Left of hull is below dMin, walk through the hull until it
@@ -381,7 +384,7 @@ function clipConvexHull(
 function clipConvexHullPart(part: PointArrayRep[], top: boolean, threshold: number) {
 	let [px, py] = part[0];
 	for (let i = 1; i < part.length; i++) {
-		let [qx, qy] = part[i];
+		const [qx, qy] = part[i];
 		if (top ? qy >= threshold : qy <= threshold) {
 			return px + ((threshold - py) * (qx - px)) / (qy - py);
 		}
@@ -395,14 +398,14 @@ function clipConvexHullPart(part: PointArrayRep[], top: boolean, threshold: numb
  * Calculates the fat line of a curve and returns the maximum and minimum offset widths
  * for the fatline of a curve
  */
-function getFatline(v: Bez3Slice) {
+function _getFatline(v: Bez3Slice) {
 	// Calculate the fat-line L, for Q is the baseline l and two
 	// offsets which completely encloses the curve P.
-	let d1 = Point2.signedPointLineDist(v.a, v.d, v.b) || 0;
-	let d2 = Point2.signedPointLineDist(v.a, v.d, v.c) || 0;
-	let factor = d1 * d2 > 0 ? 3.0 / 4.0 : 4.0 / 9.0; // Get a tighter fit
-	let dMin = factor * Math.min(0, d1, d2);
-	let dMax = factor * Math.max(0, d1, d2);
+	const d1 = Point2.signedPointLineDist(v.a, v.d, v.b) || 0;
+	const d2 = Point2.signedPointLineDist(v.a, v.d, v.c) || 0;
+	const factor = d1 * d2 > 0 ? 3.0 / 4.0 : 4.0 / 9.0; // Get a tighter fit
+	const dMin = factor * Math.min(0, d1, d2);
+	const dMax = factor * Math.max(0, d1, d2);
 	// The width of the 'fatline' is |dMin| + |dMax|
 	return [dMin, dMax];
 }

@@ -1,8 +1,9 @@
-import { IJacobian2, IVec2 } from "../point/interface";
+import type { IJacobian2, IVec2 } from "../point/interface";
 import { Jacobian2 } from "../point/jacobian";
 import { Point2 } from "../point/point";
+
 import { Transformed } from "./arcs";
-import { Shape, ShapeTransform } from "./interface";
+import type { Shape, ShapeTransform } from "./interface";
 
 export class LinearTransform implements ShapeTransform {
 	public readonly xx: number;
@@ -28,7 +29,7 @@ export class LinearTransform implements ShapeTransform {
 	eval(t: IVec2): IVec2 {
 		return new Point2(
 			t.x * this.xx + t.y * this.xy + this.tx,
-			t.x * this.yx + t.y * this.yy + this.ty
+			t.x * this.yx + t.y * this.yy + this.ty,
 		);
 	}
 	derivative(_t: IVec2): IJacobian2 {
@@ -43,7 +44,7 @@ export class LinearTransform implements ShapeTransform {
 			-this.yx / denom,
 			this.xx / denom,
 			-(this.tx * this.yy - this.ty * this.xy) / denom,
-			-(-this.tx * this.yx + this.ty * this.xx) / denom
+			-(-this.tx * this.yx + this.ty * this.xx) / denom,
 		);
 	}
 
@@ -56,7 +57,10 @@ export class LinearTransform implements ShapeTransform {
  * Note that b is the first parameter in the constructor
  */
 export class CompositeTransform implements ShapeTransform {
-	private constructor(private b: ShapeTransform, private a: ShapeTransform) {}
+	private constructor(
+		private b: ShapeTransform,
+		private a: ShapeTransform,
+	) {}
 
 	eval(z: IVec2): IVec2 {
 		return this.b.eval(this.a.eval(z));
@@ -77,7 +81,7 @@ export class CompositeTransform implements ShapeTransform {
 }
 
 export function transformShape(sh: Shape, tfm: ShapeTransform) {
-	let out: Shape = [];
+	const out: Shape = [];
 	for (let j = 0; j < sh.length; j++) {
 		const c = sh[j];
 		const contour: (typeof sh)[0] = [];

@@ -1,5 +1,5 @@
 import { CURVE_TIME_EPSILON, RootSolver } from "../../fn";
-import { Bez3Slice, CornerType } from "../shared/slice-arc";
+import { type Bez3Slice, CornerType } from "../shared/slice-arc";
 
 export function splitAtExtrema(arc: Bez3Slice, sink: Bez3Slice[]) {
 	// Get extrema splits
@@ -33,7 +33,7 @@ export function splitAtExtrema(arc: Bez3Slice, sink: Bez3Slice[]) {
 
 	// Perform split
 	for (let k = 1; k < ts.length; k++) {
-		let slice = arc.sliceRatio(ts[k - 1], ts[k]);
+		const slice = arc.sliceRatio(ts[k - 1], ts[k]);
 		slice.cornerTypeBefore = k === 1 ? arc.cornerTypeBefore : CornerType.Extrema;
 		slice.cornerTypeAfter = k === ts.length - 1 ? arc.cornerTypeAfter : CornerType.Extrema;
 		sink.push(slice);

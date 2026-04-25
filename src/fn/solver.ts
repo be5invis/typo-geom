@@ -5,23 +5,23 @@
  */
 
 import { EPSILON, MACHINE_EPSILON } from "./constants";
-import { clamp, numberClose } from "./utility";
+import { clamp } from "./utility";
 
 function getDiscriminant(a: number, b: number, c: number) {
 	// d = b^2 - a * c  computed accurately enough by a tricky scheme.
 	// Ported from @hkrish's polysolve.c
 	function split(v: number) {
-		var x = v * 134217729,
+		const x = v * 134217729,
 			y = v - x,
 			hi = y + x, // Don't optimize y away!
 			lo = v - hi;
 		return [hi, lo];
 	}
 
-	var D = b * b - a * c,
-		E = b * b + a * c;
+	let D = b * b - a * c;
+	const E = b * b + a * c;
 	if (Math.abs(D) * 3 < E) {
-		var ad = split(a),
+		const ad = split(a),
 			bd = split(b),
 			cd = split(c),
 			p = b * b,
@@ -40,7 +40,7 @@ function getNormalizationFactor(...args: number[]) {
 	// Use the infinity norm (max(sum(abs(a)…)) to determine the appropriate
 	// scale factor. See @hkrish in #1087#issuecomment-231526156
 	var norm = Math.max.apply(Math, args);
-	return norm && (norm < 1e-8 || norm > 1e8) ? Math.pow(2, -Math.round(Math.log2(norm))) : 0;
+	return norm && (norm < 1e-8 || norm > 1e8) ? 2 ** -Math.round(Math.log2(norm)) : 0;
 }
 
 export interface IRootSink {
@@ -67,7 +67,7 @@ export function solveQuadratic(a: number, b: number, c: number, sink: IRootSink)
 		// If the discriminant is very small, we can try to normalize
 		// the coefficients, so that we may get better accuracy.
 		if (D && Math.abs(D) < MACHINE_EPSILON) {
-			let f = getNormalizationFactor(Math.abs(a), Math.abs(b), Math.abs(c));
+			const f = getNormalizationFactor(Math.abs(a), Math.abs(b), Math.abs(c));
 			if (f) {
 				a *= f;
 				b *= f;
@@ -77,7 +77,7 @@ export function solveQuadratic(a: number, b: number, c: number, sink: IRootSink)
 		}
 		if (D >= -MACHINE_EPSILON) {
 			// No real roots if D < 0
-			let Q = D < 0 ? 0 : Math.sqrt(D),
+			const Q = D < 0 ? 0 : Math.sqrt(D),
 				R = b + (b < 0 ? -Q : Q);
 			// Try to minimize floating point noise.
 			if (R === 0) {
@@ -89,8 +89,8 @@ export function solveQuadratic(a: number, b: number, c: number, sink: IRootSink)
 			}
 		}
 	}
-	if (isFinite(x1)) sink.addRoot(x1);
-	if (isFinite(x2)) sink.addRoot(x2);
+	if (Number.isFinite(x1)) sink.addRoot(x1);
+	if (Number.isFinite(x2)) sink.addRoot(x2);
 }
 
 /**
@@ -156,7 +156,7 @@ export function solveCubic(a: number, b: number, c: number, d: number, sink: IRo
 		evaluate(-(b / a) / 3);
 		// Get a good initial approximation.
 		let t = q / a,
-			r = Math.pow(Math.abs(t), 1 / 3),
+			r = Math.abs(t) ** (1 / 3),
 			s = t < 0 ? -1 : 1,
 			td = -qd / a,
 			// See Kahan's notes on why 1.324718*... works.
@@ -177,7 +177,7 @@ export function solveCubic(a: number, b: number, c: number, d: number, sink: IRo
 		}
 	}
 	solveQuadratic(a, b1, c2, sink);
-	if (isFinite(x)) sink.addRoot(x);
+	if (Number.isFinite(x)) sink.addRoot(x);
 }
 
 export function bezierSolveCubic(
@@ -186,7 +186,7 @@ export function bezierSolveCubic(
 	v2: number,
 	v3: number,
 	val: number,
-	sink: IRootSink
+	sink: IRootSink,
 ) {
 	if (
 		!(
@@ -205,7 +205,7 @@ export class ClampedRootSink implements IRootSink {
 	constructor(
 		private readonly min: number,
 		private readonly max: number,
-		private readonly fInclusive: boolean
+		private readonly fInclusive: boolean,
 	) {}
 	public readonly roots: number[] = [];
 	public rootCount: number = 0;

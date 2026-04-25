@@ -1,37 +1,39 @@
-import { IIntPoint, IntPoint } from "clipper-lib";
-import { mix } from "../../fn";
-import { IVec2 } from "../../point/interface";
-import { Bez3Slice } from "../shared/slice-arc";
-import { FIntersection } from "./intersections";
+import type { IntPoint } from "js-angusj-clipper";
 
-export type IntKnot = IIntPoint & { t: number };
+import { mix } from "../../fn";
+import type { IVec2 } from "../../point/interface";
+import { Bez3Slice } from "../shared/slice-arc";
+
+import type { FIntersection } from "./intersections";
+
+export type IntKnot = IntPoint & { t: number };
 
 export class SegHashStore {
 	private terms = new Map<number, Map<number, SegStart>>();
 
-	public addStart(z: IIntPoint) {
-		let s = this.terms.get(z.X);
+	public addStart(z: IntPoint) {
+		let s = this.terms.get(z.x);
 		if (!s) {
 			s = new Map();
-			this.terms.set(z.X, s);
+			this.terms.set(z.x, s);
 		}
 
-		let t = s.get(z.Y);
+		let t = s.get(z.y);
 		if (!t) {
 			t = new SegStart();
-			s.set(z.Y, t);
+			s.set(z.y, t);
 		}
 		return t;
 	}
 
-	public getStart(z: IIntPoint): undefined | SegStart {
-		let s = this.terms.get(z.X);
+	public getStart(z: IntPoint): undefined | SegStart {
+		const s = this.terms.get(z.x);
 		if (!s) return undefined;
-		return s.get(z.Y);
+		return s.get(z.y);
 	}
 
-	public getSegment(start: IIntPoint, end: IIntPoint) {
-		let s = this.getStart(start);
+	public getSegment(start: IntPoint, end: IntPoint) {
+		const s = this.getStart(start);
 		if (!s) return undefined;
 		return s.getEnd(end);
 	}
@@ -40,22 +42,22 @@ export class SegHashStore {
 export class SegStart {
 	private segments = new Map<number, Map<number, SegEntry>>();
 
-	public addEnd(dest: IIntPoint, entry: SegEntry) {
-		let m = this.segments.get(dest.X);
+	public addEnd(dest: IntPoint, entry: SegEntry) {
+		let m = this.segments.get(dest.x);
 		if (!m) {
 			m = new Map();
-			this.segments.set(dest.X, m);
+			this.segments.set(dest.x, m);
 		}
-		let existing = m.get(dest.Y);
+		const existing = m.get(dest.y);
 		if (!existing || entry.compare(existing) < 0) {
-			m.set(dest.Y, entry);
+			m.set(dest.y, entry);
 		}
 	}
 
-	public getEnd(dest: IIntPoint): undefined | SegEntry {
-		let m = this.segments.get(dest.X);
+	public getEnd(dest: IntPoint): undefined | SegEntry {
+		const m = this.segments.get(dest.x);
 		if (!m) return undefined;
-		return m.get(dest.Y);
+		return m.get(dest.y);
 	}
 }
 
@@ -66,7 +68,7 @@ export class SegEntry {
 		public end: number,
 		public readonly sid: number = 0,
 		public readonly jid = 0,
-		public readonly kid = 0
+		public readonly kid = 0,
 	) {}
 	compare(b: SegEntry) {
 		return this.sid - b.sid || this.jid - b.jid || this.kid - b.kid;
@@ -89,7 +91,7 @@ export class SegEntry {
 		if (this.start <= this.end) {
 			return this.arc.sliceRatio(this.start, this.end);
 		} else {
-			let rev = this.arc.sliceRatio(this.end, this.start);
+			const rev = this.arc.sliceRatio(this.end, this.start);
 			return new Bez3Slice(rev.d, rev.c, rev.b, rev.a);
 		}
 	}
@@ -100,11 +102,11 @@ export function toPoly(
 	sid: number,
 	splats: FIntersection[][],
 	segHash: SegHashStore,
-	resolution: number
+	resolution: number,
 ) {
-	let ans: IntPoint[][] = [];
+	const ans: IntPoint[][] = [];
 	for (let j = 0; j < shape.length; j++) {
-		let points: IntPoint[] = [];
+		const points: IntPoint[] = [];
 		const contour = shape[j];
 		const splat = splats[j];
 
@@ -117,19 +119,19 @@ export function toPoly(
 				const z = arc.eval(j);
 				knots.push({
 					t: j,
-					X: Math.round(z.x * resolution),
-					Y: Math.round(z.y * resolution)
+					x: Math.round(z.x * resolution),
+					y: Math.round(z.y * resolution),
 				});
 			}
 
 			// Add intersections
-			for (let s of splat) {
+			for (const s of splat) {
 				if (s <= k || s >= k + 1) continue;
 				const z = arc.eval(s - k);
 				knots.push({
 					t: s - k,
-					X: Math.round(z.x * resolution),
-					Y: Math.round(z.y * resolution)
+					x: Math.round(z.x * resolution),
+					y: Math.round(z.y * resolution),
 				});
 			}
 
@@ -138,14 +140,14 @@ export function toPoly(
 				const start = knots[j],
 					end = knots[j + 1];
 
-				let forward = segHash.addStart(start);
+				const forward = segHash.addStart(start);
 				forward.addEnd(end, new SegEntry(arc, start.t, end.t, sid, j, k));
 
-				let backward = segHash.addStart(end);
+				const backward = segHash.addStart(end);
 				backward.addEnd(start, new SegEntry(arc, end.t, start.t, sid, j, k));
 			}
 			for (let m = k > 0 ? 1 : 0; m < knots.length; m++) {
-				points.push(new IntPoint(knots[m].X, knots[m].Y));
+				points.push({ x: knots[m].x, y: knots[m].y });
 			}
 		}
 		ans.push(points);
@@ -158,18 +160,18 @@ function by_t(a: IntKnot, b: IntKnot) {
 }
 function MakeKnot(t: number, s: IVec2, resolution: number) {
 	return {
-		X: Math.round(s.x * resolution),
-		Y: Math.round(s.y * resolution),
-		t: t
+		x: Math.round(s.x * resolution),
+		y: Math.round(s.y * resolution),
+		t: t,
 	};
 }
 function intKnotNotSame(knot: IntKnot, last: IntKnot) {
-	return knot.X !== last.X || knot.Y !== last.Y;
+	return knot.x !== last.x || knot.y !== last.y;
 }
 
 const DICING_STOPS = 4;
 function diceKnots(arc: Bez3Slice, resolution: number, knots: IntKnot[]) {
-	let enableDicing = DICING_STOPS && !arc.isStraight();
+	const enableDicing = DICING_STOPS && !arc.isStraight();
 	knots = knots.sort(by_t);
 	let ans = [knots[0]],
 		last = knots[0];
@@ -194,4 +196,12 @@ function diceKnots(arc: Bez3Slice, resolution: number, knots: IntKnot[]) {
 		}
 	}
 	return ans;
+}
+
+export function PolySetIsEmpty(poly: IntPoint[][]) {
+	if (!poly || poly.length === 0) return true;
+	for (const contour of poly) {
+		if (contour.length > 0) return false;
+	}
+	return true;
 }

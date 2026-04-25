@@ -4,26 +4,23 @@
  * Portions ported from PaperJS: https://github.com/paperjs/paper.js/
  */
 
-import { Arc, Arcs } from "../../derivable";
+import { type Arc, Arcs } from "../../derivable";
 import { EPSILON, GEOMETRIC_EPSILON, Integral, numberClose, RootSolver } from "../../fn";
-import { IRootSink } from "../../fn/solver";
-import { IVec2 } from "../../point/interface";
-import { Point2, Offset2 } from "../../point/point";
+import type { IRootSink } from "../../fn/solver";
+import type { IVec2 } from "../../point/interface";
+import { Offset2, Point2 } from "../../point/point";
 
 export enum CornerType {
 	Smooth = 0,
 	Corner = 1,
 	Extrema = 2,
-	Hetero = 3
+	Hetero = 3,
 }
 
 export type CurveClass = "line" | "quadratic" | "serpentine" | "cusp" | "loop" | "arch";
 export type CurveClassifyResult = { type: CurveClass; roots: null | number[] };
 
 export class Bez3Slice extends Arcs.Bez3 {
-	constructor(a: IVec2, b: IVec2, c: IVec2, d: IVec2) {
-		super(a, b, c, d);
-	}
 	public cornerTypeBefore = CornerType.Corner;
 	public cornerTypeAfter = CornerType.Corner;
 	private isStraightCache?: boolean;
@@ -33,7 +30,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 			this.a,
 			Point2.from(this.a).mix(Point2.from(this.d), 1 / 3),
 			Point2.from(this.a).mix(Point2.from(this.d), 2 / 3),
-			this.d
+			this.d,
 		);
 		arc.cornerTypeBefore = this.cornerTypeBefore;
 		arc.cornerTypeAfter = this.cornerTypeAfter;
@@ -55,27 +52,27 @@ export class Bez3Slice extends Arcs.Bez3 {
 	}
 	splitRatio(t = 0.5): [Bez3Slice, Bez3Slice] {
 		// Triangle computation, with loops unrolled.
-		let u = 1 - t;
+		const u = 1 - t;
 		// Interpolate from 4 to 3 points
-		let p3x = u * this.a.x + t * this.b.x;
-		let p3y = u * this.a.y + t * this.b.y;
-		let p4x = u * this.b.x + t * this.c.x;
-		let p4y = u * this.b.y + t * this.c.y;
-		let p5x = u * this.c.x + t * this.d.x;
-		let p5y = u * this.c.y + t * this.d.y;
+		const p3x = u * this.a.x + t * this.b.x;
+		const p3y = u * this.a.y + t * this.b.y;
+		const p4x = u * this.b.x + t * this.c.x;
+		const p4y = u * this.b.y + t * this.c.y;
+		const p5x = u * this.c.x + t * this.d.x;
+		const p5y = u * this.c.y + t * this.d.y;
 		// Interpolate from 3 to 2 points
-		let p6x = u * p3x + t * p4x;
-		let p6y = u * p3y + t * p4y;
-		let p7x = u * p4x + t * p5x;
-		let p7y = u * p4y + t * p5y;
+		const p6x = u * p3x + t * p4x;
+		const p6y = u * p3y + t * p4y;
+		const p7x = u * p4x + t * p5x;
+		const p7y = u * p4y + t * p5y;
 		// Interpolate from 2 points to 1 point
-		let p8x = u * p6x + t * p7x;
-		let p8y = u * p6y + t * p7y;
+		const p8x = u * p6x + t * p7x;
+		const p8y = u * p6y + t * p7y;
 
 		// We now have all the values we need to build the sub-curves [left, right]:
 		return [
 			new Bez3Slice(this.a, new Point2(p3x, p3y), new Point2(p6x, p6y), new Point2(p8x, p8y)),
-			new Bez3Slice(new Point2(p8x, p8y), new Point2(p7x, p7y), new Point2(p5x, p5y), this.d)
+			new Bez3Slice(new Point2(p8x, p8y), new Point2(p7x, p7y), new Point2(p5x, p5y), this.d),
 		];
 	}
 
@@ -92,7 +89,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 	}
 
 	getTOf(point: IVec2): number | null {
-		let p0 = Point2.from(this.a),
+		const p0 = Point2.from(this.a),
 			p3 = Point2.from(this.d);
 		if (p0.isClose(point, EPSILON)) return 0;
 		if (p3.isClose(point, EPSILON)) return 1;
@@ -106,7 +103,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 				this.a.y,
 				this.b.y,
 				this.c.y,
-				this.d.y
+				this.d.y,
 			];
 
 		for (let c = 0; c < 2; c++) {
@@ -117,7 +114,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 				coeffs[c * 4 + 2],
 				coeffs[c * 4 + 3],
 				coords[c],
-				rs
+				rs,
 			);
 			for (let i = 0; i < rs.rootCount; i++) {
 				const u = rs.roots[i];
@@ -184,7 +181,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 			d > 0 ? "serpentine" : "loop", // 1. / 2.
 			sink,
 			(d2 + f1) / f2,
-			(d2 - f1) / f2
+			(d2 - f1) / f2,
 		);
 	}
 	private cleanupClassifyResults(type: CurveClass, sink?: IRootSink, t1?: number, t2?: number) {
@@ -197,8 +194,10 @@ export class Bez3Slice extends Arcs.Bez3 {
 			type = "arch";
 			t1Ok = t2Ok = false;
 		}
-		if (sink && t1Ok) sink.addRoot(t1!);
-		if (sink && t2Ok) sink.addRoot(t2!);
+		if (t1 == null || t2 == null)
+			throw new Error("Unexpected null t value in classify cleanup");
+		if (sink && t1Ok) sink.addRoot(t1);
+		if (sink && t2Ok) sink.addRoot(t2);
 	}
 
 	getLength(a: number = 0, b: number = 1) {
@@ -210,7 +209,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 				this.getLengthIntegrand(),
 				a,
 				b,
-				this.getLengthSteps(a, b)
+				this.getLengthSteps(a, b),
 			);
 		}
 	}
@@ -223,7 +222,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 			by = 6 * (this.a.y + this.c.y) - 12 * this.b.y,
 			cy = 3 * (this.b.y - this.a.y);
 
-		return function (t: number) {
+		return (t: number) => {
 			// Calculate quadratic equations of derivatives for x and y
 			return Math.hypot((ax * t + bx) * t + cx, (ay * t + by) * t + cy);
 		};
@@ -246,7 +245,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 		v1: number,
 		v2: number,
 		v3: number,
-		sink: RootSolver.IRootSink
+		sink: RootSolver.IRootSink,
 	) {
 		const a = 3 * (-v0 + 3 * v1 - 3 * v2 + v3);
 		const b = 6 * (v0 - 2 * v1 + v2);
@@ -258,7 +257,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 			ss.a,
 			Point2.from(ss.a).mix(Point2.from(ss.b), 1 / 3),
 			Point2.from(ss.a).mix(Point2.from(ss.b), 2 / 3),
-			ss.b
+			ss.b,
 		);
 	}
 	static fromArcSlice(arc: Arc, t0: number, t1: number) {
@@ -269,7 +268,7 @@ export class Bez3Slice extends Arcs.Bez3 {
 			z0,
 			Point2.from(z0).addScale(scalar / 3, Offset2.from(arc.derivative(t0))),
 			Point2.from(z1).addScale(-scalar / 3, Offset2.from(arc.derivative(t1))),
-			z1
+			z1,
 		);
 	}
 }

@@ -1,5 +1,5 @@
-import { Derivable } from "../derivable";
-import { IVec2 } from "../point/interface";
+import type { Derivable } from "../derivable";
+import type { IVec2 } from "../point/interface";
 import { Offset2 } from "../point/point";
 
 export interface VectorSpace<T, X> {
@@ -17,10 +17,10 @@ export interface InnerProductSpace<T, X> extends VectorSpace<T, X> {
 export function vsQuadifyCurve<V>(
 	vs: VectorSpace<V, number>,
 	arc: Derivable<number, V, V>,
-	n: number
+	n: number,
 ) {
 	if (n < 1) throw new RangeError("vsQuadifyCurve: Must have at least 2 inner points");
-	let knots: V[] = [];
+	const knots: V[] = [];
 	let zBefore = arc.eval(0),
 		dBefore = arc.derivative(0);
 	for (let k = 0; k < n; k++) {
@@ -38,12 +38,12 @@ export function vsQuadifyCurve<V>(
 
 export const vsNumber: VectorSpace<number, number> = {
 	neutral: 0,
-	addScale: (a, b, c) => a + b * c
+	addScale: (a, b, c) => a + b * c,
 };
 export const vsNumberVec2: InnerProductSpace<IVec2, number> = {
 	neutral: new Offset2(0, 0),
 	addScale: (a, b, c) => new Offset2(a.x + b * c.x, a.y + b * c.y),
-	innerProduct: (a, b) => a.x * b.x + a.y * b.y
+	innerProduct: (a, b) => a.x * b.x + a.y * b.y,
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ export function ipsErrorFitsIn<V>(
 	ips: InnerProductSpace<V, number>,
 	c: Derivable<number, V, V>,
 	offPoints: V[],
-	squareError: number
+	squareError: number,
 ) {
 	let zBefore = c.eval(0),
 		dBefore = c.derivative(0);
@@ -84,12 +84,12 @@ export function ipsAutoQuadify<V>(
 	ips: InnerProductSpace<V, number>,
 	c: Derivable<number, V, V>,
 	allowError: number = 0.1,
-	maxSegments: number = 32
+	maxSegments: number = 32,
 ) {
 	let results = null;
 	for (let s = 1; s <= maxSegments; s++) {
-		let offPoints = vsQuadifyCurve(ips, c, s);
-		if (!offPoints || !offPoints.length) continue;
+		const offPoints = vsQuadifyCurve(ips, c, s);
+		if (!offPoints?.length) continue;
 		if (ipsErrorFitsIn(ips, c, offPoints, allowError * allowError)) return offPoints;
 		results = offPoints;
 	}

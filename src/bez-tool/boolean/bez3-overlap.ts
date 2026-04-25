@@ -6,7 +6,7 @@
 
 import { CURVE_TIME_EPSILON, GEOMETRIC_EPSILON } from "../../fn";
 import { Point2 } from "../../point/point";
-import { Bez3Slice } from "../shared/slice-arc";
+import type { Bez3Slice } from "../shared/slice-arc";
 
 function getSquaredLineLength(v: Bez3Slice) {
 	var x = v.d.x - v.a.x,
@@ -56,7 +56,7 @@ export function getOverlaps(v1: Bez3Slice, v2: Bez3Slice) {
 		pairs: null | OverlapSpot[] = [];
 	// Iterate through all end points:
 	// First p1 of curve 1 & 2, then p2 of curve 1 & 2.
-	for (var i = 0; i < 4 && pairs.length < 2; i++) {
+	for (let i = 0; i < 4 && pairs.length < 2; i++) {
 		const i1 = i & 1, // 0, 1, 0, 1
 			i2 = i1 ^ 1, // 1, 0, 1, 0
 			t1 = i >> 1, // 0, 0, 1, 1
@@ -82,7 +82,7 @@ export function getOverlaps(v1: Bez3Slice, v2: Bez3Slice) {
 	} else if (!straightBoth) {
 		// Straight pairs don't need further checks. If we found 2 pairs,
 		// the end points on v1 & v2 should be the same.
-		var o1 = v1.sliceRatio(pairs[0][0], pairs[1][0]),
+		const o1 = v1.sliceRatio(pairs[0][0], pairs[1][0]),
 			o2 = v2.sliceRatio(pairs[0][1], pairs[1][1]);
 		// Check if handles of the overlapping curves are the same too.
 		if (

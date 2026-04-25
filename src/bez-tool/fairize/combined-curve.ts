@@ -1,13 +1,13 @@
-import { Arc, Arcs } from "../../derivable";
+import { type Arc, Arcs } from "../../derivable";
 import { CombinedArc } from "../../derivable/arcs";
 import { numberClose } from "../../fn";
 import { Point2 } from "../../point/point";
-import { Bez3Slice } from "../shared/slice-arc";
+import type { Bez3Slice } from "../shared/slice-arc";
 
 const Bez3Measurer = {
 	measureLength(a: Bez3Slice) {
 		return a.getLength();
-	}
+	},
 };
 
 export class FairizeCombinedArc extends CombinedArc<Bez3Slice> {

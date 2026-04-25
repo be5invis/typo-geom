@@ -2,8 +2,8 @@
 	"compilerOptions": {
 		"target": "es2020",
 		"strict": true,
-		"module": "commonjs",
-		"moduleResolution": "node",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
 		"allowSyntheticDefaultImports": true,
 		"jsx": "preserve",
 		"importHelpers": true,
@@ -17,6 +17,8 @@
 		"noUnusedLocals": false,
 		"strictNullChecks": true,
 		"declaration": true,
+		"types": ["node", "jest"],
+		"rootDir": "src",
 		"outDir": "lib"
 	},
 	"include": ["src/**/*"]

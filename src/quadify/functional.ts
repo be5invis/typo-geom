@@ -1,4 +1,5 @@
-import { Arc } from "../derivable/interface";
+import type { Arc } from "../derivable/interface";
+
 import { ipsAutoQuadify, vsNumberVec2, vsQuadifyCurve } from "./vs-quadify";
 
 export function quadifyCurve(c: Arc, n: number = 1) {

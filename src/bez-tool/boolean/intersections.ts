@@ -1,23 +1,27 @@
+import type { Bez3Slice } from "../shared/slice-arc";
+
 import {
 	bez3Intersections,
 	bez3SelfIntersections,
-	CrossIntersectionSink,
-	SelfIntersectionSink
+	type CrossIntersectionSink,
+	type SelfIntersectionSink,
 } from "./bez3-intersections";
-import { Bez3Slice } from "../shared/slice-arc";
 
 export type FIntersection = number;
 
 class CSelfIntersectionSink implements SelfIntersectionSink {
-	constructor(private readonly iArc: number, private readonly results: FIntersection[]) {}
+	constructor(
+		private readonly iArc: number,
+		private readonly results: FIntersection[],
+	) {}
 	add(t: number) {
 		this.results.push(this.iArc + t);
 	}
 }
 export function findSelfIntersections(shape: Bez3Slice[][]) {
-	let ans: FIntersection[][] = [];
+	const ans: FIntersection[][] = [];
 	for (let c = 0; c < shape.length; c++) {
-		let contour = shape[c],
+		const contour = shape[c],
 			results: FIntersection[] = [];
 		for (let i = 0; i < contour.length; i++) {
 			bez3SelfIntersections(contour[i], new CSelfIntersectionSink(i, results));
@@ -32,7 +36,7 @@ class CCrossIntersectionSink implements CrossIntersectionSink {
 		private readonly iArc1: number,
 		private readonly iArc2: number,
 		private readonly results1: FIntersection[],
-		private readonly results2: FIntersection[]
+		private readonly results2: FIntersection[],
 	) {}
 	add(t1: number, t2: number) {
 		this.results1.push(this.iArc1 + t1);
@@ -45,7 +49,7 @@ export function findCrossIntersections(
 	shape2: Bez3Slice[][],
 	i1: FIntersection[][],
 	i2: FIntersection[][],
-	sameShape: boolean
+	sameShape: boolean,
 ) {
 	for (let c1 = 0; c1 < shape1.length; c1++) {
 		const contour1 = shape1[c1];

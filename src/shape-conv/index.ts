@@ -1,5 +1,5 @@
 import { convertShapeToBez3 } from "../bez-tool/shape-to-bez3";
-import { Arc, Arcs } from "../derivable";
+import { type Arc, Arcs } from "../derivable";
 import { Point2 } from "../point/point";
 
 export interface IBezierGeometrySink {
@@ -22,7 +22,7 @@ export interface IArcGeometrySink {
 export function transferBezArcShape(
 	shape: Arcs.Bez3[][],
 	sink: IBezierGeometrySink,
-	tolerance = 1 / 16
+	tolerance = 1 / 16,
 ) {
 	sink.beginShape();
 	for (const contour of shape) {
@@ -85,7 +85,7 @@ export { convertShapeToBez3 } from "../bez-tool/shape-to-bez3";
 export function transferGenericShapeAsBezier(
 	shape: Arc[][],
 	sink: IBezierGeometrySink,
-	tolerance = 1 / 16
+	tolerance = 1 / 16,
 ) {
 	return transferBezArcShape(convertShapeToBez3(shape, tolerance), sink, tolerance);
 }

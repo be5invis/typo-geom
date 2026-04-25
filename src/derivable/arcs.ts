@@ -1,11 +1,15 @@
 import { mix, numberClose } from "../fn";
-import { IVec2 } from "../point/interface";
+import type { IVec2 } from "../point/interface";
 import { Offset2, Point2 } from "../point/point";
 import { segTSearch } from "../util/seg-index-search";
-import { Arc, DerivableFunction, ShapeTransform } from "./interface";
+
+import type { Arc, DerivableFunction, ShapeTransform } from "./interface";
 
 export class FromXY implements Arc {
-	constructor(private readonly x: DerivableFunction, private readonly y: DerivableFunction) {}
+	constructor(
+		private readonly x: DerivableFunction,
+		private readonly y: DerivableFunction,
+	) {}
 	eval(t: number) {
 		return new Point2(this.x.eval(t), this.y.eval(t));
 	}
@@ -29,20 +33,20 @@ export class Bez3 implements Arc {
 		public readonly a: IVec2,
 		public readonly b: IVec2,
 		public readonly c: IVec2,
-		public readonly d: IVec2
+		public readonly d: IVec2,
 	) {}
 
 	eval(t: number) {
 		return new Point2(
 			bez3(this.a.x, this.b.x, this.c.x, this.d.x, t),
-			bez3(this.a.y, this.b.y, this.c.y, this.d.y, t)
+			bez3(this.a.y, this.b.y, this.c.y, this.d.y, t),
 		);
 	}
 
 	derivative(t: number) {
 		return new Offset2(
 			bezT3(this.a.x, this.b.x, this.c.x, this.d.x, t),
-			bezT3(this.a.y, this.b.y, this.c.y, this.d.y, t)
+			bezT3(this.a.y, this.b.y, this.c.y, this.d.y, t),
 		);
 	}
 
@@ -73,7 +77,7 @@ export class Bez3 implements Arc {
 			ss.a,
 			Point2.from(ss.a).mix(Point2.from(ss.b), 1 / 3),
 			Point2.from(ss.a).mix(Point2.from(ss.b), 2 / 3),
-			ss.b
+			ss.b,
 		);
 	}
 }
@@ -121,7 +125,7 @@ export class Circle implements Arc {
 	eval(t: number) {
 		return new Point2(
 			this.centerX + this.radius * Math.cos(t),
-			this.centerY + this.radius * Math.sin(t)
+			this.centerY + this.radius * Math.sin(t),
 		);
 	}
 	derivative(t: number) {
@@ -130,7 +134,10 @@ export class Circle implements Arc {
 }
 
 export class StraightSegment implements Arc {
-	constructor(public readonly a: IVec2, public readonly b: IVec2) {}
+	constructor(
+		public readonly a: IVec2,
+		public readonly b: IVec2,
+	) {}
 	eval(t: number) {
 		return new Point2(mix(this.a.x, this.b.x, t), mix(this.a.y, this.b.y, t));
 	}
@@ -163,7 +170,7 @@ export class Mixed implements Arc {
 		const dm = this.mix.derivative(t);
 		return new Offset2(
 			(1 - m) * dza.x + (zb.x - za.x) * dm + m * dzb.x,
-			(1 - m) * dza.y + (zb.y - za.y) * dm + m * dzb.y
+			(1 - m) * dza.y + (zb.y - za.y) * dm + m * dzb.y,
 		);
 	}
 }
@@ -190,7 +197,7 @@ export class Mixed3 implements Arc {
 		const g = this.g.eval(t);
 		return new Point2(
 			(1 - f - g) * n.x + f * a.x + g * b.x,
-			(1 - f - g) * n.y + f * a.y + g * b.y
+			(1 - f - g) * n.y + f * a.y + g * b.y,
 		);
 	}
 	derivative(t: number) {
@@ -206,7 +213,7 @@ export class Mixed3 implements Arc {
 		const dg = this.g.derivative(t);
 		return new Offset2(
 			f * da.x + a.x * df + g * db.x + b.x * dg - n.x * (df + dg) - (f + g - 1) * dn.x,
-			f * da.y + a.y * df + g * db.y + b.y * dg - n.y * (df + dg) - (f + g - 1) * dn.y
+			f * da.y + a.y * df + g * db.y + b.y * dg - n.y * (df + dg) - (f + g - 1) * dn.y,
 		);
 	}
 }

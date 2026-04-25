@@ -1,4 +1,4 @@
-import { IJacobian2, IVec2 } from "../point/interface";
+import type { IJacobian2, IVec2 } from "../point/interface";
 
 export interface Derivable<T, X, D> {
 	eval(t: T): X;

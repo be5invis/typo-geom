@@ -1,5 +1,6 @@
 import { EPSILON, MACHINE_EPSILON, numberClose } from "../fn";
-import { IVec2 } from "./interface";
+
+import type { IVec2 } from "./interface";
 
 export class Offset2 implements IVec2 {
 	x: number;
@@ -172,7 +173,7 @@ export class Point2 implements IVec2 {
 		return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
 	}
 	static areClose(a: IVec2, b: IVec2, t: number) {
-		return this.squareDist(a, b) < t * t;
+		return Point2.squareDist(a, b) < t * t;
 	}
 	static dist(a: IVec2, b: IVec2) {
 		return Math.hypot(a.x - b.x, a.y - b.y);

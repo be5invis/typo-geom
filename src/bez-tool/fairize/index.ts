@@ -1,15 +1,16 @@
-import { Arc, Arcs } from "../../derivable";
+import type { Arc, Arcs } from "../../derivable";
 import { GEOMETRIC_EPSILON } from "../../fn";
-import { IVec2 } from "../../point/interface";
+import type { IVec2 } from "../../point/interface";
 import { Offset2, Point2 } from "../../point/point";
 import { inPlaceRotateArray } from "../../util/in-place-array";
 import { convertContourToBez3 } from "../shape-to-bez3";
 import { Bez3Slice, CornerType } from "../shared/slice-arc";
 import { splitAtExtrema } from "../shared/split-at-extrema";
+
 import { FairizeCombinedArc } from "./combined-curve";
 
 export function fairizeBezierShape(shape: Arcs.Bez3[][]): Arc[][] {
-	let results: Arc[][] = [];
+	const results: Arc[][] = [];
 	for (const contour of shape) {
 		if (!contour.length) continue;
 		const bezSlicesContour = [];
@@ -20,7 +21,7 @@ export function fairizeBezierShape(shape: Arcs.Bez3[][]): Arc[][] {
 }
 
 export function fairizeGenericShape(shape: Arc[][], tolerance = 1 / 16): Arc[][] {
-	let results: Arc[][] = [];
+	const results: Arc[][] = [];
 	for (const contour of shape) {
 		results.push(fairizeBezierContour(convertContourToBez3(contour, tolerance)));
 	}
@@ -28,18 +29,18 @@ export function fairizeGenericShape(shape: Arc[][], tolerance = 1 / 16): Arc[][]
 }
 
 function fairizeBezierContour(contour: Bez3Slice[]) {
-	let splitContour: Bez3Slice[] = [];
+	const splitContour: Bez3Slice[] = [];
 	inPlaceFilterDegenerates(contour);
 	markCornersAndSplit(contour, splitContour);
 	canonicalStart(splitContour);
 
-	let results: Arc[] = [];
+	const results: Arc[] = [];
 	let front = 0,
 		rear = 0;
 	advanceFront: for (; front < splitContour.length; ) {
-		advanceRear: for (; rear < splitContour.length; rear++) {
+		for (; rear < splitContour.length; rear++) {
 			if (isStopCt(splitContour[rear].cornerTypeAfter)) {
-				let c = new FairizeCombinedArc(splitContour.slice(front, rear + 1));
+				const c = new FairizeCombinedArc(splitContour.slice(front, rear + 1));
 				if (!c.isEmpty()) results.push(c.reduceIfStraight());
 				front = rear = rear + 1;
 				continue advanceFront;
@@ -47,7 +48,7 @@ function fairizeBezierContour(contour: Bez3Slice[]) {
 		}
 		// If the entire contour is smooth, then process as a whole
 		// This shouldn't happen though
-		let c = new FairizeCombinedArc(splitContour.slice(front));
+		const c = new FairizeCombinedArc(splitContour.slice(front));
 		if (!c.isEmpty()) results.push(c.reduceIfStraight());
 		front = rear = splitContour.length;
 		break;
@@ -57,9 +58,9 @@ function fairizeBezierContour(contour: Bez3Slice[]) {
 
 function markCornersAndSplit(contour: Bez3Slice[], sink: Bez3Slice[]) {
 	for (let j = 0; j < contour.length; j++) {
-		let cBefore = j === 0 ? contour[contour.length - 1] : contour[j - 1];
-		let cAfter = contour[j];
-		let z1 = cAfter.a,
+		const cBefore = j === 0 ? contour[contour.length - 1] : contour[j - 1];
+		const cAfter = contour[j];
+		const z1 = cAfter.a,
 			z0 = cBefore.c,
 			z2 = cAfter.b,
 			z11 = cBefore.d;

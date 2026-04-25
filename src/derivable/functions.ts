@@ -1,4 +1,4 @@
-import { DerivableFunction } from "./interface";
+import type { DerivableFunction } from "./interface";
 
 export namespace D {
 	export class Const implements DerivableFunction {
@@ -16,10 +16,13 @@ export namespace D {
 		},
 		derivative() {
 			return 1;
-		}
+		},
 	};
 	export class Add implements DerivableFunction {
-		constructor(private readonly a: DerivableFunction, private readonly b: DerivableFunction) {}
+		constructor(
+			private readonly a: DerivableFunction,
+			private readonly b: DerivableFunction,
+		) {}
 		eval(t: number) {
 			return this.a.eval(t) + this.b.eval(t);
 		}
@@ -28,7 +31,10 @@ export namespace D {
 		}
 	}
 	export class Sub implements DerivableFunction {
-		constructor(private readonly a: DerivableFunction, private readonly b: DerivableFunction) {}
+		constructor(
+			private readonly a: DerivableFunction,
+			private readonly b: DerivableFunction,
+		) {}
 		eval(t: number) {
 			return this.a.eval(t) - this.b.eval(t);
 		}
@@ -37,7 +43,10 @@ export namespace D {
 		}
 	}
 	export class Mul implements DerivableFunction {
-		constructor(private readonly a: DerivableFunction, private readonly b: DerivableFunction) {}
+		constructor(
+			private readonly a: DerivableFunction,
+			private readonly b: DerivableFunction,
+		) {}
 		eval(t: number) {
 			return this.a.eval(t) * this.b.eval(t);
 		}
@@ -46,7 +55,10 @@ export namespace D {
 		}
 	}
 	export class Div implements DerivableFunction {
-		constructor(private readonly a: DerivableFunction, private readonly b: DerivableFunction) {}
+		constructor(
+			private readonly a: DerivableFunction,
+			private readonly b: DerivableFunction,
+		) {}
 		eval(t: number) {
 			return this.a.eval(t) / this.b.eval(t);
 		}
@@ -65,7 +77,10 @@ export namespace D {
 		}
 	}
 	export class Nest implements DerivableFunction {
-		constructor(private readonly a: DerivableFunction, private readonly b: DerivableFunction) {}
+		constructor(
+			private readonly a: DerivableFunction,
+			private readonly b: DerivableFunction,
+		) {}
 		eval(t: number) {
 			return this.a.eval(this.b.eval(t));
 		}
@@ -80,10 +95,10 @@ export namespace D {
 			this.p = p;
 		}
 		eval(t: number) {
-			return Math.pow(t, this.p);
+			return t ** this.p;
 		}
 		derivative(t: number) {
-			return this.p * Math.pow(t, this.p - 1);
+			return this.p * t ** (this.p - 1);
 		}
 	}
 
@@ -121,11 +136,14 @@ export namespace D {
 	}
 
 	export class Slice implements DerivableFunction {
-		constructor(private readonly start: number, private readonly end: number) {}
+		constructor(
+			private readonly start: number,
+			private readonly end: number,
+		) {}
 		eval(t: number) {
 			return this.start + (this.end - this.start) * t;
 		}
-		derivative(t: number) {
+		derivative(_t: number) {
 			return this.end - this.start;
 		}
 	}

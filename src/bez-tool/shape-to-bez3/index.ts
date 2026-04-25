@@ -1,15 +1,15 @@
-import { Arc, Arcs } from "../../derivable";
+import { type Arc, Arcs } from "../../derivable";
 import { mix } from "../../fn";
 import { Point2 } from "../../point/point";
 import { Bez3Slice } from "../shared/slice-arc";
 
 export function convertShapeToBez3(shape: Arc[][], err: number): Bez3Slice[][] {
-	let ans: Bez3Slice[][] = [];
-	for (let contour of shape) ans.push(convertContourToBez3(contour, err));
+	const ans: Bez3Slice[][] = [];
+	for (const contour of shape) ans.push(convertContourToBez3(contour, err));
 	return ans;
 }
 export function convertContourToBez3(contour: Arc[], err: number): Bez3Slice[] {
-	let sink = new ContourConversionSink();
+	const sink = new ContourConversionSink();
 	for (let j = 0; j < contour.length; j++) {
 		convertArcToBez3(contour[j], err, sink);
 	}
@@ -39,7 +39,7 @@ class ContourConversionSink {
 	private connectEndsIfNecessary(prev: Bez3Slice, next: Bez3Slice) {
 		if (!Point2.areClose(prev.d, next.a, 1e-6)) {
 			this.segments.push(
-				Bez3Slice.fromStraightSegment(new Arcs.StraightSegment(prev.d, next.a))
+				Bez3Slice.fromStraightSegment(new Arcs.StraightSegment(prev.d, next.a)),
 			);
 		}
 	}
@@ -49,7 +49,7 @@ function convertArcToBez3(arc: Arc, err: number, sink: ContourConversionSink) {
 	if (arc instanceof Arcs.Bez3) {
 		sink.add(new Bez3Slice(arc.a, arc.b, arc.c, arc.d));
 	} else if (arc instanceof Arcs.CombinedArc) {
-		for (let seg of arc.segments) {
+		for (const seg of arc.segments) {
 			convertArcToBez3(seg, err, sink);
 		}
 	} else {
@@ -65,7 +65,7 @@ function convertArcToBez3Impl(
 	t0: number,
 	t1: number,
 	depth: number,
-	maxDepth: number
+	maxDepth: number,
 ) {
 	const testArc = Bez3Slice.fromArcSlice(arc, t0, t1);
 	if (depth >= maxDepth) {
@@ -86,7 +86,7 @@ function convertArcToBez3Impl(
 	if (!needsSubdivide) {
 		sink.add(testArc);
 	} else {
-		let tMid = mix(t0, t1, 1 / 2);
+		const tMid = mix(t0, t1, 1 / 2);
 		convertArcToBez3Impl(arc, err, sink, t0, tMid, depth + 1, maxDepth);
 		convertArcToBez3Impl(arc, err, sink, tMid, t1, depth + 1, maxDepth);
 	}

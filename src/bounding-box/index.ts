@@ -1,4 +1,4 @@
-import { IVec2 } from "../point/interface";
+import type { IVec2 } from "../point/interface";
 
 export interface Box {
 	xMin: number;
@@ -18,7 +18,8 @@ export function isValid(b: Box) {
 }
 
 export function coverPoint(b: Box, z: IVec2) {
-	coverX(b, z.x), coverY(b, z.y);
+	coverX(b, z.x);
+	coverY(b, z.y);
 }
 export function coverX(b: Box, x: number) {
 	if (!isValid(b)) {

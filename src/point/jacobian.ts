@@ -1,4 +1,4 @@
-import { IJacobian2 } from "./interface";
+import type { IJacobian2 } from "./interface";
 
 /**
  * Represents a 2x2 Jacobian matrix
@@ -11,7 +11,7 @@ export class Jacobian2 implements IJacobian2 {
 		public readonly dxx: number,
 		public readonly dxy: number,
 		public readonly dyx: number,
-		public readonly dyy: number
+		public readonly dyy: number,
 	) {}
 
 	static readonly identity: Jacobian2 = new Jacobian2(1, 0, 0, 1);
@@ -23,7 +23,7 @@ export class Jacobian2 implements IJacobian2 {
 			l.dxx * r.dxx + l.dxy * r.dyx,
 			l.dxx * r.dxy + l.dxy * r.dyy,
 			l.dyx * r.dxx + l.dyy * r.dyx,
-			l.dyx * r.dxy + l.dyy * r.dyy
+			l.dyx * r.dxy + l.dyy * r.dyy,
 		);
 	}
 }
